@@ -147,7 +147,7 @@ function showReporteJSON(reporte) {
         google.maps.event.addListener(marker, 'click', function(){
             map.panTo(marker.position);
 //            setActive(indexDevice[marker.m_id]);
-            console.log(marker);
+//            console.log(marker);
         });
         google.maps.event.addListener(marker, 'mouseover', function(){
             showToolTip(marker);

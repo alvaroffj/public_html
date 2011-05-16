@@ -5,10 +5,10 @@ reportes[2] = "recorrido";
 reportes[3] = "velocidad";
 var reporteSel = -1;
 var $resize;
+var $mainNav = [];
 
 function setReporte(n) {
     reporteSel = n;
-    
     $.ajax({
         url: "?sec=reporte&ssec="+reportes[n]+"&ajax",
         type: 'get',
@@ -37,18 +37,30 @@ function setSec() {
                 }
             }
             setReporte(i);
+            $mainNav[1].addClass("active");
+            $mainNav[0].removeClass("active");
+            $mainNav[2].removeClass("active");
             break;
         default:
             showDevices();
+            $mainNav[0].addClass("active");
+            $mainNav[1].removeClass("active");
+            $mainNav[2].removeClass("active");
             break;
         case "monitoreo":
             showDevices();
+            $mainNav[0].addClass("active");
+            $mainNav[1].removeClass("active");
+            $mainNav[2].removeClass("active");
             break;
     }
 }
 
 $(document).ready(function(){
     $resize = $("#resize");
+    $mainNav[0] = $($("#main-nav").children()[0]);
+    $mainNav[1] = $($("#main-nav").children()[1]);
+    $mainNav[2] = $($("#main-nav").children()[2]);
     $resize.draggable({
         axis: 'x',
         stop: function(event, ui) {
