@@ -1,0 +1,35 @@
+<?php ?>
+<script src="js/geozona.js" type="text/javascript"></script>
+<div class="center_content">
+            
+    <h1>Puntos de Inter&eacute;s</h1>
+    <div class="bloque">
+        <h2>Todos</h2>
+        <div id="local-nav"><a href="?sec=configuracion&ssec=puntointeres&op=add"><img src="img/add.png" border="0"/>Agregar Punto de interes</a></div>
+        <? if(count($cp->getCSec()->getCSec()->puntos)>0) { ?>
+        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="tablarojo">
+            <thead>
+                <tr>
+                    <th align="center">Nombre</th>
+                    <th align="center">Direcci&oacute;n</th>
+                    <th align="center" width="70">Editar</th>
+                    <th align="center" width="70">Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+            <? foreach ($cp->getCSec()->getCSec()->puntos as $p) { ?>
+                <tr <?=(!$p->estado_pinteres)?"class='deleted'":""?>>
+                    <td><?= $p->name; ?></td>
+                    <td><?= $p->address; ?></td>
+                    <td align="center"><a href="?sec=configuracion&ssec=puntointeres&op=mod&id=<?= $p->id; ?>"><img src="img/page_edit.png" border="0" /></a></td>
+                    <td align="center"><a href="?sec=configuracion&ssec=puntointeres&do=del&id=<?= $p->id; ?>"><img src="img/delete.png" border="0" /></a></td>
+                </tr>
+            <? } ?>
+            <tbody>
+        </table>
+        <? } else {?>
+        <p class="mensaje">No hay puntos de inter&eacute;s</p>
+        <? } ?>
+    </div>
+</div>
+

@@ -1,0 +1,141 @@
+<?php
+function getSelect($obj, $val, $id, $nom, $sel = null, $style=null, $onChange=null) {
+    $r = "<SELECT name='$nom' class='medium-input' style='$style' onChange=\"" . $onChange . "\" id='$nom'>";
+    $r .= "<OPTION value = '-1' DISABLED>Seleccionar...</OPTION>";
+    foreach ($obj as $o) {
+        if ($sel == $o->$id) {
+            $r .= "<OPTION value='" . $o->$id . "' SELECTED>" . $o->$val . "</OPTION>";
+        } else {
+            $r .= "<OPTION value='" . $o->$id . "'>" . $o->$val . "</OPTION>";
+        }
+    }
+    $r .= "</SELECT>";
+    return $r;
+}
+
+$error = array("Los cambios fueron guardados correctamente", "El grupo fue creado correctamente, ahora puede agregar vehiculos", "No se pudo guardar el grupo, por favor intentelo denuevo", "El vehiculo no puede ser agregado al grupo", "El vehiculo no puede ser eliminado del grupo");
+if(isset($_GET["e"])) {
+    $msg = $error[$_GET["e"]];
+    if($_GET["e"]>1) {
+        $tipoMsg = "error";
+    } else {
+        $tipoMsg = "success";
+    }
+} else {
+    if($cp->getCSec()->op == "add_grupo") {
+        $msg = "Complete los siguientes campos";
+        $tipoMsg = "information";
+    } else {
+        $msg = "Edite los campos que quiera modificar";
+        $tipoMsg = "information";
+    }
+}
+?>
+<link rel="stylesheet" type="text/css" href="css/form.css" />
+<script src="js/vehiculos_grupo_form.js" type="text/javascript"></script>
+<div class="center_content">
+    <div id="top-nav">
+        <ul>
+            <li><a href="?sec=configuracion&ssec=vehiculo">Volver</a></li>
+        </ul>
+    </div>
+    <h1>Veh&iacute;culos y Grupos</h1>
+    <h2><?=$cp->getCSec()->tilSec?></h2>
+    <div class="notification <?=$tipoMsg;?> png_bg">
+        <div><?=$msg;?></div>
+    </div>
+    <div class="bloque">
+        <h2>Informaci&oacute;n General</h2>
+        <form action="?sec=configuracion&ssec=vehiculo&do=<?=$cp->getCSec()->getCSec()->op?>" method="post" name="formu" id="formu">
+            <p>
+                <label>Nombre:</label>
+                <input class="text-input medium-input required" type="text" name="nom" value="<?=($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->displayName:""?>"/>
+                <input type="hidden" name="id" value="<?=($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->groupID:""?>"/>
+                <input type="hidden" name="accountID" value="<?=$cp->getSession()->get("accountID")?>"/>
+            </p>
+            <div class="clear"></div>
+            <p>
+                <label>Descripci&oacute;n:</label>
+                <textarea name="desc" id="desc" class="text-input medium-input"><?=($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->description:""?></textarea>
+            </p>
+            <div class="clear"></div>
+            <p>
+                <label>Estado:</label>
+                <?=getSelect($cp->getCSec()->getCSec()->estados, "estado", "id", "estado", ($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->isActive:"");?>
+            </p>
+            <div class="clear"></div>
+            <p>
+                <input class="button" type="submit" value="Guardar" />
+            </p>
+            <div class="clear"></div>
+        </form>
+    </div>
+    <div class="bloque">
+        <? if($cp->getCSec()->getCSec()->op == "mod_grupo") { ?>
+        <h2>Veh&iacute;culos en el grupo</h2>
+        <? if(count($cp->getCSec()->getCSec()->inGroup)>0) { ?>
+        <div id="geo-lista">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" class="tablarojo">
+                <thead>
+                    <tr>
+                        <th align="center" width="150">Nombre</th>
+                        <th align="center" width="50">Patente</th>
+<!--                        <th align="center" width="50">SIM</th>-->
+                        <th align="center" width="50">IMEI</th>
+                        <th align="center" width="120">Quitar del grupo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <? $i=0; ?>
+                    <? foreach($cp->getCSec()->getCSec()->inGroup as $a) {?>
+                    <tr>
+                        <td align="center"><?= $a->displayName; ?></td>
+                        <td align="center"><?= $a->licensePlate; ?></td>
+<!--                        <td align="center"><?= $a->simPhoneNumber; ?></td>-->
+                        <td align="center"><?= $a->imeiNumber; ?></td>
+                        <td align="center"><a href="?sec=configuracion&ssec=vehiculo&do=del_from_grupo&id_grupo=<?=$_GET["id"]?>&id=<?=$a->deviceID;?>"><img src="img/delete.png" border="0" /></a></td>
+                    </tr>
+                    <? $i++; ?>
+                    <? } ?>
+                <tbody>
+            </table>
+        </div>
+        <? } else { ?>
+            <p class="mensaje">No hay veh&iacute;culos en el grupo<p>
+        <? } ?>
+    </div>
+    <div class="bloque">
+        <h2>Veh&iacute;culos fuera del grupo</h2>
+        <? if(count($cp->getCSec()->getCSec()->outGroup)>0) { ?>
+        <div id="geo-lista">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" class="tablarojo">
+                <thead>
+                    <tr>
+                        <th align="center" width="150">Nombre</th>
+                        <th align="center" width="50">Patente</th>
+<!--                        <th align="center" width="50">SIM</th>-->
+                        <th align="center" width="50">IMEI</th>
+                        <th align="center" width="120">Agregar al grupo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <? $i=0; ?>
+                    <? foreach($cp->getCSec()->getCSec()->outGroup as $a) {?>
+                    <tr>
+                        <td align="center"><?= $a->displayName; ?></td>
+                        <td align="center"><?= $a->licensePlate; ?></td>
+<!--                        <td align="center"><?= $a->simPhoneNumber; ?></td>-->
+                        <td align="center"><?= $a->imeiNumber; ?></td>
+                        <td align="center"><a href="?sec=configuracion&ssec=vehiculo&do=add_to_grupo&id_grupo=<?=$_GET["id"]?>&id=<?=$a->deviceID;?>"><img src="img/add.png" border="0" /></a></td>
+                    </tr>
+                    <? $i++; ?>
+                    <? } ?>
+                <tbody>
+            </table>
+        </div>
+        <? } else { ?>
+            <p class="mensaje">No hay veh&iacute;culos fuera del grupo<p>
+        <? } ?>
+    </div>
+    <? } ?>
+</div>
