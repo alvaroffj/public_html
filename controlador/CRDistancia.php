@@ -61,9 +61,9 @@ class CRDistancia {
                         }
                     }
                     if($rep!=null) {
-//                        $ani = ($_POST["id_device"] != "0")?"<a href='?sec=reporte&ssec=auditoria&get=mapaAni' id='aniRep'>Animar Reporte</a>":"";
-                        $txt = "<h2>Reporte</h2>
-                        <table border='0' cellspacing='0' cellpadding='0' width='100%' class='tablarojo' id='reporte'>
+                        $txt = "<h2>Reporte</h2>";
+                        $txt .= $this->getGrafico($rep, $nombre, $license, $dev, $_POST["fecha_ini"]);
+                        $txt .= "<table border='0' cellspacing='0' cellpadding='0' width='100%' class='tablarojo' id='reporte'>
                             <thead>
                                 <tr>
                                     <th align='center' width='100'>Fecha</th>
@@ -89,6 +89,116 @@ class CRDistancia {
                     break;
             }
         }
+    }
+    
+    function getGrafico($log, $nom, $pat, $dev, $ini) {
+        $nDev = count($dev);
+        for($j=0; $j<$nDev; $j++) {
+            for ($i = 0; $i < $log[0]->DIAS + 1; $i++) {
+                $data[$dev[$j]][] = 0;
+            }
+        }
+        
+        foreach ($log as $l) {
+            $data[$l->deviceID][$l->INDICE] = round($l->distancia, 1);
+        }
+        $ini = explode("-", $ini);
+        $r = "[";
+        for ($i = 0; $i < $nDev; $i++) {
+            if($i) {
+                $r .= ", { 
+                    name: '".$nom[$dev[$i]]."', 
+                    pointInterval: 24 * 3600 * 1000,
+                    pointStart: Date.UTC(".$ini[0].", ".($ini[1]-1).", ".$ini[2]."),
+                    data: [";
+            } else {
+                $r .= "{ 
+                    name: '".$nom[$dev[$i]]."', 
+                    pointInterval: 24 * 3600 * 1000,
+                    pointStart: Date.UTC(".$ini[0].", ".($ini[1]-1).", ".$ini[2]."),
+                    data: [";
+            }
+            for($j=0; $j<$log[0]->DIAS + 1; $j++) {
+                if($j) {
+                    $r .= ", ".$data[$dev[$i]][$j];
+                } else {
+                    $r .= $data[$dev[$i]][$j];
+                }
+            }
+            $r .= "]}";
+        }
+        $r .= "]";
+        
+        $txt = "<div class='grafico' id='grafico_res'></div>
+        <script>
+            chartRes = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'grafico_res',
+                        zoomType: 'x',
+                        spacingRight: 20
+                    },
+                    title: {
+                        text: 'Kilometros recorridos'
+                    },
+                    subtitle: {
+                        text: 'Click y arrastrar para acercar'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        maxZoom: 10 * 24 * 3600000, // fourteen days
+                        title: {
+                            text: 'Fecha'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Km. Recorridos'
+                        },
+                        min: 0.6,
+                        startOnTick: false,
+                        showFirstLabel: false
+                    },
+                    tooltip: {
+                        shared: true
+                    },
+                    plotOptions: {
+                        line: {
+                            dataLabels: {
+                               enabled: true
+                            },
+                            enableMouseTracking: false
+                         },
+                        area: {
+                            fillColor: {
+                                linearGradient: [0, 0, 0, 300],
+                                stops: [
+                                [0, 'rgba(2,0,0,2)'],
+                                [1, 'rgba(2,0,0,0)']
+                                ]
+                            },
+                            lineWidth: 1,
+                            marker: {
+                                enabled: false,
+                                states: {
+                                    hover: {
+                                        enabled: true,
+                                        radius: 5
+                                    }
+                                }
+                            },
+                            shadow: false,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            }
+                        }
+                    },
+
+                    series: $r
+                });
+        </script>";
+        return $txt;
     }
 
     function setOp() {

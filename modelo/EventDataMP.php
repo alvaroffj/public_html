@@ -114,7 +114,9 @@ class EventDataMP {
 
     function distanciaByDevice($ini, $fin, $device, $pag=0) {
         $device = implode(",", $device);
-        $sql = "SELECT deviceID, SUM(odometerKM) AS distancia, from_unixtime(timestamp, '%d-%m-%Y') as fecha, timestamp 
+        $fini = date("Y-m-d", $ini);
+        $ffin = date("Y-m-d", $fin);
+        $sql = "SELECT deviceID, SUM(odometerKM) AS distancia, from_unixtime(timestamp, '%d-%m-%Y') as fecha, timestamp, DATEDIFF('$ffin', '$fini') AS DIAS, DATEDIFF(from_unixtime(timestamp, '%Y-%m-%d'), '$fini') AS INDICE 
                 FROM $this->_dbTable
                 WHERE 
                     timestamp BETWEEN ".$ini." AND ".$fin."
