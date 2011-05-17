@@ -961,6 +961,11 @@ form.side label {
     opacity: 1;
 }
 
+#grafico_res {
+    height: 400px;
+    width: 100%;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
 }
