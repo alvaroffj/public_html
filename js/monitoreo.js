@@ -442,21 +442,25 @@ function updateActive(res) {
             act_dev.find("#velocidad").html("<b>Velocidad: </b>"+Math.round(res.speedKPH*1)+" <span class='uni_med'>(Km/h)</span>");
             act_dev.find("#direccion").html("<b>Direcci&oacute;n: </b>"+r.DIRECCION);
             act_dev.find("#fecha").html("<b>Fecha: </b>"+res.fecha);
-            var senAux = devSen["S"+res.deviceID];
-            nSenAux = senAux.length;
             var nSAux = sensor.length;
             for(var j=0; j<nSAux; j++) {
                 act_dev.find("#S"+sensor[j].ID_SENSOR).hide();
             }
-            for(var i=0; i<nSenAux; i++) {
-                switch(senAux[i].TIPO_SENSOR) {
-                    case "1":
-                        var enc = (res[senAux[i].COLUMNA_SENSOR]=="1")?"Si":"No";
-                        act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+enc).show();
-                        break;
-                    case "2":
-                        act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")").show();
-                        break;
+            if(devSen!=null) {
+                var senAux = devSen["S"+res.deviceID];
+                if(senAux) {
+                    nSenAux = senAux.length;
+                    for(var i=0; i<nSenAux; i++) {
+                        switch(senAux[i].TIPO_SENSOR) {
+                            case "1":
+                                var enc = (res[senAux[i].COLUMNA_SENSOR]=="1")?"Si":"No";
+                                act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+enc).show();
+                                break;
+                            case "2":
+                                act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")").show();
+                                break;
+                        }
+                    }
                 }
             }
             act_dev.fadeIn();
