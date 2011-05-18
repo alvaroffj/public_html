@@ -25,6 +25,34 @@ function setReporte(n) {
     });
 }
 
+function cargaSensorDev() {
+    $.ajax({
+        url: "?sec=monitoreo&get=deviceSensor",
+        type: 'get',
+        beforeSend: function() {
+
+        },
+        complete: function(data) {
+            devSen = $.parseJSON(data.responseText);
+            showDevices();
+        }
+    });
+}
+
+function cargaSensor() {
+    $.ajax({
+        url: "?sec=monitoreo&get=sensor",
+        type: 'get',
+        beforeSend: function() {
+
+        },
+        complete: function(data) {
+            sensor = $.parseJSON(data.responseText);
+            cargaSensorDev();
+        }
+    });
+}
+
 function setSec() {
     $url = $.url();
     $sec = $url.fsegment(1);
@@ -42,13 +70,13 @@ function setSec() {
             $mainNav[2].removeClass("active");
             break;
         default:
-            showDevices();
+            cargaSensor();
             $mainNav[0].addClass("active");
             $mainNav[1].removeClass("active");
             $mainNav[2].removeClass("active");
             break;
         case "monitoreo":
-            showDevices();
+            cargaSensor();
             $mainNav[0].addClass("active");
             $mainNav[1].removeClass("active");
             $mainNav[2].removeClass("active");

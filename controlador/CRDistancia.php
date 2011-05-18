@@ -53,12 +53,13 @@ class CRDistancia {
                             $rep = $this->edMP->distanciaByDevice($ini, $fin, $dev);
                         }
                     } else {
-                        $dev = $this->deMP->find($_POST["id_device"], array("accountID", "licensePlate", "displayName"));
-                        $license[$_POST["id_device"]] = $dev->licensePlate;
-                        $nombre[$_POST["id_device"]] = $dev->displayName;
-                        if($dev->accountID == $this->cp->getSession()->get("accountID")) {
+                        $devAux = $this->deMP->find($_POST["id_device"], array("deviceID", "accountID", "licensePlate", "displayName"));
+                        $license[$_POST["id_device"]] = $devAux->licensePlate;
+                        $nombre[$_POST["id_device"]] = $devAux->displayName;
+                        if($devAux->accountID == $this->cp->getSession()->get("accountID")) {
                             $rep = $this->edMP->distanciaByDevice($ini, $fin, array($_POST["id_device"]));
                         }
+                        $dev[0] = $devAux->deviceID;
                     }
                     if($rep!=null) {
                         $txt = "<h2>Reporte</h2>";

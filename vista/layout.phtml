@@ -47,7 +47,6 @@
         </script>
     </head>
     <body>
-<!--        test-->
         <div id="page-wrap">
             <div id="inside">
                 <div id="header">
@@ -135,7 +134,9 @@
                                 <li id="titulo"></li>
                                 <li id="patente"></li>
                                 <li id="velocidad"></li>
-                                <li id="encendido"></li>
+                                <? foreach($cp->getCSec()->sensor as $s) { ?>
+                                <li id="S<?=$s->ID_SENSOR?>"></li>
+                                <? } ?>
                                 <li id="direccion"></li>
                                 <li id="fecha"></li>
                             </ul>

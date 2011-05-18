@@ -6,6 +6,7 @@ require_once 'modelo/PInteresMP.php';
 require_once 'modelo/DireccionMP.php';
 require_once 'modelo/AlertaLogMP.php';
 require_once 'modelo/PoligonoMP.php';
+require_once 'modelo/SensorDeviceMP.php';
 
 class CMonitoreo {
     public $layout;
@@ -16,6 +17,7 @@ class CMonitoreo {
     protected $diMP;
     protected $alMP;
     protected $poMP;
+    protected $sdMP;
     protected $cp;
 
     function __construct($cp) {
@@ -27,6 +29,7 @@ class CMonitoreo {
         $this->diMP = new DireccionMP();
         $this->alMP = new AlertaLogMP();
         $this->poMP = new PoligonoMP();
+        $this->sdMP = new SensorDeviceMP();
         $this->setGet();
         $this->setOp();
     }
@@ -41,6 +44,34 @@ class CMonitoreo {
             $this->cp->showLayout = false;
             $this->get = mysql_escape_string($_GET["get"]);
             switch ($this->get) {
+                case 'sensor':
+                    $r = $this->sdMP->fetchByAccount($this->cp->getSession()->get("accountID"));
+                    echo json_encode($r);
+                    break;
+                case 'deviceSensor':
+                    if($this->cp->isAdmin() || $this->cp->isSuperAdmin()) {
+                        $dev = $this->deMP->fetchByCuenta($this->cp->getSession()->get("accountID"), null, array("deviceID", "displayName"));
+                    } else {
+                        $dev = $this->deMP->fetchByUser($this->cp->getSession()->get("userID"));
+                    }
+                    foreach($dev as $d) {
+                        $idDev[] = $d->deviceID;
+                    }
+//                    echo "<pre>";
+//                    print_r($idDev);
+//                    echo "</pre>";
+                    $res = $this->sdMP->fetchByDevices($idDev);
+//                    echo "<pre>";
+//                    print_r($res);
+//                    echo "</pre>";
+                    foreach($res as $r) {
+                        $out["S".$r->DEVICEID][] = $r;
+                    }
+//                    echo "<pre>";
+//                    print_r($out);
+//                    echo "</pre>";
+                    echo json_encode($out);
+                    break;
                 case 'device':
                     if($this->cp->isAdmin() || $this->cp->isSuperAdmin()) {
                         $r = $this->edMP->fetchLastByAccount($this->cp->getSession()->get("accountID"));
@@ -167,6 +198,7 @@ class CMonitoreo {
                 } else {
                     $this->grupos = $this->dgMP->fetchUserGrupo($this->cp->getSession()->get("userID"));
                 }
+                $this->sensor = $this->sdMP->fetchByAccount($this->cp->getSession()->get("accountID"));
                 break;
         }
     }
@@ -229,6 +261,5 @@ class CMonitoreo {
                 break;
         }
     }
-
 }
 ?>
