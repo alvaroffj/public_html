@@ -5,9 +5,9 @@
 <script src="js/vehiculos.js" type="text/javascript"></script>
 <div class="center_content">
     <h1>Veh&iacute;culos y Grupos</h1>
+    <div id="local-nav"><a href="?sec=configuracion&ssec=vehiculo&op=add_grupo"><img src="img/add.png" border="0"/>Agregar Grupo</a></div>
     <div class="bloque">
         <h2>Grupos</h2>
-        <div id="local-nav"><a href="?sec=configuracion&ssec=vehiculo&op=add_grupo"><img src="img/add.png" border="0"/>Agregar Grupo</a></div>
         <? if(count($cp->getCSec()->getCSec()->grupos)>0) { ?>
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="tablarojo">
             <thead>

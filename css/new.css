@@ -522,24 +522,49 @@ a.deleted {
 }
 
 #local-nav {
-    text-align: right;
+    text-align: left;
 /*    border: 1px solid #dddddd;*/
 /*    background-color: #fff;*/
-    padding: 7px 5px;
-    margin-bottom: 5px;
-    position: absolute;
+/*    padding: 7px 5px;*/
+/*    position: absolute;
     top: 10px;
-    right: 10px;
+    right: 10px;*/
+    display: inline-block;
+    margin-left: 10px;
 }
 
 #local-nav a {
     text-decoration: none;
     color: #BF2E1A;
+    border: 1px solid #111 !important;
+    padding: 6px 20px 6px 30px !important;
+    color: white !important;
+    font-size: 13px !important;
+    cursor: pointer;
+    background: url(../js/fancybox/fancy_title_over.png);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+/*    width: 200px;*/
+/*    height: 20px;*/
+    display: inline-block;
+    position: relative;
+    margin-top: -5px;
+}
+
+#local-nav a:hover {
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
 
 #local-nav a img{
-    float: left;
-    margin: -2px 3px 0 0;
+/*    float: left;*/
+/*    display: inline-block;*/
+/*    margin: -2px 3px 0 0;*/
+/*    margin: 5px auto;*/
+    position: absolute;
+    top: 5px;
+    left: 10px;
 }
 
 #map {
@@ -670,14 +695,14 @@ div.rep-nav {
 /*    display: inline;*/
 /*    margin-left: 20px;*/
     position: absolute;
-    top: 50px;
-    right: 0px;
+    top: 55px;
+    right: 10px;
 }
 
 .mon_botonera a {
-    padding: 5px 10px;
+/*    padding: 5px 7px;*/
 /*    border: 1px solid #ccc;*/
-    margin-right: 5px;
+    margin: 0px;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
     border-radius:5px;
@@ -686,6 +711,9 @@ div.rep-nav {
     -webkit-box-shadow:inset 0 0 1px #000000;
     box-shadow:inset 0 0 1px #000000;
     background: #ededed;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
 }
 
 .mon_botonera a:hover {
@@ -706,7 +734,8 @@ div.rep-nav {
 }
 
 .mon_botonera a img {
-    display: inline-block;
+    display: block;
+    margin: 5px auto;
 }
 
 #tooltip {

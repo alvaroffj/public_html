@@ -18,6 +18,12 @@ var puntoFormValidator;
 
 var $reporte;
 
+//var pInMarker = new google.maps.MarkerImage('img/marker.png',
+//    new google.maps.Size(16, 26),
+//    new google.maps.Point(0,0),
+//    new google.maps.Point(8,26)
+//    );
+
 var dev_stop = new google.maps.MarkerImage('img/car_stop.png',
     new google.maps.Size(32, 32),
     new google.maps.Point(0,0),
@@ -64,15 +70,15 @@ function initialize() {
         creaPuntoInteres(latLng.lat(), latLng.lng());
     });
     menu.addItem('Acercar', function(map, latLng){
-            map.setZoom( map.getZoom() + 1);
-            map.panTo( latLng );
+        map.setZoom( map.getZoom() + 1);
+        map.panTo( latLng );
     });
     menu.addItem('Alejar', function(map, latLng){
-            map.setZoom( map.getZoom() - 1 );
-            map.panTo(latLng);
+        map.setZoom( map.getZoom() - 1 );
+        map.panTo(latLng);
     });
     menu.addItem('Centrar aqui', function(map, latLng){
-            map.panTo(latLng);
+        map.panTo(latLng);
     });
 }
 
@@ -171,7 +177,7 @@ function showPInteres() {
 
 function showToolTip(e) {
 //    tooltip.stop();
-//    console.log(mouse);
+    console.log(e);
     tooltip.html("<p>"+e.tooltip+"</p>");
     var x = mouse.pageX;
     var y = mouse.pageY;
@@ -220,6 +226,7 @@ function dibujaPunto(pto) {
             position: pto,
             title: "Puedes arrastrame",
             draggable: true,
+//            icon: pInMarker,
             animation: google.maps.Animation.DROP
         });
         puntoNew = new google.maps.Circle({

@@ -2,9 +2,9 @@
 <script src="js/geozona.js" type="text/javascript"></script>
 <div class="center_content">
     <h1>Geo Zona</h1>
+    <div id="local-nav"><a href="?sec=configuracion&ssec=geozona&op=add"><img src="img/add.png" border="0"/>Agregar Geo zona</a></div>
     <div class="bloque">
-        <h2>Todos</h2>
-        <div id="local-nav"><a href="?sec=configuracion&ssec=geozona&op=add"><img src="img/add.png" border="0"/>Agregar Geo zona</a></div>
+<!--        <h2>Todos</h2>-->
         <? if(count($cp->getCSec()->getCSec()->poligonos)>0) { ?>
         <table border="0" cellspacing="0" cellpadding="0" width="100%" class="tablarojo">
             <thead>

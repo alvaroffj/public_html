@@ -164,7 +164,7 @@ function showReporteJSON(reporte) {
             hideToolTip();
         });
     });
-    $("tr").live("click mouseover mouseout", function(e){
+    $("tr").bind("click mouseover mouseout", function(e){
         switch(e.type) {
             case "click":
                 console.log($(this)[0].id);
@@ -244,6 +244,7 @@ $(document).ready(function() {
                     complete: function(data) {
                         $("#submit").removeClass("working");
                         reset();
+                        $reporte.height($(window).height()-100-$filtros.height());
                         if(reporteSel !=2) {
                             var reporte = $.parseJSON(data.responseText);
                             showReporteJSON(reporte);

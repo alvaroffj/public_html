@@ -49,6 +49,10 @@ function getTime($arr, $nom) {
 <div class="center_content">
 <? } ?>
     <h1><?=(isset($_GET["ajax"]))?"Reportes > ":""?><?=htmlentities($cp->getCSec()->tilSec)?></h1>
+<!--    <div class="mon_botonera">
+        <a id="btn_pint" class="checkbox tooltip" onClick="showPInteres(); return false;" title="Descargar reporte"><img src="img/save.png" height="20"/></a>
+        <a id="btn_pint" class="checkbox tooltip" onClick="showPInteres(); return false;" title="Imprimir reporte"><img src="img/print.png" height="20"/></a>
+    </div>-->
     <div id="filtros">
         <form name="alerta" method="post" id="formu" action="?sec=reporte&ssec=<?=$cp->getCSec()->sec?>&get=reporte" class="<?=(isset($_GET["ajax"]))?"side":"inline"?>">
             <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Inicio: </label>
@@ -70,6 +74,10 @@ function getTime($arr, $nom) {
                 </div>
             <? } ?>
             <input type="submit" value="Generar" class="button" id="submit"/>
+<!--            <div class="mon_botonera">
+                <a id="btn_pint" class="checkbox tooltip" onClick="showPInteres(); return false;" title="Descargar reporte"><img src="img/save.png" height="20"/></a>
+                <a id="btn_pint" class="checkbox tooltip" onClick="showPInteres(); return false;" title="Imprimir reporte"><img src="img/print.png" height="20"/></a>
+            </div>-->
         </form>
     </div>
     <div class="<?=(!isset($_GET["ajax"]))?"bloque":""?>" id="reporte">
