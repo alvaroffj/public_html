@@ -584,7 +584,7 @@ $(document).ready(function(){
     $btn_pint = $("#btn_pint");
     initialize();
 //    showDevices();
-    getAlarma();
+//    getAlarma();
     act_dev = $("#active_dev");
     act_dev.appendTo($map_canvas);
     act_dev.draggable({
