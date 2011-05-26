@@ -50,7 +50,7 @@ function getAlarma(flag, hrs) {
 
 $(document).ready(function(){
     $alarma = $("#alarma");
-    if($alarma.length > 0) getAlarma(false, 1);
+    if($alarma.length > 0) getAlarma(false, 12);
     else getAlarma(true, 0);
     setInterval("getAlarma(true, 0)", 30000);
 });
