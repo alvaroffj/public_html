@@ -177,7 +177,7 @@ function showPInteres() {
 
 function showToolTip(e) {
 //    tooltip.stop();
-    console.log(e);
+//    console.log(e);
     tooltip.html("<p>"+e.tooltip+"</p>");
     var x = mouse.pageX;
     var y = mouse.pageY;
