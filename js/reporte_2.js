@@ -51,7 +51,7 @@ function cargaPol(pol, tPol) {
     }
 }
 
-function getDevices(sel, idDest){
+function getDevices(sel, idDest) {
     var idGr = sel[sel.selectedIndex].value;
     $.ajax({
         url: "?sec=reporte&get=devByGrupo&id_grupo="+idGr,
@@ -189,16 +189,38 @@ function showReporteTXT(txt) {
     });
 }
 
+function downReporte(e) {
+    if(repForm.checkForm()) {
+        if(!$("#submit").hasClass("working") && $("#Grupo option:selected", $form).val()!='0') {
+            e.preventDefault();
+            var url = "?sec=reporte&ssec="+reportes[reporteSel].controlador+"&get=descargar";
+            url += "&id_grupo="+$("#Grupo option:selected", $form).val();
+            url += "&id_device="+$("#Vehiculo option:selected", $form).val();
+            url += "&fecha_ini="+$("#fecha_ini", $form).val();
+            url += "&hrs_ini="+$("#hrs_ini", $form).val();
+            url += "&min_ini="+$("#min_ini", $form).val();
+            url += "&fecha_fin="+$("#fecha_fin", $form).val();
+            url += "&hrs_fin="+$("#hrs_fin", $form).val();
+            url += "&min_fin="+$("#min_fin", $form).val();
+            url += "&vel="+$("#vel", $form).val();
+            url += "&operador="+$("#Operador", $form).val();
+            window.location.href = url;
+        }
+    }
+}
+
 $(document).ready(function() {
     reset();
     $reporte = $("#reporte");
     $filtros = $("#filtros");
-    if(reporteSel!=2)
+    $btn_pint = $("#btn_pint");
+    if(reportes[reporteSel].showMapa)
         $reporte.height($(window).height()-100-$filtros.height());
     console.log($filtros.height());
     console.log($reporte.height());
     fecha = new Date();
     $form = $("#formu");
+    $("#btn_down").click(function(e) {downReporte(e)});
     $("#fecha_ini").datepicker({
         maxDate: fecha,
         'dateFormat': 'yy-mm-dd'
@@ -207,7 +229,7 @@ $(document).ready(function() {
         maxDate: fecha,
         'dateFormat': 'yy-mm-dd'
     });
-    var validator = $form.bind("invalid-form.validate",
+    repForm = $form.bind("invalid-form.validate",
         function() {
 //            $(".notification").html("<div>Debe completar todos lo campos requeridos</div>");
 //            $(".notification").attr("class", "notification error png_bg");
@@ -234,7 +256,7 @@ $(document).ready(function() {
                     },
                     beforeSend: function() {
                         $("#submit").addClass("working");
-                        if(reporteSel != 2) {
+                        if(reportes[reporteSel].showMapa) {
                             $reporte.html("<p align='center'>Generando reporte...</p>");
                         } else {
                             $reporte.appendTo($main);
@@ -244,8 +266,8 @@ $(document).ready(function() {
                     complete: function(data) {
                         $("#submit").removeClass("working");
                         reset();
-                        $reporte.height($(window).height()-100-$filtros.height());
-                        if(reporteSel !=2) {
+                        if(reportes[reporteSel].isJSON) {
+                            $reporte.height($(window).height()-100-$filtros.height());
                             var reporte = $.parseJSON(data.responseText);
                             showReporteJSON(reporte);
                         } else {

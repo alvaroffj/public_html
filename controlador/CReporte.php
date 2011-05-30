@@ -67,8 +67,8 @@ class CReporte {
 
     function setSec() {
         $this->sec = $_GET["ssec"];
-        $this->showLayout = true;
-        $this->thisLayout = true;
+//        $this->showLayout = true;
+//        $this->thisLayout = true;
         if(isset($_GET["ajax"])) {
             $this->cp->thisLayout = false;
         }
@@ -107,6 +107,11 @@ class CReporte {
                 include_once 'controlador/CRRawdata.php';
                 $this->tilSec = "RawData";
                 $this->_CSec = new CRRawdata($this);
+                break;
+            case 'consumo':
+                include_once 'controlador/CRConsumo.php';
+                $this->tilSec = "Consumo";
+                $this->_CSec = new CRConsumo($this);
                 break;
             default:
                 $this->sec = "auditoria";

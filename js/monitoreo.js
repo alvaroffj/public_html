@@ -53,9 +53,9 @@ function plotcar(angle) {
 }
 function initialize() {
     geocoder = new google.maps.Geocoder();
-    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var latlng = new google.maps.LatLng(-33.446365427932115,-70.6538918134155);
     var myOptions = {
-        zoom: 16,
+        zoom: 11,
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         navigationControl: true,
@@ -482,7 +482,7 @@ function hideLateral(n) {
     if(n == 0) {
         w = $lateralLeft.width()+10;
         $lateralLeft.animate({'left':'-'+w+'px'}, 500, function() {
-            if($reporte && reporteSel && reporteSel == 2) {
+            if($reporte && reporteSel  && !reportes[reporteSel].showMapa) {
                 console.log("izq");
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
@@ -495,7 +495,7 @@ function hideLateral(n) {
     } else {
         w = $lateralRight.width()+10;
         $lateralRight.animate({'right':'-'+w+'px'}, 500, function() {
-            if($reporte && reporteSel && reporteSel == 2) {
+            if($reporte && reporteSel && !reportes[reporteSel].showMapa) {
                 console.log("der");
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
@@ -512,23 +512,25 @@ function hideLateral(n) {
 function showLateral(n) {
     if(n == 0) {
         $lateralLeft.animate({'left':'0px'}, 500, function() {
-            if($reporte && reporteSel && reporteSel == 2) {
+            if($reporte && reporteSel>=0 && !reportes[reporteSel].showMapa) {
+                console.log("modRep");
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
                     "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
                 });
-            }
+            } else console.log("NO modRep");
         });
         $toggleLeft.html("&lt;<br>&lt;");
         $resize.show();
     } else {
         $lateralRight.animate({'right':'0px'}, 500, function() {
-            if($reporte && reporteSel && reporteSel == 2) {
+            if($reporte && reporteSel>=0 && !reportes[reporteSel].showMapa) {
+                console.log("modRep");
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
                     "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
                 });
-            }
+            } else console.log("NO modRep");
         });
         $toggleRight.html("&gt;<br>&gt;");
     }
@@ -554,8 +556,7 @@ $(window).resize(function() {
     $map_canvas.height($(window).height()-40);
     $logAlarma.height($(window).height()-95);
     $listaDev.height($(window).height()-95);
-    if(reporteSel>=0 && reporteSel!=2) {
-//        console.log("cambia reporte lateral");
+    if(reporteSel>=0 && reportes[reporteSel].showMapa) {
         $reporte.height($(window).height()-100-$filtros.height());
     }
 });
