@@ -27,7 +27,7 @@ class DeviceGroupMP {
         } else {
             $sql = "SELECT * FROM $this->_dbTable WHERE accountID = $idCuenta AND isActive = 1";
         }
-//        echo $sql;
+//        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         $arr = array();
         while($row = mysql_fetch_object($res)) {
