@@ -69,8 +69,8 @@ class CRConsumo {
 
                         $objPHPExcel->setActiveSheetIndex(0);
                         $objPHPExcel->getActiveSheet()->setTitle('Consumo');
-//                        $objReader = PHPExcel_IOFactory::createReader('Excel5');
-//                        $objPHPExcel = $objReader->load("plantilla.xls");
+                        $objReader = PHPExcel_IOFactory::createReader('Excel5');
+                        $objPHPExcel = $objReader->load("plantilla.xls");
 
                         $objPHPExcel->getActiveSheet()
                                 ->setCellValueByColumnAndRow(5, 2, 'Reporte de Consumo')
