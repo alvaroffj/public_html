@@ -460,7 +460,7 @@ function updateActive(res) {
                     for(var i=0; i<nSenAux; i++) {
                         switch(senAux[i].TIPO_SENSOR) {
                             case "1":
-                                var enc = (res[senAux[i].COLUMNA_SENSOR]=="1")?"Si":"No";
+                                var enc = (res[senAux[i].COLUMNA_SENSOR]=="1")?"Encendido":"Apagado";
                                 act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+enc).show();
                                 break;
                             case "2":
