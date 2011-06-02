@@ -112,7 +112,7 @@ $(document).ready(function(){
         axis: 'x',
         stop: function(event, ui) {
             $lateralLeft.width(event.pageX-12);
-            if($reporte && reporteSel && !reportes[reporteSel].showMapa) {
+            if($reporte && reporteSel>=0 && !reportes[reporteSel].showMapa) {
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
                     "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
