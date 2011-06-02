@@ -482,7 +482,7 @@ function hideLateral(n) {
     if(n == 0) {
         w = $lateralLeft.width()+10;
         $lateralLeft.animate({'left':'-'+w+'px'}, 500, function() {
-            if($reporte && reporteSel  && !reportes[reporteSel].showMapa) {
+            if($reporte && reporteSel>-1  && !reportes[reporteSel].showMapa) {
                 console.log("izq");
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
@@ -495,7 +495,7 @@ function hideLateral(n) {
     } else {
         w = $lateralRight.width()+10;
         $lateralRight.animate({'right':'-'+w+'px'}, 500, function() {
-            if($reporte && reporteSel && !reportes[reporteSel].showMapa) {
+            if($reporte && reporteSel>-1 && !reportes[reporteSel].showMapa) {
                 console.log("der");
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
