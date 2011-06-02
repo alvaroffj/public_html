@@ -103,7 +103,7 @@ function setSec() {
     }
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
     $resize = $("#resize");
     $mainNav[0] = $($("#main-nav").children()[0]);
     $mainNav[1] = $($("#main-nav").children()[1]);

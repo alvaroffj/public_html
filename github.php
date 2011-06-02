@@ -1,2 +1,1 @@
-<?php `git pull`;
-echo "lala";
+<?php `git pull`; ?>
