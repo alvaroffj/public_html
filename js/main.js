@@ -54,6 +54,7 @@ function cargaSensorDev() {
         complete: function(data) {
             devSen = $.parseJSON(data.responseText);
             showDevices();
+            monitoreo = setInterval("showDevices()", 30000);
         }
     });
 }
@@ -89,13 +90,13 @@ function setSec() {
             $mainNav[2].removeClass("active");
             break;
         default:
-            cargaSensor();
+            creaPinVehiculos();
             $mainNav[0].addClass("active");
             $mainNav[1].removeClass("active");
             $mainNav[2].removeClass("active");
             break;
         case "monitoreo":
-            cargaSensor();
+            creaPinVehiculos();
             $mainNav[0].addClass("active");
             $mainNav[1].removeClass("active");
             $mainNav[2].removeClass("active");

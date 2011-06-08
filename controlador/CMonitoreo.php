@@ -6,6 +6,7 @@ require_once 'modelo/PInteresMP.php';
 require_once 'modelo/DireccionMP.php';
 require_once 'modelo/AlertaLogMP.php';
 require_once 'modelo/PoligonoMP.php';
+require_once 'modelo/VehicleMP.php';
 require_once 'modelo/SensorDeviceMP.php';
 
 class CMonitoreo {
@@ -29,6 +30,7 @@ class CMonitoreo {
         $this->diMP = new DireccionMP();
         $this->alMP = new AlertaLogMP();
         $this->poMP = new PoligonoMP();
+        $this->veMP = new VehicleMP();
         $this->sdMP = new SensorDeviceMP();
         $this->setGet();
         $this->setOp();
@@ -44,6 +46,10 @@ class CMonitoreo {
             $this->cp->showLayout = false;
             $this->get = mysql_escape_string($_GET["get"]);
             switch ($this->get) {
+                case 'pin_vehiculo':
+                    $r = $this->veMP->fetchAll();
+                    echo json_encode($r);
+                    break;
                 case 'sensor':
                     $r = $this->sdMP->fetchByAccount($this->cp->getSession()->get("accountID"));
                     echo json_encode($r);
@@ -57,19 +63,10 @@ class CMonitoreo {
                     foreach($dev as $d) {
                         $idDev[] = $d->deviceID;
                     }
-//                    echo "<pre>";
-//                    print_r($idDev);
-//                    echo "</pre>";
                     $res = $this->sdMP->fetchByDevices($idDev);
-//                    echo "<pre>";
-//                    print_r($res);
-//                    echo "</pre>";
                     foreach($res as $r) {
                         $out["S".$r->DEVICEID][] = $r;
                     }
-//                    echo "<pre>";
-//                    print_r($out);
-//                    echo "</pre>";
                     echo json_encode($out);
                     break;
                 case 'device':
@@ -78,7 +75,6 @@ class CMonitoreo {
                     } else {
                         $r = $this->edMP->fetchLastByUser($this->cp->getSession()->get("userID"));
                     }
-//                    print_r($r);
                     echo json_encode($r);
                     break;
                 case 'pinteres':
@@ -88,7 +84,6 @@ class CMonitoreo {
                 case 'direccion':
                     $url->LATITUD = round($_GET["lat"], 5);
                     $url->LONGITUD = round($_GET["lon"], 5);
-//                    print_r($url);
                     if($url->LATITUD == 0 || $url->LONGITUD == 0) {
                         $url->DIRECCION = "Direcci&oacute;n no valida";
                         echo json_encode($url);
@@ -103,12 +98,8 @@ class CMonitoreo {
                             $urlBase = "http://maps.google.com/maps/api/geocode/xml?";
                             while ($geocode_pending) {
                                 $urlRequest = $urlBase . "latlng=$url->LATITUD,$url->LONGITUD&sensor=true&region=CL";
-    //                            echo $urlRequest."<br>";
                                 $xml = simplexml_load_file($urlRequest) or die("url not loading");
                                 $status = $xml->status;
-    //                            echo "<pre>";
-    //                            print_r($xml);
-    //                            echo "</pre>";
                                 if (strcmp($status, "OK") == 0) {
                                     $geocode_pending = false;
                                     $url->DIRECCION = $xml->result[0]->formatted_address."";

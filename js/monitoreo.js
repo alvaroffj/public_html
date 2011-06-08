@@ -8,7 +8,7 @@ var preActive = -1;
 var act_dev;
 var punto = [];
 var monitoreo;
-
+var markerBuscador;
 
 var puntoMarker;
 var puntoNew;
@@ -17,6 +17,8 @@ var $btn_pint;
 var puntoFormValidator;
 
 var $reporte;
+
+var pin_dev = [];
 
 //var pInMarker = new google.maps.MarkerImage('img/marker.png',
 //    new google.maps.Size(16, 26),
@@ -28,15 +30,15 @@ var dev_stop = new google.maps.MarkerImage('img/car_stop.png',
     new google.maps.Size(32, 32),
     new google.maps.Point(0,0),
     new google.maps.Point(16,16)
-    );
+);
 
 var dev_run = new google.maps.MarkerImage('img/car_run.png',
     new google.maps.Size(32, 32),
     new google.maps.Point(0,0),
     new google.maps.Point(16,16)
-    );
-var img = new Image();
-img.src = "img/vehicle_run.png";
+);
+//var img = new Image();
+//img.src = "img/pin_auto.png";
 
 var angle;
 var canvas;
@@ -349,10 +351,12 @@ function showDevices() {
 //                    setActive(activeIndex);
                 }
 //                console.log(dev);
+                
                 var marker = new google.maps.Marker({
                     position: myLatLng,
                     map: map,
-                    icon: (dev.encendido=="1")?dev_run:dev_stop,
+//                    icon: (dev.encendido=="1")?dev_run:dev_stop,
+                    icon:getPinVehiculo(dev.vehicleID, dev.heading),
 //                    title: dev.displayName,
                     tooltip: dev.displayName,
                     zIndex: i,
@@ -550,6 +554,54 @@ function showAllDevice() {
     }
 }
 
+function showBuscador(e) {
+    desactivaTodos();
+    $btn_buscador.addClass("active");
+    $buscador.fadeIn();
+    if(markerBuscador) {
+        markerBuscador.setMap(map);
+    }
+    e.preventDefault();
+}
+
+function hideBuscador(e) {
+    $btn_buscador.removeClass("active");
+    $buscador.fadeOut();
+    if(markerBuscador) {
+        markerBuscador.setMap(null);
+    }
+    e.preventDefault();
+}
+
+function getPinVehiculo(idV, gr) {
+    var g;
+    g = Math.round(gr/10)*10;
+    return new google.maps.MarkerImage('img/'+pin_dev[idV]+'_'+g+'.png',
+        new google.maps.Size(32, 32),
+        new google.maps.Point(0,0),
+        new google.maps.Point(16,16)
+    );
+}
+
+function creaPinVehiculos() {
+    $.ajax({
+        url: "?sec=monitoreo&get=pin_vehiculo",
+        type: 'get',
+        beforeSend: function() {
+            
+        },
+        complete: function(data) {
+            var r = $.parseJSON(data.responseText);
+            var nR = r.length;
+            var base;
+            for(var i=0; i<nR; i++) {
+                base = r[i].vehicleImg.split(".");
+                pin_dev[r[i].vehicleID] = base[0];
+            }
+            cargaSensor();
+        }
+    });
+}
 
 
 $(window).resize(function() {
@@ -583,6 +635,10 @@ $(document).ready(function(){
     $listaDev = $lateralLeft.find("#scroll");
     $puntoForm = $("#puntoForm");
     $btn_pint = $("#btn_pint");
+    $buscador = $("#buscaDireccion");
+    $btn_buscador = $("#btn_buscar");
+    $btn_buscador.toggle(function(e){showBuscador(e)}, function(e){hideBuscador(e)});
+    $("label", $buscador).inFieldLabels();
     initialize();
 //    showDevices();
 //    getAlarma();
@@ -597,7 +653,7 @@ $(document).ready(function(){
 
     tooltip = $("#tooltip");
     tooltip.appendTo($map_canvas);
-    monitoreo = setInterval("showDevices()", 30000);
+    
     
     $map_canvas.height($(window).height()-40);
     $logAlarma.height($(window).height()-95);
@@ -631,6 +687,39 @@ $(document).ready(function(){
         }
     });
 
+    buscadorValidator = $buscador.bind("invalid-form.validate",
+        function() {
+//            $("#msg", $puntoForm).slideUp().html("Debes completar todos los campos").slideDown();
+        }).validate({
+        errorPlacement: function(error, element) {
+        },
+        submitHandler: function(form) {
+            var address = form.s.value;
+            if (geocoder) {
+                geocoder.geocode( { 'address': address}, 
+                function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        map.setCenter(results[0].geometry.location);
+                        map.setZoom(16);
+                        if(markerBuscador) {
+                            markerBuscador.setPosition(results[0].geometry.location);
+                        } else {
+                            markerBuscador = new google.maps.Marker({
+                                map: map, 
+                                position: results[0].geometry.location
+                            });
+                        }
+                    } else {
+//                        alert("Geocode was not successful for the following reason: " + status);
+                    }
+                });
+            }
+            _gaq.push(['_trackPageview', '/Ajax/GeoCode/normal/GoogleMapsApi']);
+        },
+        success: function(label) {
+        }
+    });
+    
     puntoFormValidator = $puntoForm.bind("invalid-form.validate",
         function() {
             $("#msg", $puntoForm).slideUp().html("Debes completar todos los campos").slideDown();

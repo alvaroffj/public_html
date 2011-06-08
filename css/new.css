@@ -781,7 +781,7 @@ div.rep-nav {
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
     border-radius:5px;
-    top: 10px;
+    top: 80px;
     left: 50%;
     margin-left: -150px;
     cursor: move;
@@ -826,6 +826,58 @@ div#logo {
     opacity: 0.3;
     background: url(../img/logo.png) top center no-repeat;
 /*    z-index: 100;*/
+}
+
+
+
+form#buscaDireccion {
+    z-index: 55;
+    position: absolute;
+    top: 50px;
+    left:50%;
+/*    width: 400px;*/
+    display: block;
+    margin-left: -200px;
+    background: url(../js/fancybox/fancy_title_over.png);
+    padding: 10px 20px;
+    color: #fff;
+    -moz-box-shadow: 0px 0px 10px #999;
+    -webkit-box-shadow: 0px 0px 10px #999;
+    box-shadow: 0px 0px 10px #999;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+}
+
+form#buscaDireccion p { 
+    position:relative;
+    margin: 0;
+    padding: 0;
+}
+
+form#buscaDireccion label { 
+    position:absolute; 
+    top:0; 
+    left:0;
+    width: 400px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #ededed;
+    font-weight: normal;
+    margin: 1px 0;
+    padding: 0;
+}
+
+form#buscaDireccion .text-input {
+    width: 400px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #ededed;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
 }
 
 form#puntoForm {

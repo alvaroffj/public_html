@@ -65,7 +65,7 @@ class EventDataMP {
     }
 
     function fetchLastByUser($id) {
-        $sql = "SELECT LE.*, D.licensePlate, D.displayName, from_unixtime(LE.timestamp, '%d-%m-%Y %h:%i:%s') as fecha
+        $sql = "SELECT LE.*, D.licensePlate, D.displayName, D.vehicleID, from_unixtime(LE.timestamp, '%d-%m-%Y %h:%i:%s') as fecha
                 FROM GroupList AS GL INNER JOIN DeviceList AS DL INNER JOIN Device AS D INNER JOIN LASTEVENTDATA AS LE
                 ON
                 GL.userID = $id
@@ -83,7 +83,7 @@ class EventDataMP {
     }
 
     function fetchLastByAccount($id) {
-        $sql = "SELECT LE.*, D.licensePlate, D.displayName, from_unixtime(LE.timestamp, '%d.%m.%Y %H:%i:%s') as fecha
+        $sql = "SELECT LE.*, D.licensePlate, D.displayName, D.vehicleID, from_unixtime(LE.timestamp, '%d.%m.%Y %H:%i:%s') as fecha
                 FROM DeviceGroup AS DG INNER JOIN DeviceList AS DL INNER JOIN Device AS D INNER JOIN LASTEVENTDATA AS LE
                 ON
                 DG.accountID = $id

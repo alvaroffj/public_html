@@ -6,5 +6,4 @@ if(isset($_GET["timestamp"])) {
     $timestamp = strtotime($_GET["fecha"]);
     echo $timestamp."<br>";
 }
-
 ?>
