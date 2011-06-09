@@ -603,7 +603,6 @@ function creaPinVehiculos() {
     });
 }
 
-
 $(window).resize(function() {
     $map_canvas.height($(window).height()-40);
     $logAlarma.height($(window).height()-95);

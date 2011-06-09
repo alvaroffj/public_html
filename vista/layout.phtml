@@ -77,6 +77,7 @@
                             <li <?= ($cp->sec == "configuracion") ? " class='active'" : ""; ?>><a href="?sec=configuracion">Configuraci&oacute;n</a>
                                 <ul class="dropdown">
                                     <li><a href="?sec=configuracion&ssec=vehiculo">Veh&iacute;culos</a></li>
+                                    <li><a href="?sec=configuracion&ssec=conductor">Conductores</a></li>
                                     <li><a href="?sec=configuracion&ssec=usuario">Usuarios</a></li>
                                     <li><a href="?sec=configuracion&ssec=alarma">Alarmas</a></li>
                                     <li><a href="?sec=configuracion&ssec=puntointeres">Ptos. Interes</a></li>
@@ -109,6 +110,7 @@
                         <h1>Configuraci&oacute;n</h1>
                         <ul class="side-nav">
                             <li <?= ($cp->getCSec()->sec == "vehiculo") ? " class='active'" : ""; ?>><a href="?sec=configuracion&ssec=vehiculo">Veh&iacute;culos</a></li>
+                            <li <?= ($cp->getCSec()->sec == "conductor") ? " class='active'" : ""; ?>><a href="?sec=configuracion&ssec=conductor">Conductores</a></li>
                             <li <?= ($cp->getCSec()->sec == "usuario") ? " class='active'" : ""; ?>><a href="?sec=configuracion&ssec=usuario">Usuarios</a></li>
                             <li <?= ($cp->getCSec()->sec == "alarma") ? " class='active'" : ""; ?>><a href="?sec=configuracion&ssec=alarma">Alarmas</a></li>
                             <li <?= ($cp->getCSec()->sec == "puntointeres") ? " class='active'" : ""; ?>><a href="?sec=configuracion&ssec=puntointeres">Puntos de Inter&eacute;s</a></li>

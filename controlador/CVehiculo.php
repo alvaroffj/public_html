@@ -1,17 +1,20 @@
 <?php
 require_once 'modelo/DeviceMP.php';
 require_once 'modelo/DeviceGroupMP.php';
+require_once 'modelo/DriverMP.php';
 //require_once 'modelo/DeviceListMP.php';
 
 class CVehiculo {
     protected $cp;
     protected $deMP;
     protected $dgMP;
+    protected $drMP;
 
     function  __construct($cp) {
         $this->cp = $cp;
         $this->deMP = new DeviceMP();
         $this->dgMP = new DeviceGroupMP();
+        $this->drMP = new DriverMP();
         $this->estados = array(array("estado"=>"Inactivo", "id"=>0), array("estado"=>"Activo", "id"=>1));
         $this->estados[0] = (object) $this->estados[0];
         $this->estados[1] = (object) $this->estados[1];
@@ -136,6 +139,11 @@ class CVehiculo {
             $this->layout = "vista/vehiculo.phtml";
             $this->grupos = $this->dgMP->fetchByCuenta($this->cp->getSession()->get("accountID"), true);
             $this->device = $this->deMP->fetchByCuenta($this->cp->getSession()->get("accountID"), null, null, true);
+            $this->conductores = $this->drMP->fetchByCuenta($this->cp->getSession()->get("accountID"), null, false);
+            foreach($this->conductores as $c) {
+                $arr[$c->driverID] = $c->displayName;
+            }
+            $this->condSel = $arr;
         }
     }
 

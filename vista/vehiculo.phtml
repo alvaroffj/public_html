@@ -42,7 +42,7 @@
                 <tr>
                     <th align="center" width="150">Nombre a mostrar</th>
                     <th align="center" width="100">Patente</th>
-<!--                    <th align="center" width="100">SIM</th>-->
+                    <th align="center" width="100">Conductor</th>
                     <th align="center" width="100">IMEI</th>
                     <th align="center">&Uacute;ltima posici&oacute;n</th>
                     <th align="center" width="150">Fecha</th>
@@ -56,7 +56,7 @@
                 <tr>
                     <td align="center"><span class="edit" id="<?=$a->deviceID;?>"><?= $a->displayName; ?></span></td>
                     <td align="center"><?= $a->licensePlate; ?></td>
-<!--                    <td align="center"><?= $a->simPhoneNumber; ?></td>-->
+                    <td align="center"><span class="driveEdit" id="dr_<?=$a->driverID?>"><?= $cp->getCSec()->getCSec()->condSel[$a->driverID] ?></span></td>
                     <td align="center"><?= $a->imeiNumber; ?></td>
                     <td class="posicion" id="pos_<?=$i?>"><?= $a->latitude.",".$a->longitude; ?></td>
                     <td align="center"><?= $a->fecha ?></td>
@@ -65,7 +65,27 @@
                 </tr>
                 <? $i++; ?>
                 <? } ?>
-            <tbody>
+            </tbody>
         </table>
     </div>
 </div>
+<script>
+    $(".driveEdit").editable(function(value, settings){
+//        console.log(this);
+//        console.log(value);
+//        console.log(settings);
+        json = $.parseJSON(settings.data);
+//        console.log(json);
+        $old = $("#dr_"+value);
+        $old.html("Sin conductor");
+        $old.attr("id", "dr_0");
+        $(this).attr("id", "dr_"+value);
+        return json[value];
+    },
+    {
+        data   : '<?php print json_encode($cp->getCSec()->getCSec()->condSel); ?>',
+        type: 'select',
+        submit: 'Ok'
+    }
+    );
+</script>

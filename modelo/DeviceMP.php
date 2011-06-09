@@ -40,7 +40,7 @@ class DeviceMP {
             $sql = "SELECT $sAttr FROM $this->_dbTable WHERE accountID = $idCuenta AND deviceID NOT IN (SELECT deviceID AS deviceID FROM ALERTA_DEVICE WHERE ID_ALERTA = $idAlerta)";
         else
             if($lastPos)
-                $sql = "SELECT D.deviceID, D.vehicleID, D.licensePlate, D.simPhoneNumber, D.imeiNumber, D.displayName, L.latitude, L.longitude, from_unixtime(L.timestamp, '%d.%m.%Y %H:%i:%s') as fecha
+                $sql = "SELECT D.deviceID, D.vehicleID, D.licensePlate, D.simPhoneNumber, D.imeiNumber, D.displayName, D.driverID, L.latitude, L.longitude, from_unixtime(L.timestamp, '%d.%m.%Y %H:%i:%s') as fecha
                         FROM $this->_dbTable AS D INNER JOIN LASTEVENTDATA AS L
                         ON D.accountID = $idCuenta AND D.deviceID = L.deviceID AND D.isActive = 1";
             else
@@ -70,6 +70,26 @@ class DeviceMP {
         }
 
         $sql = "SELECT $sAttr FROM $this->_dbTable WHERE deviceID = $id";
+        $res = $this->_bd->sql($sql);
+        return mysql_fetch_object($res);
+    }
+    
+    function findByDriver($id, $attr = null) {
+        $id = $this->_bd->limpia($id);
+
+        if($attr == null) {
+            $sAttr = "*";
+        } else {
+            for($i=0; $i<count($attr); $i++) {
+                if($i==0) {
+                    $sAttr = $attr[$i];
+                } else {
+                    $sAttr .= ", ".$attr[$i];
+                }
+            }
+        }
+
+        $sql = "SELECT $sAttr FROM $this->_dbTable WHERE driverID = $id";
         $res = $this->_bd->sql($sql);
         return mysql_fetch_object($res);
     }

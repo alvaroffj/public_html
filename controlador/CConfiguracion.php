@@ -61,6 +61,10 @@ class CConfiguracion {
                 include_once 'controlador/CVehiculo.php';
                 $this->_CSec = new CVehiculo($this);
                 break;
+            case 'conductor':
+                include_once 'controlador/CConductor.php';
+                $this->_CSec = new CConductor($this);
+                break;
             case 'alarma':
                 include_once 'controlador/CAlarma.php';
                 $this->_CSec = new CAlarma($this);
