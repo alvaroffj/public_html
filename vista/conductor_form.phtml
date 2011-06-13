@@ -1,7 +1,10 @@
 <?php
-function getSelect($obj, $val, $id, $nom, $sel = null, $style=null, $onChange=null) {
+function getSelect($obj, $val, $id, $nom, $sel = null, $style=null, $onChange=null, $ninguno = false) {
     $r = "<SELECT name='$nom' class='medium-input' style='$style' onChange=\"" . $onChange . "\" id='$nom'>";
-    $r .= "<OPTION value = '0'>Ninguno</OPTION>";
+    if($ninguno)
+        $r .= "<OPTION value = '0'>Ninguno</OPTION>";
+    else 
+        $r .= "<OPTION value = '-1' DISABLED>Selecciona</OPTION>";
     foreach ($obj as $o) {
         if ($sel == $o->$id) {
             $r .= "<OPTION value='" . $o->$id . "' SELECTED>" . $o->$val . "</OPTION>";
@@ -65,7 +68,7 @@ if(isset($_GET["e"])) {
         <div class="clear"></div>
         <p>
             <label>Vehiculo:</label>
-            <?=getSelect($cp->getCSec()->getCSec()->vehiculos, "displayName", "deviceID", "vehiculo", ($cp->getCSec()->getCSec()->dev!=null)?$cp->getCSec()->getCSec()->dev->deviceID:null);?>
+            <?=getSelect($cp->getCSec()->getCSec()->vehiculos, "displayName", "deviceID", "vehiculo", ($cp->getCSec()->getCSec()->dev!=null)?$cp->getCSec()->getCSec()->dev->deviceID:null, null, null, true);?>
         </p>
         <div class="clear"></div>
         <p>
