@@ -356,7 +356,7 @@ function showDevices() {
                     position: myLatLng,
                     map: map,
 //                    icon: (dev.encendido=="1")?dev_run:dev_stop,
-                    icon:getPinVehiculo(dev.vehicleID, dev.heading),
+                    icon:getPinVehiculo(dev.vehicleID, dev.heading, dev.encendido),
 //                    title: dev.displayName,
                     tooltip: dev.displayName,
                     zIndex: i,
@@ -573,10 +573,11 @@ function hideBuscador(e) {
     e.preventDefault();
 }
 
-function getPinVehiculo(idV, gr) {
+function getPinVehiculo(idV, gr, encendido) {
     var g;
     g = Math.round(gr/10)*10;
-    return new google.maps.MarkerImage('img/'+pin_dev[idV]+'_'+g+'.png',
+    var estado = (encendido=="1")?"run":"stop";
+    return new google.maps.MarkerImage('img/device/'+pin_dev[idV]+'_'+g+'_'+estado+'.png',
         new google.maps.Size(32, 32),
         new google.maps.Point(0,0),
         new google.maps.Point(16,16)

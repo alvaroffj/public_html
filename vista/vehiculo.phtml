@@ -56,7 +56,7 @@
                 <tr>
                     <td align="center"><span class="edit" id="<?=$a->deviceID;?>"><?= $a->displayName; ?></span></td>
                     <td align="center"><?= $a->licensePlate; ?></td>
-                    <td align="center"><span class="driveEdit" id="dr_<?=$a->driverID?>"><?= $cp->getCSec()->getCSec()->condSel[$a->driverID] ?></span></td>
+                    <td align="center"><span class="driveEdit" id="dr_<?=$a->driverID?>" devID="<?=$a->deviceID;?>"><?= $cp->getCSec()->getCSec()->condSel[$a->driverID] ?></span></td>
                     <td align="center"><?= $a->imeiNumber; ?></td>
                     <td class="posicion" id="pos_<?=$i?>"><?= $a->latitude.",".$a->longitude; ?></td>
                     <td align="center"><?= $a->fecha ?></td>
@@ -72,20 +72,32 @@
 <script>
     $(".driveEdit").editable(function(value, settings){
 //        console.log(this);
-//        console.log(value);
-//        console.log(settings);
+        dri = $(this);
         json = $.parseJSON(settings.data);
-//        console.log(json);
-        $old = $("#dr_"+value);
-        $old.html("Sin conductor");
-        $old.attr("id", "dr_0");
-        $(this).attr("id", "dr_"+value);
-        return json[value];
+        if(dri.attr("id") != "dr_"+value) {
+            $.ajax({
+                url: "?sec=configuracion&ssec=vehiculo&do=modConductor&idDri="+value+"&idDev="+dri.attr("devID"),
+                type: "get",
+                beforeSend: function(){
+                },
+                complete: function(data) {
+                }
+            });
+            $old = $("#dr_"+value);
+            $old.html("Sin conductor");
+            $old.attr("id", "dr_0");
+            dri.attr("id", "dr_"+value);
+            return json[value];
+        } else {
+            console.log("el mismo");
+            return json[value];
+        }
     },
     {
         data   : '<?php print json_encode($cp->getCSec()->getCSec()->condSel); ?>',
         type: 'select',
-        submit: 'Ok'
+        submit: 'Asignar',
+        indicator : 'Guardando...'
     }
     );
 </script>

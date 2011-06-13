@@ -31,6 +31,11 @@ class CVehiculo {
             $this->cp->showLayout = false;
             $attr = array("accountID");
             switch($_GET["do"]) {
+                case "modConductor":
+                    if(isset($_GET["idDev"]) && isset($_GET["idDri"])) {
+                        $this->deMP->setDriver($_GET["idDev"], $_GET["idDri"]);
+                    }
+                    break;
                 case "add_to_grupo":
                     if(isset($_GET["id"]) && isset($_GET["id_grupo"])) {
                         $gr = $this->dgMP->find($_GET["id_grupo"], $attr);
@@ -143,6 +148,7 @@ class CVehiculo {
             foreach($this->conductores as $c) {
                 $arr[$c->driverID] = $c->displayName;
             }
+//            $arr[0] = "Sin conductor";
             $this->condSel = $arr;
         }
     }
