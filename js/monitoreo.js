@@ -345,7 +345,7 @@ function showDevices() {
                 var dev = res[i];
                 
                 actualizaFila(dev);
-                var myLatLng = new google.maps.LatLng(dev.latitude, dev.longitude);
+                var myLatLng = new google.maps.LatLng(dev.latitude, dev.longitude)
                 if(activeIndex == -1 && i==0) {
                     activeIndex = dev.deviceID;
 //                    setActive(activeIndex);
@@ -449,6 +449,11 @@ function updateActive(res) {
         complete: function(data) {
             r = $.parseJSON(data.responseText);
             act_dev.find("#titulo").html("<b>Vehiculo: </b>"+res.displayName);
+            if(res.driverID != "0" && res.contactPhone != "") {
+                act_dev.find("#conductor").html("<b>Conductor: </b>"+res.driverName+" ("+res.contactPhone+")");
+            } else {
+                act_dev.find("#conductor").html("<b>Conductor: </b>"+res.driverName);
+            }
             act_dev.find("#patente").html("<b>Patente: </b>"+res.licensePlate);
             act_dev.find("#velocidad").html("<b>Velocidad: </b>"+Math.round(res.speedKPH*1)+" <span class='uni_med'>(Km/h)</span>");
             act_dev.find("#direccion").html("<b>Direcci&oacute;n: </b>"+r.DIRECCION);
@@ -700,7 +705,7 @@ $(document).ready(function(){
                 function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         map.setCenter(results[0].geometry.location);
-                        map.setZoom(16);
+//                        map.setZoom(16);
                         if(markerBuscador) {
                             markerBuscador.setPosition(results[0].geometry.location);
                         } else {

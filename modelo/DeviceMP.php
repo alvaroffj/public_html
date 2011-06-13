@@ -140,9 +140,12 @@ class DeviceMP {
         $idDri = $this->_bd->limpia($idDri);
         $ts = date("U");
         
-        $sql = "SELECT deviceID FROM $this->_dbTable WHERE driverID = ".$idDri;
-        $res = $this->_bd->sql($sql);
-        $row2 = mysql_fetch_object($res);
+        $row2 = null;
+        if($idDri != "0") {
+            $sql = "SELECT deviceID FROM $this->_dbTable WHERE driverID = ".$idDri;
+            $res = $this->_bd->sql($sql);
+            $row2 = mysql_fetch_object($res);
+        }
         
         if($row2!=null && $row2->deviceID != $idDev) {
             $sql = "UPDATE $this->_dbTable SET driverID = 0, lastUpdateTime = $ts WHERE deviceID = ".$row2->deviceID;

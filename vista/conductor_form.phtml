@@ -1,7 +1,7 @@
 <?php
 function getSelect($obj, $val, $id, $nom, $sel = null, $style=null, $onChange=null) {
     $r = "<SELECT name='$nom' class='medium-input' style='$style' onChange=\"" . $onChange . "\" id='$nom'>";
-    $r .= "<OPTION value = '-1' DISABLED>Seleccionar...</OPTION>";
+    $r .= "<OPTION value = '0'>Ninguno</OPTION>";
     foreach ($obj as $o) {
         if ($sel == $o->$id) {
             $r .= "<OPTION value='" . $o->$id . "' SELECTED>" . $o->$val . "</OPTION>";

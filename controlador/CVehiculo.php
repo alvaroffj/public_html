@@ -148,7 +148,7 @@ class CVehiculo {
             foreach($this->conductores as $c) {
                 $arr[$c->driverID] = $c->displayName;
             }
-//            $arr[0] = "Sin conductor";
+            $arr[0] = "Sin conductor";
             $this->condSel = $arr;
         }
     }

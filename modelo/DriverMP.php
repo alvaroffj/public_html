@@ -121,6 +121,8 @@ class DriverMP {
         if($row2!=null && $row2->deviceID != $data["vehiculo"]) {
             $sql = "UPDATE Device SET driverID = 0, lastUpdateTime = $ts WHERE deviceID = ".$row2->deviceID." AND accountID = ".$data["accountID"];
             $res = $this->_bd->sql($sql);
+            $sql = "INSERT INTO LOG_DEVICE_DRIVER (deviceID, driverID, TIMESTAMP) VALUES (".$row2->deviceID.", 0, $ts)";
+            $res = $this->_bd->sql($sql);
         }
         
         if($row!=null && ($row->driverID == "0" || $row->driverID != $data["id"])) {

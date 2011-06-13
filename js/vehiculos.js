@@ -28,7 +28,7 @@ $(document).ready(function(){
 
     $('.edit').editable('?&sec=configuracion&ssec=vehiculo&do=mod_dev', {
         indicator : 'Guardando...',
-        tooltip : 'Click para editar...',
+        tooltip : 'Click para editar',
         id : $(this).id,
         name : "nomDev",
 //        submit : 'Guardar',

@@ -815,6 +815,22 @@ span.edit:hover {
     text-align: center;
 }
 
+.inline-form select {
+    width: 130px;
+    padding: 2px 5px;
+}
+
+.inline-form button {
+    border: 1px solid #ccc;
+    padding: 2px 5px;
+    cursor: pointer;
+    background: url(../js/fancybox/fancy_title_over.png);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+
 div#logo {
     position: absolute;
     bottom: 15px;
