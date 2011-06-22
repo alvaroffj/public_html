@@ -150,13 +150,15 @@ class CRAlarma {
                                 $dev[] = $d->deviceID;
                                 $license[$d->deviceID] = $d->licensePlate;
                                 $nombre[$d->deviceID] = $d->displayName;
+                                $vehicle[$d->deviceID] = $d->vehicleID;
                             }
                             $rep = $this->alMP->reporte($ini, $fin, $dev);
                         }
                     } else {
-                        $dev = $this->deMP->find($_POST["id_device"], array("accountID", "licensePlate", "displayName"));
+                        $dev = $this->deMP->find($_POST["id_device"], array("accountID", "licensePlate", "vehicleID","displayName"));
                         $license[$_POST["id_device"]] = $dev->licensePlate;
                         $nombre[$_POST["id_device"]] = $dev->displayName;
+                        $vehicle[$_POST["id_device"]] = $dev->vehicleID;
                         if($dev->accountID == $this->cp->getSession()->get("accountID")) {
                             $rep = $this->alMP->reporte($ini, $fin, array($_POST["id_device"]));
                         }
@@ -197,6 +199,7 @@ class CRAlarma {
                         foreach ($rep as $r) {
                             $out[] = array(
                                 "licensePlate"=>$license[$r->deviceID],
+                                "vehicleID"=>$vehicle[$r->deviceID],
                                 "displayName"=>$nombre[$r->deviceID],
                                 "fecha"=>$r->fecha,
                                 "latitude"=>$r->latitude,
@@ -204,7 +207,8 @@ class CRAlarma {
                                 "encendido"=>$r->encendido,
                                 "alarma"=>$r->NOM_ALERTA,
                                 "regla"=>utf8_encode($this->traduceRegla($r)),
-                                "velocidad"=>round($r->speedKPH)
+                                "velocidad"=>round($r->speedKPH),
+                                "heading"=>$r->heading
                             );
                         }
                         echo json_encode($out);

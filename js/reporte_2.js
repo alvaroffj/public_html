@@ -102,6 +102,7 @@ function showReporteJSON(reporte) {
     reporteMk = [];
     for(var i=0; i<n; i++) {
         dev = reporte[i];
+        if(i==0) console.log(dev);
         dev.i = i;
         var myLatLng = new google.maps.LatLng(dev.latitude, dev.longitude);
         ptos.push(myLatLng);
@@ -121,7 +122,7 @@ function showReporteJSON(reporte) {
         }
         var marker = new google.maps.Marker({
             position: myLatLng,
-            icon: (dev.encendido=="1")?dev_run:dev_stop,
+            icon:getPinVehiculo(pin_dev[dev.vehicleID], dev.heading, dev.encendido),
             tooltip: tp,
             zIndex: i,
             m_id: i
@@ -132,8 +133,8 @@ function showReporteJSON(reporte) {
     if(reporteSel == 0) {
         poligono = new google.maps.Polyline({
             map: map,
-            strokeColor : '#333333',
-            strokeOpacity : 0.5,
+            strokeColor : '#008000',
+            strokeOpacity : 0.8,
             strokeWeight : 5,
             path : ptos
         });

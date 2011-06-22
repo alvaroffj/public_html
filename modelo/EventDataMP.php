@@ -108,7 +108,7 @@ class EventDataMP {
 
     function auditoriaByDevice($ini, $fin, $device, $pag=0) {
         $device = implode(",", $device);
-        $sql = "SELECT *, from_unixtime(timestamp, '%d.%m.%Y %H:%i:%s') as fecha FROM $this->_dbTable WHERE timestamp BETWEEN ".$ini." AND ".$fin." AND deviceID IN (".$device.") ";
+        $sql = "SELECT *, from_unixtime(timestamp, '%d.%m.%Y %H:%i:%s') as fecha FROM $this->_dbTable WHERE timestamp BETWEEN ".$ini." AND ".$fin." AND deviceID IN (".$device.") ORDER BY timestamp ASC";
         $res = $this->_bd->sql($sql);
         $arr = array();
         while($row = mysql_fetch_object($res)) {

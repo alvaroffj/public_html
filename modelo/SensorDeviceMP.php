@@ -74,6 +74,44 @@ class SensorDeviceMP {
         }
         return $arr;
     }
+    
+    function findSensor($id, $attr=null) {
+        $id = $this->_bd->limpia($id);
+
+        if($attr == null) {
+            $sAttr = "*";
+        } else {
+            $sAttr = implode(",", $attr);
+        }
+
+        $sql = "SELECT $sAttr FROM SENSOR WHERE ID_SENSOR = ".$id;
+        $res = $this->_bd->sql($sql);
+        if($res) {
+            $row = mysql_fetch_object($res);
+            return $row;
+        } else return null;
+    }
+    
+    function fetchOpSensor($idSe, $idOp=null) {
+        $idSe = $this->_bd->limpia($idSe);
+        $idOp = $this->_bd->limpia($idOp);
+        
+        if($idOp == null) {
+            $sql = "SELECT * FROM SENSOR_OPCION WHERE ID_SENSOR = ".$idSe;
+        } else {
+            $sql = "SELECT * FROM SENSOR_OPCION WHERE ID_SENSOR_OPCION = ".$idOp;
+        }
+        
+        $res = $this->_bd->sql($sql);
+        $arr = array();
+        $i = 0;
+        while($row = mysql_fetch_object($res)) {
+            $arr[] = $row;
+            $i++;
+        }
+        if($i == 1) return $arr[0];
+        return $arr;
+    }
 }
 ?>
 

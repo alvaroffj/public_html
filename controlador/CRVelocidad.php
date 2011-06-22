@@ -120,53 +120,31 @@ class CRVelocidad {
                                 $dev[] = $d->deviceID;
                                 $license[$d->deviceID] = $d->licensePlate;
                                 $nombre[$d->deviceID] = $d->displayName;
+                                $vehicle[$d->deviceID] = $d->vehicleID;
                             }
                             $rep = $this->edMP->velocidadByDevice($ini, $fin, $dev, $_POST["operador"], $_POST["vel"]);
                         }
                     } else {
-                        $dev = $this->deMP->find($_POST["id_device"], array("accountID", "licensePlate", "displayName"));
+                        $dev = $this->deMP->find($_POST["id_device"], array("accountID", "licensePlate", "vehicleID", "displayName"));
                         $license[$_POST["id_device"]] = $dev->licensePlate;
                         $nombre[$_POST["id_device"]] = $dev->displayName;
+                        $vehicle[$_POST["id_device"]] = $dev->vehicleID;
                         if($dev->accountID == $this->cp->getSession()->get("accountID")) {
                             $rep = $this->edMP->velocidadByDevice($ini, $fin, array($_POST["id_device"]), $_POST["operador"], $_POST["vel"]);
                         }
                     }
-//                    if($rep!=null) {
-//                        $txt = "<h2>Reporte</h2>
-//                        <table border='0' cellspacing='0' cellpadding='0' width='100%' class='tablarojo' id='reporte'>
-//                            <thead>
-//                                <tr>
-//                                    <th align='center' width='100'>Veh&iacute;culo</th>
-//                                    <th align='center' width='100'>Patente</th>
-//                                    <th align='center' width='150'>Fecha</th>
-//                                    <th align='center' width='100'>Velocidad (Km/h)</th>
-//                                    <th align='center'>Ubicaci&oacute;n</th>
-//                                </tr>
-//                            </thead>
-//                            <tbody>";
-//                        foreach($rep as $r) {
-//                            $txt .= "<tr>";
-//                            $txt .= "<td align='center'>".$nombre[$r->deviceID]."</td>";
-//                            $txt .= "<td align='center'>".$license[$r->deviceID]."</td>";
-//                            $txt .= "<td align='center'>".$r->fecha."</td>";
-//                            $txt .= "<td align='center'>".round($r->speedKPH)."</td>";
-//                            $txt .= "<td align='center'><span style='display:none;' class='info'>".json_encode($info)."</span><a class='pop' title='<b>".$license[$r->deviceID]."</b><br /><b>Fecha</b>:".$r->fecha."<br /><b>Velocidad</b>:".round($r->speedKPH)." (Km/h)<br />' href='?sec=reporte&ssec=auditoria&get=mapa&lat=".$r->latitude."&lon=".$r->longitude."'>Ver mapa</a></td>";
-//                            $txt .= "</tr>";
-//                        }
-//                        $txt .= "</tbody></table>";
-//
-//                        echo $txt;
-//                    }
                     if($rep != null) {
                         foreach ($rep as $r) {
                             $out[] = array(
                                 "licensePlate"=>$license[$r->deviceID],
+                                "vehicleID"=>$vehicle[$r->deviceID],
                                 "displayName"=>$nombre[$r->deviceID],
                                 "fecha"=>$r->fecha,
                                 "latitude"=>$r->latitude,
                                 "longitude"=>$r->longitude,
                                 "encendido"=>$r->encendido,
-                                "velocidad"=>round($r->speedKPH)
+                                "velocidad"=>round($r->speedKPH),
+                                "heading"=>$r->heading
                             );
                         }
                         echo json_encode($out);

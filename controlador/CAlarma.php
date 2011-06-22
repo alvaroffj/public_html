@@ -12,6 +12,7 @@ require_once 'modelo/DeviceGroupMP.php';
 require_once 'modelo/AlertaDeviceMP.php';
 require_once 'modelo/PoligonoMP.php';
 require_once 'modelo/PInteresMP.php';
+require_once 'modelo/SensorDeviceMP.php';
 
 class CAlarma {
 
@@ -29,6 +30,7 @@ class CAlarma {
     protected $adMP;
     protected $poMP;
     protected $piMP;
+    protected $sdMP;
     protected $cp;
 
     function __construct($cp) {
@@ -45,6 +47,7 @@ class CAlarma {
         $this->dgMP = new DeviceGroupMP();
         $this->poMP = new PoligonoMP();
         $this->piMP = new PInteresMP();
+        $this->sdMP = new SensorDeviceMP();
         $this->estados = array(array("estado"=>"Inactivo", "id"=>0), array("estado"=>"Activo", "id"=>1));
         $this->estados[0] = (object) $this->estados[0];
         $this->estados[1] = (object) $this->estados[1];
@@ -100,6 +103,14 @@ class CAlarma {
                 break;
         }
     }
+    
+    function getSensor($id, $attr=null) {
+        return $this->sdMP->findSensor($id, $attr);
+    }
+    
+    function getOpSensor($idS, $idO) {
+        return $this->sdMP->fetchOpSensor($idS, $idO);
+    }
 
     function getLayout() {
         return $this->layout;
@@ -117,6 +128,22 @@ class CAlarma {
                         if($this->cp->getSession()->get("accountID") == $gr->accountID) {
                             echo json_encode($this->deMP->fetchByGrupo($_GET["id_grupo"]));
                         }
+                    }
+                    break;
+                case 'sensores':
+                    $r = $this->sdMP->fetchByAccount($this->cp->getSession()->get("accountID"));
+                    echo json_encode($r);
+                    break;
+                case 'sensor':
+                    if(isset($_GET["id"])) {
+                        $r = $this->sdMP->findSensor($_GET["id"]);
+                        echo json_encode($r);
+                    }
+                    break;
+                case 'sensorOp':
+                    if(isset($_GET["id"])) {
+                        $r = $this->sdMP->fetchOpSensor($_GET["id"]);
+                        echo json_encode($r);
                     }
                     break;
             }
@@ -155,31 +182,35 @@ class CAlarma {
 //                        echo "<pre>";
 //                        print_r($_POST);
 //                        echo "</pre>";
-                        switch($_POST["Parametro"]) {
-                            case "3": //geozona
-                                if($_POST["Geozona"] == "0") {
-                                    $pol = $this->poMP->fetchByCuentaTipo($this->cp->getSession()->get("accountID"), 2, true);
-                                    $id = "ID_POLIGONO";
-                                    $valForm = "Geozona";
-                                } else $pol = -1;
-                                break;
-                            case "4": //geofrontera
-                                if($_POST["Geofrontera"] == "0") {
-                                    $pol = $this->poMP->fetchByCuentaTipo($this->cp->getSession()->get("accountID"), 1, true);
-                                    $id = "ID_POLIGONO";
-                                    $valForm = "Geofrontera";
-                                } else $pol = -1;
-                                break;
-                            case "5": //punto de interes
-                                if($_POST["Punto"] == "0") {
-                                    $pol = $this->piMP->fetchByCuenta($this->cp->getSession()->get("accountID"), array("id"), true);
-                                    $id = "id";
-                                    $valForm = "Punto";
-                                } else $pol = -1;
-                                break;
-                            default:
-                                $pol = -1;
-                                break;
+                        if($_POST["Tipo"]!=4) {
+                            switch($_POST["Parametro"]) {
+                                case "3": //geozona
+                                    if($_POST["Geozona"] == "0") {
+                                        $pol = $this->poMP->fetchByCuentaTipo($this->cp->getSession()->get("accountID"), 2, true);
+                                        $id = "ID_POLIGONO";
+                                        $valForm = "valor";
+                                    } else $pol = -1;
+                                    break;
+                                case "4": //geofrontera
+                                    if($_POST["Geofrontera"] == "0") {
+                                        $pol = $this->poMP->fetchByCuentaTipo($this->cp->getSession()->get("accountID"), 1, true);
+                                        $id = "ID_POLIGONO";
+                                        $valForm = "valor";
+                                    } else $pol = -1;
+                                    break;
+                                case "5": //punto de interes
+                                    if($_POST["Punto"] == "0") {
+                                        $pol = $this->piMP->fetchByCuenta($this->cp->getSession()->get("accountID"), array("id"), true);
+                                        $id = "id";
+                                        $valForm = "valor";
+                                    } else $pol = -1;
+                                    break;
+                                default:
+                                    $pol = -1;
+                                    break;
+                            }
+                        } else { //en caso que el tipo sea != 4, entonces es un sensor y el parametro es el id del sensor
+                            $pol = -1;
                         }
                         if($pol == -1) {
                             $this->reMP->save($_POST);

@@ -84,19 +84,20 @@ function setSec() {
                     break;
                 }
             }
+            creaPinVehiculos(false);
             setReporte(i);
             $mainNav[1].addClass("active");
             $mainNav[0].removeClass("active");
             $mainNav[2].removeClass("active");
             break;
         default:
-            creaPinVehiculos();
+            creaPinVehiculos(true);
             $mainNav[0].addClass("active");
             $mainNav[1].removeClass("active");
             $mainNav[2].removeClass("active");
             break;
         case "monitoreo":
-            creaPinVehiculos();
+            creaPinVehiculos(true);
             $mainNav[0].addClass("active");
             $mainNav[1].removeClass("active");
             $mainNav[2].removeClass("active");

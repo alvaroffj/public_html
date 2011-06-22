@@ -26,6 +26,7 @@ class ReglaMP {
     public function fetchByAlertaFull($idAlerta) {
         $idAlerta = $this->_bd->limpia($idAlerta);
         $sql = "SELECT * FROM REGLA AS R INNER JOIN TIPO_REGLA AS TR INNER JOIN OPERADOR AS O INNER JOIN PARAMETRO AS P ON R.ID_ALERTA = $idAlerta AND R.ID_TIPO_REGLA = TR.ID_TIPO_REGLA AND R.ID_OPERADOR = O.ID_OPERADOR AND R.ID_PARAMETRO = P.ID_PARAMETRO AND R.ESTADO_REGLA = 1";
+//        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         $arr = array();
         while($row = mysql_fetch_object($res)) {
@@ -39,24 +40,34 @@ class ReglaMP {
         $data["Parametro"] = $this->_bd->limpia($data["Parametro"]);
         $data["Operador"] = $this->_bd->limpia($data["Operador"]);
         $data["idAlerta"] = $this->_bd->limpia($data["idAlerta"]);
-        switch($data["Parametro"]) {
-            case "1":
-                $data["valor"] = $this->_bd->limpia($data["valorVel"]);
+//        switch($data["Parametro"]) {
+//            case "1":
+//                $data["valor"] = $this->_bd->limpia($data["valorVel"]);
+//                $data["poligono"] = "0";
+//                break;
+//            case "2":
+//                $data["valor"] = $this->_bd->limpia($data["valorTiempo"]);
+//                $data["poligono"] = "0";
+//                break;
+//            case "3":
+//                $data["poligono"] = $this->_bd->limpia($data["Geozona"]);
+//                break;
+//            case "4":
+//                $data["poligono"] = $this->_bd->limpia($data["Geofrontera"]);
+//                break;
+//            case "5":
+//                $data["poligono"] = $this->_bd->limpia($data["Punto"]);
+//                break;
+//        }
+        if($data["Tipo"]!="4") {
+            if($data["Parametro"] == "1" || $data["Parametro"] == "2") {
                 $data["poligono"] = "0";
-                break;
-            case "2":
-                $data["valor"] = $this->_bd->limpia($data["valorTiempo"]);
-                $data["poligono"] = "0";
-                break;
-            case "3":
-                $data["poligono"] = $this->_bd->limpia($data["Geozona"]);
-                break;
-            case "4":
-                $data["poligono"] = $this->_bd->limpia($data["Geofrontera"]);
-                break;
-            case "5":
-                $data["poligono"] = $this->_bd->limpia($data["Punto"]);
-                break;
+            } else {
+                $data["poligono"] = $data["valor"];
+                $data["valor"] = "";
+            }
+        } else {
+            $data["poligono"] = "0";
         }
         
         $sql = "SELECT ID_REGLA FROM $this->_dbTable 

@@ -199,57 +199,77 @@ class CMonitoreo {
     }
 
     function traduceRegla($regla) {
-        switch($regla->ID_PARAMETRO) {
-            case 1: //velocidad
-                switch($regla->ID_OPERADOR) {
-                    case 1:
-                        return "Velocidad (".round($regla->speedKPH).") > ".$regla->VALOR_REGLA." (Km/h)";
-                        break;
-                    case 2:
-                        return "Velocidad (".round($regla->speedKPH).") < ".$regla->VALOR_REGLA." (Km/h)";
-                        break;
-                }
-                break;
-            case 2: //tiempo
-                switch($regla->ID_OPERADOR) {
-                    case 1:
-                        return "Detenci&oacute;n > ".$regla->VALOR_REGLA." (Min.)";
-                        break;
-                    case 2:
-                        return "Detenci&oacute;n > ".$regla->VALOR_REGLA." (Min.)";
-                        break;
-                }
-                break;
-            case 3: //geozona
-                $pol = $this->poMP->find($regla->ID_POLIGONO, array("NOM_POLIGONO"));
-                switch($regla->ID_OPERADOR) {
-                    case 4:
-                        return "Entr&oacute; a <b>".$pol->NOM_POLIGONO."</b>";
-                        break;
-                    case 5:
-                        return "Sali&oacute; de <b>".$pol->NOM_POLIGONO."</b>";
-                        break;
-                }
-                break;
-            case 4: //geofrontera
-                $pol = $this->poMP->find($regla->ID_POLIGONO, array("NOM_POLIGONO"));
-                switch($regla->ID_OPERADOR) {
-                    case 6:
-                        return "Cruz&oacute; <b>".$pol->NOM_POLIGONO."</b>";
-                        break;
-                }
-                break;
-            case 5: //punto de interes
-                $pi = $this->piMP->find($regla->ID_POLIGONO, array("name"));
-                switch($regla->ID_OPERADOR) {
-                    case 4:
-                        return "Entr&oacute; a <b>".$pi->name."</b>";
-                        break;
-                    case 5:
-                        return "Sali&oacute; de <b>".$pi->name."</b>";
-                        break;
-                }
-                break;
+        if($regla->ID_TIPO_REGLA!=4) {
+            switch($regla->ID_PARAMETRO) {
+                case 1: //velocidad
+                    switch($regla->ID_OPERADOR) {
+                        case 1:
+                            return "Velocidad (".round($regla->speedKPH).") > ".$regla->VALOR_REGLA." (Km/h)";
+                            break;
+                        case 2:
+                            return "Velocidad (".round($regla->speedKPH).") < ".$regla->VALOR_REGLA." (Km/h)";
+                            break;
+                    }
+                    break;
+                case 2: //tiempo
+                    switch($regla->ID_OPERADOR) {
+                        case 1:
+                            return "Detenci&oacute;n > ".$regla->VALOR_REGLA." (Min.)";
+                            break;
+                        case 2:
+                            return "Detenci&oacute;n > ".$regla->VALOR_REGLA." (Min.)";
+                            break;
+                    }
+                    break;
+                case 3: //geozona
+                    $pol = $this->poMP->find($regla->ID_POLIGONO, array("NOM_POLIGONO"));
+                    switch($regla->ID_OPERADOR) {
+                        case 4:
+                            return "Entr&oacute; a <b>".$pol->NOM_POLIGONO."</b>";
+                            break;
+                        case 5:
+                            return "Sali&oacute; de <b>".$pol->NOM_POLIGONO."</b>";
+                            break;
+                    }
+                    break;
+                case 4: //geofrontera
+                    $pol = $this->poMP->find($regla->ID_POLIGONO, array("NOM_POLIGONO"));
+                    switch($regla->ID_OPERADOR) {
+                        case 6:
+                            return "Cruz&oacute; <b>".$pol->NOM_POLIGONO."</b>";
+                            break;
+                    }
+                    break;
+                case 5: //punto de interes
+                    $pi = $this->piMP->find($regla->ID_POLIGONO, array("name"));
+                    switch($regla->ID_OPERADOR) {
+                        case 4:
+                            return "Entr&oacute; a <b>".$pi->name."</b>";
+                            break;
+                        case 5:
+                            return "Sali&oacute; de <b>".$pi->name."</b>";
+                            break;
+                    }
+                    break;
+            }
+        } else { //sensores
+            $seAux = $this->sdMP->findSensor($regla->ID_PARAMETRO);
+            switch($seAux->TIPO_SENSOR ) {
+                case 1://binario
+                    $opAux = $this->sdMP->fetchOpSensor($seAux->ID_SENSOR, $regla->VALOR_REGLA);
+                    return $seAux->NOM_SENSOR." <b>".$opAux->SENSOR_OPCION."</b>";
+                    break;
+                case 2: //continuo
+                    switch($regla->ID_OPERADOR) {
+                        case 1:
+                            return $seAux->NOM_SENSOR." > ".$regla->VALOR_REGLA." (".$seAux->UNIDAD_SENSOR.")";
+                            break;
+                        case 2:
+                            return $seAux->NOM_SENSOR." < ".$regla->VALOR_REGLA." (".$seAux->UNIDAD_SENSOR.")";
+                            break;
+                    }
+                    break;
+            }
         }
     }
 }

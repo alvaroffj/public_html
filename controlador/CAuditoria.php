@@ -124,63 +124,19 @@ class CAuditoria {
                                 $dev[] = $d->deviceID;
                                 $license[$d->deviceID] = $d->licensePlate;
                                 $nombre[$d->deviceID] = $d->displayName;
+                                $vehicle[$d->deviceID] = $d->vehicleID;
                             }
                             $rep = $this->edMP->auditoriaByDevice($ini, $fin, $dev);
                         }
                     } else {
-                        $dev = $this->deMP->find($_POST["id_device"], array("accountID", "licensePlate", "displayName"));
+                        $dev = $this->deMP->find($_POST["id_device"], array("accountID", "licensePlate", "vehicleID","displayName"));
                         $license[$_POST["id_device"]] = $dev->licensePlate;
                         $nombre[$_POST["id_device"]] = $dev->displayName;
+                        $vehicle[$_POST["id_device"]] = $dev->vehicleID;
                         if($dev->accountID == $this->cp->getSession()->get("accountID")) {
                             $rep = $this->edMP->auditoriaByDevice($ini, $fin, array($_POST["id_device"]));
                         }
                     }
-//                    if($rep!=null) {
-//                        $ani = ($_POST["id_device"] != "0")?"<div id='local-nav'><a href='?sec=reporte&ssec=auditoria&get=mapaAni' id='aniRep'><img src='img/play.png' border=0/>Animar Reporte</a></div>":"";
-//                        $txt = "Auditor&iacute;a $ani
-//                        <table border='0' cellspacing='0' cellpadding='0' width='100%' class='tablarojo' id='reporte'>
-//                            <thead>
-//                                <tr>";
-//                        $txt .= "<th align='center' width='100'>Veh&iacute;culo</th>";
-//                        $txt .= "<th align='center' width='100'>Patente</th>";
-//                        $txt .= "<th align='center' width='150'>Fecha</th>";
-//                        $txt .= "<th align='center' width='100'>Velocidad</th>";
-//                        $txt .= "<th align='center' width='100'>Distancia</th>";
-//                        $txt .= "<th align='center'>Ubicaci&oacute;n</th>";
-//                        $txt .= "<th align='center'>Latitud</th>";
-//                        $txt .= "<th align='center'>Longitud</th>";
-//                        $txt .= "</tr>
-//                            </thead>
-//                            <tbody style='overflow:auto;'>";
-//                        $km = 0;
-//                        foreach($rep as $r) {
-//                            $km += $r->odometerKM;
-//                            $info = array(
-//                                "licensePlate"=>$license[$r->deviceID],
-//                                "displayName"=>$nombre[$r->deviceID],
-//                                "fecha"=>$r->fecha,
-//                                "velocidad"=>round($r->speedKPH),
-//                                "distancia"=>round($km, 1),
-//                                "lat"=>$r->latitude,
-//                                "lon"=>$r->longitude
-//                            );
-//
-//                            $txt .= "<tr>";
-//                            $txt .= "<td align='center'>".$nombre[$r->deviceID]."</td>";
-//                            $txt .= "<td align='center'>".$license[$r->deviceID]."</td>";
-//                            $txt .= "<td align='center'>".$r->fecha."</td>";
-//                            $txt .= "<td align='center'>".round($r->speedKPH)."</td>";
-//                            $txt .= "<td align='center'>".$km."</td>";
-//                            $txt .= "<td align='center'><span style='display:none;' class='info'>".json_encode($info)."</span><a class='pop' title='<b>Veh&iacute;culo</b>: ".$nombre[$r->deviceID]."<br /><b>Patente</b>: ".$license[$r->deviceID]."</b><br /><b>Fecha</b>:".$r->fecha."<br /><b>Velocidad</b>:".round($r->speedKPH)." (Km/h)<br /><b>Distancia</b>:".$km." (Km)' href='?sec=reporte&ssec=auditoria&get=mapa&lat=".$r->latitude."&lon=".$r->longitude."'>Ver mapa</a></td>";
-//                            $txt .= "<td align='center'>".$r->latitude."</td>";
-//                            $txt .= "<td align='center'>".$r->longitude."</td>";
-//                            $txt .= "</tr>";
-//                        }
-//
-//                        $txt .= "</tbody></table>";
-//
-//                        echo $txt;
-//                    }
                     if($rep != null) {
                         $km = 0;
                         $i = 0;
@@ -188,6 +144,8 @@ class CAuditoria {
                             $km += $r->odometerKM;
                             if($i==0) {
                                 $out[] = array(
+                                    "deviceID"=>$r->deviceID,
+                                    "vehicleID"=>$vehicle[$r->deviceID],
                                     "licensePlate"=>$license[$r->deviceID],
                                     "displayName"=>$nombre[$r->deviceID],
                                     "fecha"=>$r->fecha,
@@ -195,13 +153,16 @@ class CAuditoria {
                                     "distancia"=>round($km, 1),
                                     "latitude"=>$r->latitude,
                                     "longitude"=>$r->longitude,
-                                    "encendido"=>$r->encendido
+                                    "encendido"=>$r->encendido,
+                                    "heading"=>$r->heading
                                 );
                                 $i++;
                             } else {
 //                                echo $out[$i-1]["latitude"]." | ".$r->latitude."\n";
                                 if($out[$i-1]["latitude"] != $r->latitude && $out[$i-1]["longitude"]!=$r->longitude) {
                                     $out[] = array(
+                                        "deviceID"=>$r->deviceID,
+                                        "vehicleID"=>$vehicle[$r->deviceID],
                                         "licensePlate"=>$license[$r->deviceID],
                                         "displayName"=>$nombre[$r->deviceID],
                                         "fecha"=>$r->fecha,
@@ -209,7 +170,8 @@ class CAuditoria {
                                         "distancia"=>round($km, 1),
                                         "latitude"=>$r->latitude,
                                         "longitude"=>$r->longitude,
-                                        "encendido"=>$r->encendido
+                                        "encendido"=>$r->encendido,
+                                        "heading"=>$r->heading
                                     );
                                     $i++;
                                 }

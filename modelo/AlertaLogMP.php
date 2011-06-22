@@ -32,12 +32,12 @@ class AlertaLogMP {
     function reporte($ini, $fin=null, $device=null) {
         $device = implode(",", $device);
         if($fin != null) {
-            $sql = "SELECT AL.*, R.*, ED.latitude, ED.longitude, ED.speedKPH, A.NOM_ALERTA, from_unixtime(ED.timestamp, '%d.%m.%Y %H:%i:%s') as fecha FROM $this->_dbTable AS AL INNER JOIN EventData AS ED INNER JOIN REGLA AS R INNER JOIN ALERTA AS A
+            $sql = "SELECT AL.*, R.*, ED.latitude, ED.longitude, ED.speedKPH, ED.heading, A.NOM_ALERTA, from_unixtime(ED.timestamp, '%d.%m.%Y %H:%i:%s') as fecha FROM $this->_dbTable AS AL INNER JOIN EventData AS ED INNER JOIN REGLA AS R INNER JOIN ALERTA AS A
                     ON AL.TIMESTAMP = ED.timestamp AND R.ID_REGLA = AL.ID_REGLA
                     AND AL.TIMESTAMP BETWEEN $ini AND $fin AND AL.deviceID IN (".$device.")
                     AND A.ID_ALERTA = R.ID_ALERTA ORDER BY ED.timestamp DESC";
         } else {
-            $sql = "SELECT AL.*, R.*, ED.latitude, ED.longitude, ED.speedKPH, A.NOM_ALERTA, from_unixtime(ED.timestamp, '%d.%m.%Y %H:%i:%s') as fecha FROM $this->_dbTable AS AL INNER JOIN EventData AS ED INNER JOIN REGLA AS R INNER JOIN ALERTA AS A
+            $sql = "SELECT AL.*, R.*, ED.latitude, ED.longitude, ED.speedKPH, ED.heading, A.NOM_ALERTA, from_unixtime(ED.timestamp, '%d.%m.%Y %H:%i:%s') as fecha FROM $this->_dbTable AS AL INNER JOIN EventData AS ED INNER JOIN REGLA AS R INNER JOIN ALERTA AS A
                     ON AL.TIMESTAMP = ED.timestamp AND R.ID_REGLA = AL.ID_REGLA
                     AND AL.TIMESTAMP > $ini AND AL.deviceID IN (".$device.")
                     AND A.ID_ALERTA = R.ID_ALERTA ORDER BY ED.timestamp DESC";
