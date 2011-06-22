@@ -37,22 +37,36 @@ var dev_run = new google.maps.MarkerImage('img/car_run.png',
     new google.maps.Point(0,0),
     new google.maps.Point(16,16)
 );
-//var img = new Image();
-//img.src = "img/pin_auto.png";
 
-var angle;
-var canvas;
+function cargaSensorDev() {
+    $.ajax({
+        url: "?sec=monitoreo&get=deviceSensor",
+        type: 'get',
+        beforeSend: function() {
 
-function plotcar(angle) {
-    var cosa = Math.cos(angle);
-    var sina = Math.sin(angle);
-    canvas.clearRect(0,0,32,32);
-    canvas.save();
-    canvas.rotate(angle);
-    canvas.translate(16*sina+16*cosa,16*cosa-16*sina);
-    canvas.drawImage(img,-16,-16);
-    canvas.restore();
+        },
+        complete: function(data) {
+            devSen = $.parseJSON(data.responseText);
+            showDevices();
+            monitoreo = setInterval("showDevices()", 30000);
+        }
+    });
 }
+
+function cargaSensor() {
+    $.ajax({
+        url: "?sec=monitoreo&get=sensor",
+        type: 'get',
+        beforeSend: function() {
+
+        },
+        complete: function(data) {
+            sensor = $.parseJSON(data.responseText);
+            cargaSensorDev();
+        }
+    });
+}
+
 function initialize() {
     geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(-33.446365427932115,-70.6538918134155);
@@ -469,8 +483,7 @@ function updateActive(res) {
                     for(var i=0; i<nSenAux; i++) {
                         switch(senAux[i].TIPO_SENSOR) {
                             case "1":
-                                var enc = (res[senAux[i].COLUMNA_SENSOR]=="1")?"Encendido":"Apagado";
-                                act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+enc).show();
+                                act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+senAux[i].OPCIONES[res[senAux[i].COLUMNA_SENSOR]]).show();
                                 break;
                             case "2":
                                 act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")").show();

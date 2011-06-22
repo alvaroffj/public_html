@@ -65,6 +65,11 @@ class CMonitoreo {
                     }
                     $res = $this->sdMP->fetchByDevices($idDev);
                     foreach($res as $r) {
+                        $opAux = $this->sdMP->fetchOpSensor($r->ID_SENSOR);
+                        foreach($opAux as $o) {
+                            $op[$o->VALOR_SENSOR] = $o->SENSOR_OPCION;
+                        }
+                        $r->OPCIONES = $op;
                         $out["S".$r->DEVICEID][] = $r;
                     }
                     echo json_encode($out);

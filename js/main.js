@@ -44,35 +44,6 @@ function setReporte(n) {
     });
 }
 
-function cargaSensorDev() {
-    $.ajax({
-        url: "?sec=monitoreo&get=deviceSensor",
-        type: 'get',
-        beforeSend: function() {
-
-        },
-        complete: function(data) {
-            devSen = $.parseJSON(data.responseText);
-            showDevices();
-            monitoreo = setInterval("showDevices()", 30000);
-        }
-    });
-}
-
-function cargaSensor() {
-    $.ajax({
-        url: "?sec=monitoreo&get=sensor",
-        type: 'get',
-        beforeSend: function() {
-
-        },
-        complete: function(data) {
-            sensor = $.parseJSON(data.responseText);
-            cargaSensorDev();
-        }
-    });
-}
-
 function setSec() {
     $url = $.url();
     $sec = $url.fsegment(1);
