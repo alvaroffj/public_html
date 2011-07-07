@@ -26,7 +26,7 @@ function getAlarma(flag, hrs) {
                 aux = al[i];
                 nueva[i] = $("<li><b><a onmousedown=\"javascript:setActive('"+aux.deviceID+"'); return false\">"+aux.displayName+"</a></b> ("+aux.fecha+")<br /><span id='txt'>"+aux.txt+"</span></li>");
                 if(flag) {
-                    $.jGrowl("<b>"+aux.displayName+"</b> ("+aux.fecha+")<br /><span id='txt'>"+aux.txt+"</span>", {
+                    $.jGrowl("<b><a onmousedown=\"javascript:setActive('"+aux.deviceID+"'); return false\">"+aux.displayName+"</a></b> ("+aux.fecha+")<br /><span id='txt'>"+aux.txt+"</span>", {
                         header: 'Alarma: ',
                         life: 5000,
                         beforeClose: function(e,m) {
