@@ -401,7 +401,7 @@ function showDevices() {
 }
 
 function actualizaFila(res) {
-    console.log(res);
+//    console.log(res);
     $(".dev_"+res.deviceID).each(function() {
         var dev = $(this);
         var img = [];
@@ -431,6 +431,11 @@ function actualizaFila(res) {
                             $sen.attr("title", senAux[i].OPCIONES[res[senAux[i].COLUMNA_SENSOR]]);
                             break;
                         case "2":
+                            $sen = dev.find("#S"+senAux[i].ID_SENSOR);
+                            $sen.html(res[senAux[i].COLUMNA_SENSOR]);
+                            $sen.attr("title", res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")");
+                            break;
+                        case "3":
                             $sen = dev.find("#S"+senAux[i].ID_SENSOR);
                             $sen.html(res[senAux[i].COLUMNA_SENSOR]);
                             $sen.attr("title", res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")");
