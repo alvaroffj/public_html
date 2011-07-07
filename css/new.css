@@ -81,12 +81,12 @@ div#scroll {
     margin-left: 0;
 }
 
-#left-sidebar ul.grupo li > div#info {
+#left-sidebar ul.grupo > li > div#info {
     display: inline-block;
     float: right;
 }
 
-#left-sidebar ul.grupo li > div#info > span{
+#left-sidebar ul.grupo > li > div#info > span{
     width: 20px;
     display: inline-block;
     text-align: center;
@@ -137,6 +137,7 @@ div#scroll {
     text-align: center;
     margin-left: 1px;
     font-weight: normal;
+    color: #666666;
     vertical-align: middle;
 }
 
