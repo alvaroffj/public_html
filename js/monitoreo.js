@@ -174,11 +174,7 @@ function showPInteres(cb) {
                         });
                     }
                     if(cb) {
-                        console.log("si cb");
                         cb();
-                        console.log("fin cb");
-                    } else {
-                        console.log("no cb");
                     }
                 }
             });
