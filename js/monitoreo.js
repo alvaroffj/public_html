@@ -522,6 +522,9 @@ function updateActive(res) {
                             case "2":
                                 act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")").show();
                                 break;
+                            case "3":
+                                act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")").show();
+                                break;
                         }
                     }
                 }
