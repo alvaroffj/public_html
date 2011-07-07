@@ -520,10 +520,10 @@ function updateActive(res) {
                                 act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+senAux[i].OPCIONES[res[senAux[i].COLUMNA_SENSOR]]).show();
                                 break;
                             case "2":
-                                act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")").show();
+                                act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" <span class='uni_med'>("+senAux[i].UNIDAD_SENSOR+")</span>").show();
                                 break;
                             case "3":
-                                act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")").show();
+                                act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" <span class='uni_med'>("+senAux[i].UNIDAD_SENSOR+")</span>").show();
                                 break;
                         }
                     }
