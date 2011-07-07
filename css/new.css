@@ -84,6 +84,7 @@ div#scroll {
 #left-sidebar ul.grupo > li > div#info {
     display: inline-block;
     float: right;
+    margin-right: 5px;
 }
 
 #left-sidebar ul.grupo > li > div#info > span{
@@ -129,6 +130,7 @@ div#scroll {
 #left-sidebar ul.device li #info {
     display: inline-block;
     float: right;
+    margin-right: 5px;
 }
 
 #left-sidebar ul.device li #info > span{
