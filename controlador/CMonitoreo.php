@@ -260,13 +260,13 @@ class CMonitoreo {
                     }
                     break;
                 case 5: //punto de interes
-                    $pi = $this->piMP->find($regla->ID_POLIGONO, array("name"));
+                    $pi = $this->piMP->find($regla->ID_POLIGONO, array("id","name"));
                     switch($regla->ID_OPERADOR) {
                         case 4:
-                            return "Entr&oacute; a <b>".$pi->name."</b>";
+                            return "Entr&oacute; a <b><a onClick=\"centrarPInteres(".$pi->id."); return false;\">".$pi->name."</a></b>";
                             break;
                         case 5:
-                            return "Sali&oacute; de <b>".$pi->name."</b>";
+                            return "Sali&oacute; de <b><a onClick=\"centrarPInteres(".$pi->id."); return false;\">".$pi->name."</a></b>";
                             break;
                     }
                     break;

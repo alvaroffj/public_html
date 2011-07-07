@@ -101,7 +101,26 @@ function initialize() {
 function showGeozona() {
 }
 
-function showPInteres() {
+function centrarPInteres(id) {
+    if($btn_pint.hasClass("active")) {
+        desactivaTodos();
+        var n = punto.length;
+        var i = 0;
+        var encon = false;
+        while(i<n && !encon) {
+            console.log(id+" | "+punto[i].id);
+            if(punto[i].id == id) encon = true;
+            else i++;
+        }
+        if(encon) map.panTo(punto[i].center);
+    } else {
+        showPInteres(function() {
+            centrarPInteres(id);
+        });
+    }
+}
+
+function showPInteres(cb) {
     var i;
     if($btn_pint.hasClass("active")) {
         for(i=0; i<punto.length; i++) {
@@ -144,6 +163,7 @@ function showPInteres() {
                             fillOpacity: 0.3,
                             map: map,
                             tooltip: res[i].name,
+                            id: res[i].id,
                             type: "p_interes"
                         });
                         google.maps.event.addListener(punto[i], 'mouseover', function(e) {
@@ -152,6 +172,13 @@ function showPInteres() {
                         google.maps.event.addListener(punto[i], 'mouseout', function(e) {
                             hideToolTip();
                         });
+                    }
+                    if(cb) {
+                        console.log("si cb");
+                        cb();
+                        console.log("fin cb");
+                    } else {
+                        console.log("no cb");
                     }
                 }
             });
@@ -752,7 +779,7 @@ $(document).ready(function(){
         submitHandler: function(form) {
             var address = form.s.value;
             if (geocoder) {
-                geocoder.geocode( { 'address': address}, 
+                geocoder.geocode( {'address': address}, 
                 function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         map.setCenter(results[0].geometry.location);

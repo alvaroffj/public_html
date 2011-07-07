@@ -24,7 +24,7 @@ function getAlarma(flag, hrs) {
             if(n>0 && flag) $.titleBlink("Alarma activada!",{repeat: 10,delay: 400});
             for(i=n-1; i>=0; i--) {
                 aux = al[i];
-                nueva[i] = $("<li><b>"+aux.displayName+"</b> ("+aux.fecha+")<br /><span id='txt'>"+aux.txt+"</span></li>");
+                nueva[i] = $("<li><b><a onmousedown=\"javascript:setActive('"+aux.deviceID+"'); return false\">"+aux.displayName+"</a></b> ("+aux.fecha+")<br /><span id='txt'>"+aux.txt+"</span></li>");
                 if(flag) {
                     $.jGrowl("<b>"+aux.displayName+"</b> ("+aux.fecha+")<br /><span id='txt'>"+aux.txt+"</span>", {
                         header: 'Alarma: ',
@@ -54,7 +54,7 @@ function getAlarma(flag, hrs) {
     });
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
     $alarma = $("#alarma");
     if($alarma.length > 0) getAlarma(false, 12);
     else getAlarma(true, 0);
