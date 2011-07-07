@@ -722,7 +722,7 @@ $(document).ready(function(){
         var hijoId;
         if(grupo.parent().hasClass("grupo")) {
 //            console.log("grupo");
-            hijoId = 1;
+            hijoId = 2;
 //            grupo.find("ul.device").slideUp();
             var hijo = $(grupo.children()[hijoId]);
             var estado = $(grupo.children()[0]).children().children();
