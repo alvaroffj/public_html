@@ -401,15 +401,44 @@ function showDevices() {
 }
 
 function actualizaFila(res) {
+    console.log(res);
     $(".dev_"+res.deviceID).each(function() {
         var dev = $(this);
-        var img;
-        dev.find("#velocidad").html(Math.round(res.speedKPH*1)+" <span class='uni_med'>(Km/h)</span>");
+        var img = [];
+        img[0] = "<img src='img/sensor_off.png' width='14' alt='Apagado' title='Apagado'/>";
+        img[1] = "<img src='img/sensor_on.png' width='14' alt='Encendido' title='Encendido'/>";
+        var $vel = dev.find("#velocidad");
+        $vel.html(Math.round(res.speedKPH*1));
+        $vel.attr("title", Math.round(res.speedKPH*1)+" (Km/Hr)");
 //        if(dev.hasClass("active")) console.log("activo: "+dev);
         dev.find("#fecha").html("<b>Fecha: </b>"+res.fecha);
-        if(res.encendido == "1") img = "<img src='img/car_run.png' width='14' alt='Encendido' title='Encendido'/>";
-        else img = "<img src='img/car_stop.png' width='14' alt='Apagado' title='Apagado'/>";
-        dev.find("#estado").html(img);
+        dev.find("#estado").html(img[res.encendido]);
+        
+        if(devSen!=null) {
+            var senAux = devSen["S"+res.deviceID];
+            if(senAux) {
+                var nSenAux = senAux.length;
+                var $sen;
+                var $imgSen;
+                for(var i=0; i<nSenAux; i++) {
+                    switch(senAux[i].TIPO_SENSOR) {
+                        case "1":
+                            $sen = dev.find("#S"+senAux[i].ID_SENSOR);
+                            $imgSen = $(img[res[senAux[i].COLUMNA_SENSOR]]);
+                            $imgSen.attr("title", senAux[i].OPCIONES[res[senAux[i].COLUMNA_SENSOR]]);
+                            $imgSen.attr("alt", senAux[i].OPCIONES[res[senAux[i].COLUMNA_SENSOR]]);
+                            $sen.html($imgSen);
+                            $sen.attr("title", senAux[i].OPCIONES[res[senAux[i].COLUMNA_SENSOR]]);
+                            break;
+                        case "2":
+                            $sen = dev.find("#S"+senAux[i].ID_SENSOR);
+                            $sen.html(res[senAux[i].COLUMNA_SENSOR]);
+                            $sen.attr("title", res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")");
+                            break;
+                    }
+                }
+            }
+        }
     });
 }
 

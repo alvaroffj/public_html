@@ -80,6 +80,21 @@ div#scroll {
 #left-sidebar ul.grupo {
     margin-left: 0;
 }
+
+#left-sidebar ul.grupo li > div#info {
+    display: inline-block;
+    float: right;
+}
+
+#left-sidebar ul.grupo li > div#info > span{
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+    margin-left: 1px;
+    font-weight: bold;
+    color: #666666;
+}
+
 #left-sidebar ul.grupo li{
 /*    border: 1px solid #ccc;*/
     padding: 5px;
@@ -112,12 +127,17 @@ div#scroll {
 }
 
 #left-sidebar ul.device li #info {
-/*    position: absolute;*/
-/*    right: 5px;*/
-/*    bottom: 5px;*/
     display: inline-block;
     float: right;
-/*    padding: 2px;*/
+}
+
+#left-sidebar ul.device li #info > span{
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+    margin-left: 1px;
+    font-weight: normal;
+    vertical-align: middle;
 }
 
 #left-sidebar ul.device li span#estado {

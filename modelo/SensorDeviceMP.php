@@ -58,7 +58,7 @@ class SensorDeviceMP {
     function fetchByAccount($idCuenta) {
         $idCuenta = $this->_bd->limpia($idCuenta);
         
-        $sql = "SELECT SA.*, S.NOM_SENSOR, S.TIPO_SENSOR 
+        $sql = "SELECT SA.*, S.NOM_SENSOR, S.TIPO_SENSOR, S.ABR_SENSOR 
                 FROM SENSOR_ACCOUNT AS SA
                     INNER JOIN SENSOR AS S 
                 ON 

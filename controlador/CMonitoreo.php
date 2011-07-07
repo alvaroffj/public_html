@@ -194,7 +194,21 @@ class CMonitoreo {
                 } else {
                     $this->grupos = $this->dgMP->fetchUserGrupo($this->cp->getSession()->get("userID"));
                 }
+                
+//                if($this->cp->isAdmin() || $this->cp->isSuperAdmin()) {
+//                    $dev = $this->deMP->fetchByCuenta($this->cp->getSession()->get("accountID"), null, array("deviceID", "displayName"));
+//                } else {
+//                    $dev = $this->deMP->fetchByUser($this->cp->getSession()->get("userID"));
+//                }
+//                foreach($dev as $d) {
+//                    $idDev[] = $d->deviceID;
+//                }
+//                $res = $this->sdMP->fetchByDevices($idDev);
+//                foreach($res as $r) {
+//                    $this->devSen[$r->DEVICEID][$r->ID_SENSOR] = 1;
+//                }
                 $this->sensor = $this->sdMP->fetchByAccount($this->cp->getSession()->get("accountID"));
+                unset($this->sensor[0]);
                 break;
         }
     }

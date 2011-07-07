@@ -34,6 +34,12 @@ function getAlarma(flag, hrs) {
                             if($alarma.length > 0) {
                                 msg.prependTo($alarma).hide().slideDown().fadeIn();
                             }
+                        },
+                        close:  function(e,m) {
+                            var msg = $("<li>"+m+"</li>");
+                            if($alarma.length > 0) {
+                                msg.prependTo($alarma).hide().slideDown().fadeIn();
+                            }
                         }
                     });
                 } else {

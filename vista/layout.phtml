@@ -125,12 +125,30 @@
                         <div id="scroll">
                         <ul class="grupo">
                             <? foreach($cp->getCSec()->grupos as $g) { ?>
-                                <li><a href="#"><span id="estado"><img src="img/collapse.png" border="0" /></span> <?=$g->displayName?></a><ul class="device">
-                                <? $dev = $cp->getCSec()->getDeviceByGrupo($g->groupID) ?>
-                                <? foreach($dev as $d) { ?>
-                                        <li class="dev_<?=$d->deviceID?>"><a onmousedown="javascript:setActive('<?=$d->deviceID?>'); return false"><?=$d->displayName?></a><span id="estado"></span><div id="info"><span id="velocidad">0 (Km/h)</span></div><div class="clear"></div></li>
-                                <? } ?>
-                                </ul></li>
+                                <li><a href="#"><span id="estado"><img src="img/collapse.png" border="0" /> </span><?=$g->displayName?></a>
+                                    <div id="info">
+                                        <? foreach($cp->getCSec()->sensor as $s) { ?>
+                                        <span title="<?=$s->NOM_SENSOR?>"><?=$s->ABR_SENSOR?></span>
+                                        <? } ?>
+                                        <span title="Velocidad">Vel</span>
+                                    </div>
+                                    <ul class="device">
+                                        <? $dev = $cp->getCSec()->getDeviceByGrupo($g->groupID) ?>
+                                        <? foreach($dev as $d) { ?>
+                                            <li class="dev_<?=$d->deviceID?>"><a onmousedown="javascript:setActive('<?=$d->deviceID?>'); return false"><?=$d->displayName?></a><span id="estado"></span>
+                                                <div id="info">
+                                                    <? foreach($cp->getCSec()->sensor as $s) { ?>
+                                                    <span id="S<?=$s->ID_SENSOR?>">
+                                                        <img src='img/no_sensor.png' width='14' alt='No disponible' title='No instalado'/>
+                                                    </span>
+                                                    <? } ?>
+                                                    <span id="velocidad">0</span>
+                                                </div>
+                                                <div class="clear"></div>
+                                            </li>
+                                        <? } ?>
+                                    </ul>
+                                </li>
                             <? } ?>
                         </ul>
                         </div>
