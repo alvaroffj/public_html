@@ -38,7 +38,7 @@ function getAlarma(flag, hrs) {
                 if(flag) {
                     $.jGrowl("<b><a onmousedown=\"javascript:setActive('"+aux.deviceID+"'); return false\">"+aux.displayName+"</a></b> ("+aux.fecha+")<br /><span id='txt'>"+aux.txt+"</span>", {
                         header: 'Alarma: ',
-                        life: 1000,
+                        life: 3000,
                         sticky: (gravedad=="0")?true:false,
                         close:  function(e,m) {
                             var msg = $("<li>"+m+"</li>");
