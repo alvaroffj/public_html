@@ -182,38 +182,6 @@ function showPInteres(cb) {
     }
 }
 
-//function ProjectionHelperOverlay(map) {
-////    google.maps.OverlayView.call(this);
-//    this.setMap(map);
-//  }
-//ProjectionHelperOverlay.prototype = new google.maps.OverlayView();
-//ProjectionHelperOverlay.prototype.draw = function () {
-//    if (!this.ready) {
-//      this.ready = true;
-//      google.maps.event.trigger(this, 'ready');
-//    }
-//};
-
-//function showToolTip(e) {
-//    ov = new ProjectionHelperOverlay(map);
-//    google.maps.event.addListener(ov, 'ready', function() {
-//        var pro = ov.getProjection();
-//        var centro = e.getCenter();
-//        var pto = pro.fromLatLngToDivPixel(centro);
-//        console.log(pto);
-//        tooltip.html("<p>"+e.title+"</p>");
-//        var w = tooltip.width();
-//        var x = pto.x - w/2;
-//        var h = tooltip.height();
-//        var y = pto.y - 4*h;
-//        tooltip.css({
-//           top: y+"px",
-//           left: x+"px"
-//        });
-//        tooltip.fadeIn();
-//    });
-//}
-
 function showToolTip(e) {
 //    tooltip.stop();
 //    console.log(e);
@@ -444,7 +412,7 @@ function actualizaFila(res) {
                 var $sen;
                 var $imgSen;
                 for(var i=0; i<nSenAux; i++) {
-                    switch(senAux[i].TIPO_SENSOR) {
+                    switch(senAux[i].TIPO_PROCESO_SENSOR) {
                         case "1":
                             $sen = dev.find("#S"+senAux[i].ID_SENSOR);
                             $imgSen = $(img[res[senAux[i].COLUMNA_SENSOR]]);
@@ -538,7 +506,7 @@ function updateActive(res) {
                 if(senAux) {
                     nSenAux = senAux.length;
                     for(var i=0; i<nSenAux; i++) {
-                        switch(senAux[i].TIPO_SENSOR) {
+                        switch(senAux[i].TIPO_PROCESO_SENSOR) {
                             case "1":
                                 act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+senAux[i].OPCIONES[res[senAux[i].COLUMNA_SENSOR]]).show();
                                 break;
@@ -744,25 +712,23 @@ $(document).ready(function(){
         var grupo = $(e.target).parent();
         var hijoId;
         if(grupo.parent().hasClass("grupo")) {
-//            console.log("grupo");
             hijoId = 2;
-//            grupo.find("ul.device").slideUp();
+            var sen = $(grupo.children()[1]);
             var hijo = $(grupo.children()[hijoId]);
             var estado = $(grupo.children()[0]).children().children();
-//            console.log(estado);
             if(hijo.hasClass("oculto")) {
                 grupo.addClass("active");
                 estado.attr("src", "img/collapse.png");
                 hijo.removeClass("oculto");
                 hijo.slideDown();
+                sen.fadeIn();
             } else {
                 grupo.removeClass("active");
                 estado.attr("src", "img/expand.png");
-//                $(grupo.children()[0]).html("[ + ]");
                 hijo.addClass("oculto");
                 hijo.slideUp();
+                sen.fadeOut();
             }
-//        }
         }
     });
 

@@ -7,10 +7,11 @@ function desactivaMenor(sel) {
     console.log(dest);
     var op = $("#"+dest).children();
     var n = op.length;
-    for(var i=0; i<n; i++) {
+    var i;
+    for(i=0; i<n; i++) {
         op[i].disabled = false;
     }
-    for(var i=0; i<hora; i++) {
+    for(i=0; i<hora; i++) {
         op[i].disabled = true;
     }
 }
@@ -83,10 +84,16 @@ function setNext(sel) {
                     type: "get",
                     complete: function(data) {
                         var res = $.parseJSON(data.responseText);
-                        if(res.TIPO_SENSOR == 1) {
-                            ope = Array(Array("7", "Esta"));
-                        } else {
-                            ope = Array(Array("1", "Mayor a"), Array("2", "Menor a"));
+                        switch(res.TIPO_PROCESO_SENSOR) {
+                            case 1:
+                                ope = Array(Array("7", "Esta"));
+                                break;
+                            case 2:
+                                ope = Array(Array("1", "Mayor a"), Array("2", "Menor a"));
+                                break;
+                            case 3:
+                                ope = Array(Array("1", "Mayor a"), Array("2", "Menor a"));
+                                break;
                         }
                         setSelect("Operador", ope, null);
                     }
@@ -139,7 +146,7 @@ function setValor(sel) {
             complete: function(data) {
                 var res = $.parseJSON(data.responseText);
                 console.log(res);
-                if(res.TIPO_SENSOR == 1) {
+                if(res.TIPO_PROCESO_SENSOR == 1) {
                     ope = Array(Array("7", "Esta"));
                     $.ajax({
                         url: "?sec=configuracion&ssec=alarma&get=sensorOp&id="+valAct,

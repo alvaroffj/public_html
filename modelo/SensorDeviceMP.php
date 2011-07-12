@@ -36,7 +36,7 @@ class SensorDeviceMP {
     function fetchByDevices($dev) {
         $dev = implode(",",$dev);
         
-        $sql = "SELECT SD.DEVICEID, SD.ID_SENSOR, SD.COLUMNA_SENSOR, S.NOM_SENSOR, S.TIPO_SENSOR, S.UNIDAD_SENSOR 
+        $sql = "SELECT SD.DEVICEID, SD.ID_SENSOR, SD.COLUMNA_SENSOR, S.NOM_SENSOR, S.TIPO_SENSOR, S.UNIDAD_SENSOR, S.TIPO_PROCESO_SENSOR, S.IN_TABLA, S.IN_DETALLE 
                 FROM $this->_dbTable AS SD 
                     INNER JOIN SENSOR_ACCOUNT AS SA
                     INNER JOIN SENSOR AS S 
@@ -58,7 +58,7 @@ class SensorDeviceMP {
     function fetchByAccount($idCuenta) {
         $idCuenta = $this->_bd->limpia($idCuenta);
         
-        $sql = "SELECT SA.*, S.NOM_SENSOR, S.TIPO_SENSOR, S.ABR_SENSOR 
+        $sql = "SELECT SA.*, S.NOM_SENSOR, S.TIPO_SENSOR, S.ABR_SENSOR, S.IN_TABLA, S.IN_DETALLE  
                 FROM SENSOR_ACCOUNT AS SA
                     INNER JOIN SENSOR AS S 
                 ON 

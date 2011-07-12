@@ -184,7 +184,7 @@ if(isset($_GET["e"])) {
                         if($a->ID_TIPO_REGLA!=4) {
                             echo $a->NOM_PARAMETRO; 
                         } else {
-                            $sensor = $cp->getCSec()->getCSec()->getSensor($a->ID_PARAMETRO, array("NOM_SENSOR", "UNIDAD_SENSOR", "TIPO_SENSOR"));
+                            $sensor = $cp->getCSec()->getCSec()->getSensor($a->ID_PARAMETRO, array("NOM_SENSOR", "UNIDAD_SENSOR", "TIPO_SENSOR", "TIPO_PROCESO_SENSOR"));
                             echo $sensor->NOM_SENSOR;
                         }
                     ?>
@@ -217,11 +217,17 @@ if(isset($_GET["e"])) {
                                     break;
                             }
                         } else {
-                            if($sensor->TIPO_SENSOR == 1) {
-                                $opcion = $cp->getCSec()->getCSec()->getOpSensor($a->ID_PARAMETRO, $a->VALOR_REGLA);
-                                echo $opcion->SENSOR_OPCION;
-                            } else {
-                                echo $a->VALOR_REGLA." (".$sensor->UNIDAD_SENSOR.")";
+                            switch($sensor->TIPO_PROCESO_SENSOR*1) {
+                                case 1:
+                                    $opcion = $cp->getCSec()->getCSec()->getOpSensor($a->ID_PARAMETRO, $a->VALOR_REGLA);
+                                    echo $opcion->SENSOR_OPCION;
+                                    break;
+                                case 2:
+                                    echo $a->VALOR_REGLA." (".$sensor->UNIDAD_SENSOR.")";
+                                    break;
+                                case 3:
+                                    echo $a->VALOR_REGLA." (".$sensor->UNIDAD_SENSOR.")";
+                                    break;
                             }
                         }
                         ?></td>

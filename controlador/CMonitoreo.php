@@ -208,7 +208,7 @@ class CMonitoreo {
 //                    $this->devSen[$r->DEVICEID][$r->ID_SENSOR] = 1;
 //                }
                 $this->sensor = $this->sdMP->fetchByAccount($this->cp->getSession()->get("accountID"));
-                unset($this->sensor[0]);
+//                unset($this->sensor[0]);
                 break;
         }
     }
@@ -273,12 +273,22 @@ class CMonitoreo {
             }
         } else { //sensores
             $seAux = $this->sdMP->findSensor($regla->ID_PARAMETRO);
-            switch($seAux->TIPO_SENSOR ) {
+            switch($seAux->TIPO_PROCESO_SENSOR ) {
                 case 1://binario
                     $opAux = $this->sdMP->fetchOpSensor($seAux->ID_SENSOR, $regla->VALOR_REGLA);
                     return $seAux->NOM_SENSOR." <b>".$opAux->SENSOR_OPCION."</b>";
                     break;
                 case 2: //continuo
+                    switch($regla->ID_OPERADOR) {
+                        case 1:
+                            return $seAux->NOM_SENSOR." > ".$regla->VALOR_REGLA." (".$seAux->UNIDAD_SENSOR.")";
+                            break;
+                        case 2:
+                            return $seAux->NOM_SENSOR." < ".$regla->VALOR_REGLA." (".$seAux->UNIDAD_SENSOR.")";
+                            break;
+                    }
+                    break;
+                case 3: //continuo
                     switch($regla->ID_OPERADOR) {
                         case 1:
                             return $seAux->NOM_SENSOR." > ".$regla->VALOR_REGLA." (".$seAux->UNIDAD_SENSOR.")";

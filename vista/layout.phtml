@@ -28,6 +28,7 @@
         <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
         <script type="text/javascript" src="js/jquery.infieldlabel.min.js"></script>
         <script type="text/javascript" src="js/highcharts.js"></script>
+        <script type="text/javascript" src="/js/jquery.jplayer.min.js"></script>
         <script src="js/mon_alarma.js" type="text/javascript"></script>
         <script src="js/main.js" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="css/reset.css" />
@@ -49,6 +50,7 @@
         </script>
     </head>
     <body>
+        <div id="alarmaSound"></div>
         <div id="page-wrap">
             <div id="inside">
                 <div id="header">
@@ -128,7 +130,9 @@
                                 <li><a href="#"><span id="estado"><img src="img/collapse.png" border="0" /> </span><?=$g->displayName?></a>
                                     <div id="info">
                                         <? foreach($cp->getCSec()->sensor as $s) { ?>
+                                        <? if($s->IN_TABLA == 1) { ?>
                                         <span title="<?=$s->NOM_SENSOR?>"><?=$s->ABR_SENSOR?></span>
+                                        <? } ?>
                                         <? } ?>
                                         <span title="Velocidad">Vel</span>
                                     </div>
@@ -138,9 +142,11 @@
                                             <li class="dev_<?=$d->deviceID?>"><a onmousedown="javascript:setActive('<?=$d->deviceID?>'); return false"><?=$d->displayName?></a><span id="estado"></span>
                                                 <div id="info">
                                                     <? foreach($cp->getCSec()->sensor as $s) { ?>
+                                                    <? if($s->IN_TABLA == 1) { ?>
                                                     <span id="S<?=$s->ID_SENSOR?>">
                                                         <img src='img/no_sensor.png' width='14' alt='No disponible' title='No instalado'/>
                                                     </span>
+                                                    <? } ?>
                                                     <? } ?>
                                                     <span id="velocidad">0</span>
                                                 </div>
@@ -152,14 +158,16 @@
                             <? } ?>
                         </ul>
                         </div>
-                        <div id="active_dev" style="display:none;">
+                        <div id="active_dev" style="display:none;" class="nivel_10">
                             <ul>
                                 <li id="titulo"></li>
                                 <li id="conductor"></li>
                                 <li id="patente"></li>
                                 <li id="velocidad"></li>
                                 <? foreach($cp->getCSec()->sensor as $s) { ?>
+                                <? if($s->IN_DETALLE == 1) { ?>
                                 <li id="S<?=$s->ID_SENSOR?>"></li>
+                                <? } ?>
                                 <? } ?>
                                 <li id="direccion"></li>
                                 <li id="fecha"></li>
