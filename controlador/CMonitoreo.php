@@ -24,7 +24,7 @@ class CMonitoreo {
     function __construct($cp) {
         $this->cp = $cp;
         $this->deMP = new DeviceMP();
-//        $this->dgMP = new DeviceGroupMP();
+        $this->dgMP = new DeviceGroupMP();
 //        $this->edMP = new EventDataMP();
 //        $this->piMP = new PInteresMP();
 //        $this->diMP = new DireccionMP();
