@@ -179,9 +179,9 @@ class CAlarma {
                     break;
                 case 'addRegla':
                     if (count($_POST) > 0) {
-//                        echo "<pre>";
-//                        print_r($_POST);
-//                        echo "</pre>";
+                        echo "<pre>";
+                        print_r($_POST);
+                        echo "</pre>";
                         if($_POST["Tipo"]!=4) {
                             switch($_POST["Parametro"]) {
                                 case "3": //geozona
@@ -209,7 +209,7 @@ class CAlarma {
                                     $pol = -1;
                                     break;
                             }
-                        } else { //en caso que el tipo sea != 4, entonces es un sensor y el parametro es el id del sensor
+                        } else { //en caso que el tipo sea == 4, entonces es un sensor y el parametro es el id del sensor
                             $pol = -1;
                         }
                         if($pol == -1) {

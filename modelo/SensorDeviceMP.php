@@ -101,7 +101,7 @@ class SensorDeviceMP {
         } else {
             $sql = "SELECT * FROM SENSOR_OPCION WHERE ID_SENSOR_OPCION = ".$idOp;
         }
-        
+//        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         $arr = array();
         $i = 0;

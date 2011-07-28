@@ -35,7 +35,7 @@ class DeviceMP {
                 }
             }
         }
-
+        
         if($idAlerta != null)
             $sql = "SELECT $sAttr FROM $this->_dbTable WHERE accountID = $idCuenta AND deviceID NOT IN (SELECT deviceID AS deviceID FROM ALERTA_DEVICE WHERE ID_ALERTA = $idAlerta)";
         else

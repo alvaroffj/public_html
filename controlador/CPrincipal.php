@@ -14,7 +14,10 @@ class CPrincipal {
     public $usuario;
 
     function __construct() {
+//        echo "CPrincipal<br>";
         $this->ss = new session();
+//        $this->showLayout = false;
+//        $this->thisLayout = false;
 
         if ($this->checkLogin()) {
             $this->setSec();
@@ -69,7 +72,7 @@ class CPrincipal {
                 $this->_CSec = new CLog($this);
                 break;
             case 'monitoreo':
-                include_once 'CMonitoreo.php';
+                require_once 'CMonitoreo.php';
                 $this->_CSec = new CMonitoreo($this);
                 break;
             case 'configuracion':

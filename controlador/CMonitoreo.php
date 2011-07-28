@@ -208,6 +208,9 @@ class CMonitoreo {
 //                    $this->devSen[$r->DEVICEID][$r->ID_SENSOR] = 1;
 //                }
                 $this->sensor = $this->sdMP->fetchByAccount($this->cp->getSession()->get("accountID"));
+//                echo "<pre>";
+//                print_r($this->sensor);
+//                echo "</pre>";
 //                unset($this->sensor[0]);
                 break;
         }

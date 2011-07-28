@@ -25,13 +25,41 @@ class ReglaMP {
 
     public function fetchByAlertaFull($idAlerta) {
         $idAlerta = $this->_bd->limpia($idAlerta);
-        $sql = "SELECT * FROM REGLA AS R INNER JOIN TIPO_REGLA AS TR INNER JOIN OPERADOR AS O INNER JOIN PARAMETRO AS P ON R.ID_ALERTA = $idAlerta AND R.ID_TIPO_REGLA = TR.ID_TIPO_REGLA AND R.ID_OPERADOR = O.ID_OPERADOR AND R.ID_PARAMETRO = P.ID_PARAMETRO AND R.ESTADO_REGLA = 1";
+        $sql = "SELECT * FROM REGLA AS R 
+                    INNER JOIN TIPO_REGLA AS TR 
+                    INNER JOIN OPERADOR AS O 
+                    INNER JOIN PARAMETRO AS P 
+                ON 
+                    R.ID_ALERTA = $idAlerta 
+                    AND R.ID_TIPO_REGLA = TR.ID_TIPO_REGLA 
+                    AND R.ID_OPERADOR = O.ID_OPERADOR 
+                    AND R.ID_PARAMETRO = P.ID_PARAMETRO 
+                    AND R.ESTADO_REGLA = 1
+                    AND R.ID_TIPO_REGLA <> 4";
 //        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         $arr = array();
         while($row = mysql_fetch_object($res)) {
             $arr[] = $row;
         }
+        
+        $sql = "SELECT * FROM REGLA AS R 
+                    INNER JOIN TIPO_REGLA AS TR 
+                    INNER JOIN OPERADOR AS O 
+                    INNER JOIN SENSOR AS S 
+                ON 
+                    R.ID_ALERTA = $idAlerta 
+                    AND R.ID_TIPO_REGLA = TR.ID_TIPO_REGLA 
+                    AND R.ID_OPERADOR = O.ID_OPERADOR 
+                    AND R.ID_PARAMETRO = S.ID_SENSOR 
+                    AND R.ESTADO_REGLA = 1
+                    AND R.ID_TIPO_REGLA = 4";
+        
+        $res = $this->_bd->sql($sql);
+        while($row = mysql_fetch_object($res)) {
+            $arr[] = $row;
+        }
+        
         return $arr;
     }
 

@@ -98,6 +98,7 @@ class CLog {
                 $this->layout = "vista/login_recuperar.phtml";
                 break;
             default:
+                echo "default<br>";
                 break;
         }
     }
