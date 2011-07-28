@@ -61,9 +61,6 @@ class CLog {
 
     function checkLogin() {
         $this->login = $this->usuMP->validaCuenta($_POST["emp"], $_POST["user"], $_POST["pass"]);
-        echo "<pre>";
-        print_r($this->login);
-        echo "</pre>";
         if($this->login != null) {
             $this->cp->getSession()->set("account", $this->login->accountName);
             $this->cp->getSession()->set("accountID", $this->login->accountID);
@@ -71,9 +68,9 @@ class CLog {
             $this->cp->getSession()->set("userName", $this->login->userName);
             $this->cp->getSession()->set("userID", $this->login->userID);
             $this->cp->getSession()->set("roleID", $this->login->roleID);
-//            $this->cp->getSession()->salto("?sec=monitoreo");
+            $this->cp->getSession()->salto("?sec=monitoreo");
         } else {
-//            $this->cp->getSession()->salto("?&e=1");
+            $this->cp->getSession()->salto("?&e=1");
         }
     }
 
@@ -101,7 +98,7 @@ class CLog {
                 $this->layout = "vista/login_recuperar.phtml";
                 break;
             default:
-                echo "default<br>";
+//                echo "default<br>";
                 break;
         }
     }
