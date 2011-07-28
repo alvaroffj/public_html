@@ -24,16 +24,16 @@ class CMonitoreo {
     function __construct($cp) {
         $this->cp = $cp;
         $this->deMP = new DeviceMP();
-        $this->dgMP = new DeviceGroupMP();
-        $this->edMP = new EventDataMP();
-        $this->piMP = new PInteresMP();
-        $this->diMP = new DireccionMP();
-        $this->alMP = new AlertaLogMP();
-        $this->poMP = new PoligonoMP();
-        $this->veMP = new VehicleMP();
-        $this->sdMP = new SensorDeviceMP();
-        $this->setGet();
-        $this->setOp();
+//        $this->dgMP = new DeviceGroupMP();
+//        $this->edMP = new EventDataMP();
+//        $this->piMP = new PInteresMP();
+//        $this->diMP = new DireccionMP();
+//        $this->alMP = new AlertaLogMP();
+//        $this->poMP = new PoligonoMP();
+//        $this->veMP = new VehicleMP();
+//        $this->sdMP = new SensorDeviceMP();
+//        $this->setGet();
+//        $this->setOp();
     }
 
     function getLayout() {
