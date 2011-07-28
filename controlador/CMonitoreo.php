@@ -27,7 +27,7 @@ class CMonitoreo {
         $this->dgMP = new DeviceGroupMP();
         $this->edMP = new EventDataMP();
         $this->piMP = new PInteresMP();
-        $this->diMP = new DireccionMP();
+//        $this->diMP = new DireccionMP();
 //        $this->alMP = new AlertaLogMP();
 //        $this->poMP = new PoligonoMP();
 //        $this->veMP = new VehicleMP();
