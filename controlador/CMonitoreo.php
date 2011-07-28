@@ -30,7 +30,7 @@ class CMonitoreo {
         $this->diMP = new DireccionMP();
         $this->alMP = new AlertaLogMP();
         $this->poMP = new PoligonoMP();
-        $this->veMP = new VehicleMP();
+//        $this->veMP = new VehicleMP();
 //        $this->sdMP = new SensorDeviceMP();
 //        $this->setGet();
 //        $this->setOp();
