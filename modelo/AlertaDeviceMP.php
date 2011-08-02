@@ -38,7 +38,9 @@ class AlertaDeviceMP {
     function save($idDev, $idAl) {
         $idDev = $this->_bd->limpia($idDev);
         $idAl = $this->_bd->limpia($idAl);
-
+        echo "<pre>";
+        print_r($this->_bd);
+        echo "</pre>";
         $sql = "SELECT ID_ALERTA_DEVICE FROM ALERTA_DEVICE WHERE ID_ALERTA = $idAl AND deviceID = $idDev";
         echo $sql."<br>";
         $res = $this->_bd->sql($sql);
