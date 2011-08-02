@@ -179,9 +179,9 @@ class CAlarma {
                     break;
                 case 'addRegla':
                     if (count($_POST) > 0) {
-                        echo "<pre>";
-                        print_r($_POST);
-                        echo "</pre>";
+//                        echo "<pre>";
+//                        print_r($_POST);
+//                        echo "</pre>";
                         if($_POST["Tipo"]!=4) {
                             switch($_POST["Parametro"]) {
                                 case "3": //geozona
