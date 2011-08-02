@@ -68,7 +68,7 @@ class AlertaDeviceMP {
     
     function delete($id) {
         $id = $this->_bd->limpia($id);
-        $sql = "DELETE FROM $this->_dbTable WHERE $this->_id = $id";
+        $sql = "DELETE $this->_dbTable WHERE $this->_id = $id";
         return $this->_bd->sql($sql);
     }
 }
