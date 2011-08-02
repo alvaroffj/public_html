@@ -46,6 +46,10 @@ class AlertaDeviceMP {
         $res = $this->_bd->sql($sql);
         $n = mysql_num_rows($res);
         echo "n: ".$n."<br>";
+        $row = mysql_fetch_object($res);
+        echo "<pre>";
+        print_r($row);
+        echo "</pre>";
         if($n == 0) {
             $sql = "INSERT INTO ALERTA_DEVICE (ID_ALERTA, deviceID) VALUES ($idAl, $idDev)";
             echo $sql."<br>";
