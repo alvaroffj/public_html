@@ -40,10 +40,12 @@ class AlertaDeviceMP {
         $idAl = $this->_bd->limpia($idAl);
 
         $sql = "SELECT ID_ALERTA_DEVICE FROM ALERTA_DEVICE WHERE ID_ALERTA = $idAl AND deviceID = $idDev";
+        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         $n = mysql_num_rows($res);
         if($n == 0) {
             $sql = "INSERT INTO ALERTA_DEVICE (ID_ALERTA, deviceID) VALUES ($idAl, $idDev)";
+            echo $sql."<br>";
             return $this->_bd->sql($sql);
         } else return true;
     }
