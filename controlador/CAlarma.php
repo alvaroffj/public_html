@@ -275,7 +275,7 @@ class CAlarma {
                         $al = $this->alMP->find($_GET["id_alerta"], $attr);
                         if($this->cp->getSession()->get("accountID") == $de->accountID) {
                             if($this->cp->getSession()->get("accountID") == $al->accountID) {
-                                $this->adMP->desactiva($_GET["id_device"]);
+                                $this->adMP->delete($_GET["id_device"]);
                             }
                         }
                         $this->cp->getSession()->salto("?sec=configuracion&ssec=alarma&op=mod&id=".$_GET["id_alerta"]);
