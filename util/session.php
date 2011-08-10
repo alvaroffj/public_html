@@ -31,6 +31,7 @@ class session {
     }
 
     function salto($n) {
+//        echo "salto: ".$n."<br>";
         header("Location:$n");
         die();
     }

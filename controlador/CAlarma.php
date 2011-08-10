@@ -15,7 +15,6 @@ require_once 'modelo/PInteresMP.php';
 require_once 'modelo/SensorDeviceMP.php';
 
 class CAlarma {
-
     public $layout;
     public $op;
     protected $alMP;
@@ -325,7 +324,5 @@ class CAlarma {
             $this->alertas = $this->alMP->fetchByCuenta($this->cp->getSession()->get("accountID"));
         }
     }
-
 }
-
 ?>

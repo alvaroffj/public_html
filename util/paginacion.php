@@ -82,7 +82,5 @@ class paginacion {
 
         return $paghtml;
     }
-
 }
-
 ?>
