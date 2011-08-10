@@ -38,37 +38,38 @@ class AlertaDeviceMP {
     function save($idDev, $idAl) {
         $idDev = $this->_bd->limpia($idDev);
         $idAl = $this->_bd->limpia($idAl);
-        echo "<pre>";
-        print_r($this->_bd);
-        echo "</pre>";
+//        echo "<pre>";
+//        print_r($this->_bd);
+//        echo "</pre>";
         $sql = "SELECT ID_ALERTA_DEVICE FROM ALERTA_DEVICE WHERE ID_ALERTA = $idAl AND deviceID = $idDev";
-        echo $sql."<br>";
+//        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         $n = mysql_num_rows($res);
-        echo "n: ".$n."<br>";
+//        echo "n: ".$n."<br>";
         $row = mysql_fetch_object($res);
-        echo "<pre>";
-        print_r($row);
-        echo "</pre>";
+//        echo "<pre>";
+//        print_r($row);
+//        echo "</pre>";
         if($n == 0) {
             $sql = "INSERT INTO ALERTA_DEVICE (ID_ALERTA, deviceID) VALUES ($idAl, $idDev)";
-            echo $sql."<br>";
+//            echo $sql."<br>";
             return $this->_bd->sql($sql);
         } else return true;
     }
 
     function desactiva($id) {
-        echo "desactiva<br>";
+//        echo "desactiva<br>";
         $now = Time("U");
         $id = $this->_bd->limpia($id);
         $sql = "UPDATE $this->_dbTable SET ESTADO_ALERTA_DEVICE = 0, LastUpdateTime = '$now' WHERE $this->_id = $id";
-        echo $sql."<br>";
+//        echo $sql."<br>";
         return $this->_bd->sql($sql);
     }
     
     function delete($id) {
         $id = $this->_bd->limpia($id);
         $sql = "DELETE $this->_dbTable WHERE $this->_id = $id";
+        echo $sql."<br>";
         return $this->_bd->sql($sql);
     }
 }
