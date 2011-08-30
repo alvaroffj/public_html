@@ -269,6 +269,7 @@ $(document).ready(function() {
                         reset();
                         if(reportes[reporteSel].isJSON) {
                             $reporte.height($(window).height()-100-$filtros.height());
+                            console.log(data.responseText);
                             var reporte = $.parseJSON(data.responseText);
                             showReporteJSON(reporte);
                         } else {

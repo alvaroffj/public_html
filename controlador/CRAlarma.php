@@ -5,6 +5,8 @@ require_once 'modelo/EventDataMP.php';
 require_once 'modelo/AlertaLogMP.php';
 require_once 'modelo/PoligonoMP.php';
 require_once 'modelo/PInteresMP.php';
+require_once 'modelo/SensorDeviceMP.php';
+require_once 'modelo/SensorMP.php';
 
 class CRAlarma {
     protected $cp;
@@ -22,6 +24,8 @@ class CRAlarma {
         $this->alMP = new AlertaLogMP();
         $this->poMP = new PoligonoMP();
         $this->piMP = new PInteresMP();
+        $this->sdMP = new SensorDeviceMP();
+        $this->seMP = new SensorMP();
         $this->setGet();
         $this->setOp();
     }
@@ -153,9 +157,11 @@ class CRAlarma {
                                 $vehicle[$d->deviceID] = $d->vehicleID;
                             }
                             $rep = $this->alMP->reporte($ini, $fin, $dev);
+                            $this->sensor = $this->sdMP->fetchByDevices($dev);
                         }
                     } else {
                         $dev = $this->deMP->find($_POST["id_device"], array("accountID", "licensePlate", "vehicleID","displayName"));
+                        $this->sensor = $this->sdMP->fetchByDevice($_POST["id_device"], $dev->accountID);
                         $license[$_POST["id_device"]] = $dev->licensePlate;
                         $nombre[$_POST["id_device"]] = $dev->displayName;
                         $vehicle[$_POST["id_device"]] = $dev->vehicleID;
@@ -163,38 +169,7 @@ class CRAlarma {
                             $rep = $this->alMP->reporte($ini, $fin, array($_POST["id_device"]));
                         }
                     }
-//                    if($rep!=null) {
-//                        $txt = "<h2>Reporte</h2>
-//                        <table border='0' cellspacing='0' cellpadding='0' width='100%' class='tablarojo' id='reporte'>
-//                            <thead>
-//                                <tr>
-//                                    <th align='center' width='100'>Veh&iacute;culo</th>
-//                                    <th align='center' width='100'>Patente</th>
-//                                    <th align='center' width='150'>Fecha</th>
-//                                    <th align='center' width='100'>Alarma</th>
-//                                    <th align='center'>Regla</th>
-//                                    <th align='center'>Ubicaci&oacute;n</th>
-//                                </tr>
-//                            </thead>
-//                            <tbody>";
-//
-//                        foreach($rep as $r) {
-//                            $til = $this->traduceRegla($r);
-//                            $txt .= "<tr>";
-//                            $txt .= "<td align='center'>".$nombre[$r->deviceID]."</td>";
-//                            $txt .= "<td align='center'>".$license[$r->deviceID]."</td>";
-//                            $txt .= "<td align='center'>".$r->fecha."</td>";
-//                            $txt .= "<td align='center'>".$r->NOM_ALERTA."</td>";
-//                            $txt .= "<td align='center'>".$til."</td>";
-////                            $txt .= "<td align='center'><a onClick=\"showMapa('".$r->latitude."', '".$r->longitude."', ".$r->ID_PARAMETRO.", ".$r->ID_POLIGONO."); return false;\">Ver mapa</a></td>";
-//                            $txt .= "<td align='center'><a class='pop' title='<b>".$r->NOM_ALERTA."</b>: <b>".$license[$r->deviceID]."</b> $til (".$r->fecha.")' href='?sec=reporte&ssec=alarma&get=mapa&lat=".$r->latitude."&lon=".$r->longitude."&par=".$r->ID_PARAMETRO."&pol=".$r->ID_POLIGONO."'>Ver mapa</a></td>";
-//                            $txt .= "</tr>";
-//                        }
-//
-//                        $txt .= "</tbody></table>";
-//                        echo $txt;
-//                    }
-                    
+//                    print_r($this->sensor);
                     if($rep != null) {
                         foreach ($rep as $r) {
                             $out[] = array(
@@ -219,58 +194,107 @@ class CRAlarma {
     }
 
     function traduceRegla($regla) {
-        switch($regla->ID_PARAMETRO) {
-            case 1: //velocidad
-                switch($regla->ID_OPERADOR) {
-                    case 1:
-                        return "Velocidad (".$regla->speedKPH.") > ".$regla->VALOR_REGLA." (Km/h)";
+        if($regla->ID_TIPO_REGLA != 4) {
+            switch($regla->ID_PARAMETRO) {
+                case 1: //velocidad
+                    switch($regla->ID_OPERADOR) {
+                        case 1:
+                            return "Velocidad (".$regla->speedKPH.") > ".$regla->VALOR_REGLA." (Km/h)";
+                            break;
+                        case 2:
+                            return "Velocidad (".$regla->speedKPH.") < ".$regla->VALOR_REGLA." (Km/h)";
+                            break;
+                    }
+                    break;
+                case 2: //tiempo
+                    switch($regla->ID_OPERADOR) {
+                        case 1:
+                            return "Detención > ".$regla->VALOR_REGLA." (Min.)";
+                            break;
+                        case 2:
+                            return "Detención > ".$regla->VALOR_REGLA." (Min.)";
+                            break;
+                    }
+                    break;
+                case 3: //geozona
+                    $pol = $this->poMP->find($regla->ID_POLIGONO, array("NOM_POLIGONO"));
+                    switch($regla->ID_OPERADOR) {
+                        case 4:
+                            return "Entró a la Geozona <b>".$pol->NOM_POLIGONO."</b>";
+                            break;
+                        case 5:
+                            return "Salió de la Geozona <b>".$pol->NOM_POLIGONO."</b>";
+                            break;
+                    }
+                    break;
+                case 4: //geofrontera
+                    $pol = $this->poMP->find($regla->ID_POLIGONO, array("NOM_POLIGONO"));
+                    switch($regla->ID_OPERADOR) {
+                        case 6:
+                            return "Cruzó la Geofrontera <b>".$pol->NOM_POLIGONO."</b>";
+                            break;
+                    }
+                    break;
+                case 5: //punto de interes
+                    $pi = $this->piMP->find($regla->ID_POLIGONO, array("name"));
+                    switch($regla->ID_OPERADOR) {
+                        case 4:
+                            return "Entró al Punto de interés <b>".$pi->name."</b>";
+                            break;
+                        case 5:
+                            return "Salió del Punto de interés <b>".$pi->name."</b>";
+                            break;
+                    }
+                    break;
+            }
+        } else { //sensores
+            $this->sensorAl = $this->getSensor($regla->ID_PARAMETRO);
+            if($this->sensorAl != null) {
+                switch($this->sensorAl->TIPO_PROCESO_SENSOR) {
+                    case 1: //eventual
+                        $this->opSenAl = $this->seMP->fetchOpcion($regla->ID_PARAMETRO, $regla->VALOR_REGLA);
+                        return $this->sensorAl->NOM_SENSOR." <b>".$this->opSenAl->SENSOR_OPCION."</b>";
                         break;
-                    case 2:
-                        return "Velocidad (".$regla->speedKPH.") < ".$regla->VALOR_REGLA." (Km/h)";
+                    case 2: //variacion
+                        switch($regla->ID_OPERADOR) {
+                            case 1:
+                                return $this->sensorAl->NOM_SENSOR." > ".$regla->VALOR_REGLA." (".$this->sensorAl->UNIDAD_SENSOR.")";
+                                break;
+                            case 2:
+                                return $this->sensorAl->NOM_SENSOR." < ".$regla->VALOR_REGLA." (".$this->sensorAl->UNIDAD_SENSOR.")";
+                                break;
+                        }
+                        break;
+                    case 3://independiente
+                        $col = $this->sensorAl->COLUMNA_SENSOR;
+                        switch($regla->ID_OPERADOR) {
+                            case 1:
+                                return "Sensor ".$this->sensorAl->NOM_SENSOR.": ".$regla->$col." > ".$regla->VALOR_REGLA." (".utf8_decode($this->sensorAl->UNIDAD_SENSOR).")";
+                                break;
+                            case 2:
+                                return "Sensor ".$this->sensorAl->NOM_SENSOR.": ".$regla->$col." < ".$regla->VALOR_REGLA." (".utf8_decode($this->sensorAl->UNIDAD_SENSOR).")";
+                                break;
+                        }
                         break;
                 }
-                break;
-            case 2: //tiempo
-                switch($regla->ID_OPERADOR) {
-                    case 1:
-                        return "Detención > ".$regla->VALOR_REGLA." (Min.)";
-                        break;
-                    case 2:
-                        return "Detención > ".$regla->VALOR_REGLA." (Min.)";
-                        break;
-                }
-                break;
-            case 3: //geozona
-                $pol = $this->poMP->find($regla->ID_POLIGONO, array("NOM_POLIGONO"));
-                switch($regla->ID_OPERADOR) {
-                    case 4:
-                        return "Entró a la Geozona <b>".$pol->NOM_POLIGONO."</b>";
-                        break;
-                    case 5:
-                        return "Salió de la Geozona <b>".$pol->NOM_POLIGONO."</b>";
-                        break;
-                }
-                break;
-            case 4: //geofrontera
-                $pol = $this->poMP->find($regla->ID_POLIGONO, array("NOM_POLIGONO"));
-                switch($regla->ID_OPERADOR) {
-                    case 6:
-                        return "Cruzó la Geofrontera <b>".$pol->NOM_POLIGONO."</b>";
-                        break;
-                }
-                break;
-            case 5: //punto de interes
-                $pi = $this->piMP->find($regla->ID_POLIGONO, array("name"));
-                switch($regla->ID_OPERADOR) {
-                    case 4:
-                        return "Entró al Punto de interés <b>".$pi->name."</b>";
-                        break;
-                    case 5:
-                        return "Salió del Punto de interés <b>".$pi->name."</b>";
-                        break;
-                }
-                break;
+            }
         }
+    }
+    
+    function getSensor($idSe) {
+        $n = count($this->sensor);
+        $encontrado = 0;
+        $i = 0;
+        while($encontrado == 0 && $i<$n) {
+            $auxSe = $this->sensor[$i];
+            if($auxSe->ID_SENSOR == $idSe) {
+                $encontrado = 1;
+            } else {
+                $i++;
+            }
+        }
+        if($encontrado == 1) return $auxSe;
+        else return null;
     }
     
     

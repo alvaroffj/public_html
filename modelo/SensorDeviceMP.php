@@ -14,7 +14,7 @@ class SensorDeviceMP {
         $idDevice = $this->_bd->limpia($idDevice);
         $idCuenta = $this->_bd->limpia($idCuenta);
         
-        $sql = "SELECT SD.*, S.NOM_SENSOR, S.TIPO_SENSOR 
+        $sql = "SELECT SD.*, S.NOM_SENSOR, S.TIPO_SENSOR, S.TIPO_PROCESO_SENSOR, S.UNIDAD_SENSOR 
                 FROM $this->_dbTable AS SD 
                     INNER JOIN SENSOR_ACCOUNT AS SA
                     INNER JOIN SENSOR AS S 
@@ -84,7 +84,7 @@ class SensorDeviceMP {
             $sAttr = implode(",", $attr);
         }
 
-        $sql = "SELECT $sAttr FROM SENSOR WHERE ID_SENSOR = ".$id;
+        $sql = "SELECT $sAttr FROM SENSOR AS S INNER JOIN SENSOR_DEVICE AS SD ON S.ID_SENSOR = ".$id." AND SD.ID_SENSOR = S.ID_SENSOR";
         $res = $this->_bd->sql($sql);
         if($res) {
             $row = mysql_fetch_object($res);

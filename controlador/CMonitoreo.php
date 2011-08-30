@@ -194,24 +194,7 @@ class CMonitoreo {
                 } else {
                     $this->grupos = $this->dgMP->fetchUserGrupo($this->cp->getSession()->get("userID"));
                 }
-                
-//                if($this->cp->isAdmin() || $this->cp->isSuperAdmin()) {
-//                    $dev = $this->deMP->fetchByCuenta($this->cp->getSession()->get("accountID"), null, array("deviceID", "displayName"));
-//                } else {
-//                    $dev = $this->deMP->fetchByUser($this->cp->getSession()->get("userID"));
-//                }
-//                foreach($dev as $d) {
-//                    $idDev[] = $d->deviceID;
-//                }
-//                $res = $this->sdMP->fetchByDevices($idDev);
-//                foreach($res as $r) {
-//                    $this->devSen[$r->DEVICEID][$r->ID_SENSOR] = 1;
-//                }
                 $this->sensor = $this->sdMP->fetchByAccount($this->cp->getSession()->get("accountID"));
-//                echo "<pre>";
-//                print_r($this->sensor);
-//                echo "</pre>";
-//                unset($this->sensor[0]);
                 break;
         }
     }
@@ -221,6 +204,9 @@ class CMonitoreo {
     }
 
     function traduceRegla($regla) {
+//        echo "<pre>";
+//        print_r($regla);
+//        echo "</pre>";
         if($regla->ID_TIPO_REGLA!=4) {
             switch($regla->ID_PARAMETRO) {
                 case 1: //velocidad
@@ -276,6 +262,9 @@ class CMonitoreo {
             }
         } else { //sensores
             $seAux = $this->sdMP->findSensor($regla->ID_PARAMETRO);
+//            echo "<pre>";
+//            print_r($seAux);
+//            echo "</pre>";
             switch($seAux->TIPO_PROCESO_SENSOR ) {
                 case 1://binario
                     $opAux = $this->sdMP->fetchOpSensor($seAux->ID_SENSOR, $regla->VALOR_REGLA);
@@ -292,12 +281,14 @@ class CMonitoreo {
                     }
                     break;
                 case 3: //continuo
+                    $col = $seAux->COLUMNA_SENSOR;
+//                    echo $col."<br>";
                     switch($regla->ID_OPERADOR) {
                         case 1:
-                            return $seAux->NOM_SENSOR." > ".$regla->VALOR_REGLA." (".$seAux->UNIDAD_SENSOR.")";
+                            return $seAux->NOM_SENSOR.": ".$regla->$col." > ".$regla->VALOR_REGLA." (".$seAux->UNIDAD_SENSOR.")";
                             break;
                         case 2:
-                            return $seAux->NOM_SENSOR." < ".$regla->VALOR_REGLA." (".$seAux->UNIDAD_SENSOR.")";
+                            return $seAux->NOM_SENSOR.": ".$regla->$col." < ".$regla->VALOR_REGLA." (".$seAux->UNIDAD_SENSOR.")";
                             break;
                     }
                     break;

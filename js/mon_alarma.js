@@ -33,10 +33,10 @@ function getAlarma(flag, hrs) {
             if(n>0 && flag) $.titleBlink("Alarma activada!",{repeat: 10,delay: 400});
             for(i=n-1; i>=0; i--) {
                 aux = al[i];
-                nueva[i] = $("<li><b><a onmousedown=\"javascript:setActive('"+aux.deviceID+"'); return false\">"+aux.displayName+"</a></b> ("+aux.fecha+")<br /><span id='txt'>"+aux.txt+"</span></li>");
+                nueva[i] = $("<li><b><a onmousedown=\"javascript:setActive('"+aux.deviceID+"'); return false\">"+aux.displayName+"</a></b> ("+aux.fecha+")<br /><span id='txt'><b>"+aux.NOM_ALERTA+"</b></span><span id='txt'>"+aux.txt+"</span></li>");
                 gravedad = (aux.NIVEL_REGLA < gravedad)?aux.NIVEL_REGLA:gravedad;
                 if(flag) {
-                    $.jGrowl("<b><a onmousedown=\"javascript:setActive('"+aux.deviceID+"'); return false\">"+aux.displayName+"</a></b> ("+aux.fecha+")<br /><span id='txt'>"+aux.txt+"</span>", {
+                    $.jGrowl("<b><a onmousedown=\"javascript:setActive('"+aux.deviceID+"'); return false\">"+aux.displayName+"</a></b> ("+aux.fecha+")<br /><span id='txt'><b>"+aux.NOM_ALERTA+"</b></span><span id='txt'>"+aux.txt+"</span>", {
                         header: 'Alarma: ',
                         life: 3000,
                         sticky: (gravedad=="0")?true:false,
@@ -52,7 +52,7 @@ function getAlarma(flag, hrs) {
                     if($alarma.length > 0) {
                         nueva[i].prependTo($alarma).hide().slideDown().fadeIn();
                     } else {
-                        $.jGrowl("<b>"+aux.displayName+"</b> ("+aux.fecha+")<br /><span id='txt'>"+aux.txt+"</span>", {
+                        $.jGrowl("<b>"+aux.displayName+"</b> ("+aux.fecha+")<br /><span id='txt'><b>"+aux.NOM_ALERTA+"</b></span><span id='txt'>"+aux.txt+"</span>", {
                             header: 'Alarma: ',
                             sticky: (gravedad=="0")?true:false,
                             close:  function(e,m) {
