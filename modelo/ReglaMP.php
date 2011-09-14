@@ -54,7 +54,7 @@ class ReglaMP {
                     AND R.ID_PARAMETRO = S.ID_SENSOR 
                     AND R.ESTADO_REGLA = 1
                     AND R.ID_TIPO_REGLA = 4";
-        
+//        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         while($row = mysql_fetch_object($res)) {
             $arr[] = $row;

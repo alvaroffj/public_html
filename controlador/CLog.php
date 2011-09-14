@@ -64,6 +64,7 @@ class CLog {
         if($this->login != null) {
             $this->cp->getSession()->set("account", $this->login->accountName);
             $this->cp->getSession()->set("accountID", $this->login->accountID);
+            $this->cp->getSession()->set("accountName", $this->login->accountName);
             $this->cp->getSession()->set("user", $this->login->contactName);
             $this->cp->getSession()->set("userName", $this->login->userName);
             $this->cp->getSession()->set("userID", $this->login->userID);

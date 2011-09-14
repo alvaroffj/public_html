@@ -14,10 +14,7 @@ class CPrincipal {
     public $usuario;
 
     function __construct() {
-//        echo "CPrincipal<br>";
         $this->ss = new session();
-//        $this->showLayout = false;
-//        $this->thisLayout = false;
 
         if ($this->checkLogin()) {
             $this->setSec();

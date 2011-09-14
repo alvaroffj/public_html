@@ -117,7 +117,7 @@ class UsuarioMP {
         $account = $this->_bd->limpia($account);
         $pass = md5($this->_bd->limpia($pass));
 
-        $sql = "SELECT A.accountID, A.accountName, U.contactName, U.userName, U.userID, U.roleID FROM User AS U INNER JOIN Account AS A ON A.accountName = '".$account."' AND A.accountID = U.accountID AND userName = '".$user."' AND U.password = '".$pass."' AND U.isActive = 1";
+        $sql = "SELECT A.accountID, A.accountName, U.contactName, U.userName, U.userID, U.roleID, A.displayName AS accountName FROM User AS U INNER JOIN Account AS A ON A.accountName = '".$account."' AND A.accountID = U.accountID AND userName = '".$user."' AND U.password = '".$pass."' AND U.isActive = 1";
 //        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         return mysql_fetch_object($res);
