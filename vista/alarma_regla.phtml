@@ -1,7 +1,7 @@
 <?
 function getSelect($arr, $til, $nom, $id, $onChange=null, $todos=false, $showTitle=true) {
     $sel = "<SELECT name='$til' id='$til' onChange=\"$onChange\" class='txt'>";
-    if($showTitle) $sel .= "<OPTION disabled>$til</OPTION>";
+    if($showTitle) $sel .= "<OPTION>$til</OPTION>";
     if($todos) $sel .= "<OPTION value=0>Todos</OPTION>";
     foreach ($arr as $a) {
         $sel .= "<OPTION value='" . $a->$id . "'>" . $a->$nom . "</OPTION>";
