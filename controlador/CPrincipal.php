@@ -14,6 +14,7 @@ class CPrincipal {
     public $usuario;
 
     function __construct() {
+        date_default_timezone_set("America/Santiago");
         $this->ss = new session();
 
         if ($this->checkLogin()) {
