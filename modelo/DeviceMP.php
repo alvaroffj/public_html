@@ -96,7 +96,13 @@ class DeviceMP {
 
     function fetchByGrupo($idGr) {
         $idGr = $this->_bd->limpia($idGr);
-        $sql = "SELECT D.deviceID, D.licensePlate, D.vehicleID, D.displayName, D.kmPorLitro FROM DeviceList AS DL INNER JOIN $this->_dbTable AS D ON DL.groupID = $idGr AND DL.deviceID = D.deviceID";
+        $sql = "SELECT D.deviceID, D.licensePlate, D.vehicleID, D.displayName, D.kmPorLitro 
+                FROM DeviceList AS DL 
+                    INNER JOIN $this->_dbTable AS D 
+                ON 
+                    DL.groupID = $idGr 
+                    AND DL.deviceID = D.deviceID
+                    AND D.isActive = 1";
 //        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         $arr = array();
@@ -115,7 +121,8 @@ class DeviceMP {
                     INNER JOIN $this->_dbTable AS D
                 ON GL.userID = $idUs
                     AND GL.groupID = DL.groupID 
-                    AND DL.deviceID = D.deviceID";
+                    AND DL.deviceID = D.deviceID
+                    AND D.isActive = 1";
 
         $res = $this->_bd->sql($sql);
 

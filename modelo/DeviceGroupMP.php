@@ -95,7 +95,8 @@ class DeviceGroupMP {
             $sql = "SELECT D.deviceID, D.vehicleID, D.licensePlate, D.simPhoneNumber, D.imeiNumber, D.displayName
                     FROM DeviceList AS DL INNER JOIN Device AS D
                     ON DL.groupID = $idGrupo
-                    AND DL.deviceID = D.deviceID";
+                    AND DL.deviceID = D.deviceID
+                    AND D.isActive = 1";
         } else {
             $nDIn = count($deInGroup);
             for($i=0; $i<$nDIn; $i++) {
@@ -106,7 +107,8 @@ class DeviceGroupMP {
             }
             $sql = "SELECT deviceID, vehicleID, licensePlate, simPhoneNumber, imeiNumber, displayName
                     FROM Device
-                    WHERE accountID = $idCuenta";
+                    WHERE accountID = $idCuenta
+                    AND isActive = 1";
             if($nDIn > 0)
                 $sql .= " AND deviceID NOT IN ($ids)";
         }
@@ -142,7 +144,7 @@ class DeviceGroupMP {
 
     function fetchNumDevice($idGrupo) {
         $idGrupo = $this->_bd->limpia($idGrupo);
-        $sql = "SELECT COUNT(deviceID) AS TOTAL FROM DeviceList WHERE groupID = $idGrupo";
+        $sql = "SELECT COUNT(DL.deviceID) AS TOTAL FROM DeviceList AS DL INNER JOIN Device AS D ON DL.groupID = $idGrupo AND DL.deviceID = D.deviceID AND D.isActive = 1";
 //        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         return mysql_fetch_object($res);
