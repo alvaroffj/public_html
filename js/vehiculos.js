@@ -34,8 +34,9 @@ $(document).ready(function(){
         id : $(this).id,
         name : "nomDev",
 //        submit : 'Guardar',
-        width: 100,
-        height: 15,
-        cssclass: "inline-form"
+//        width: 100,
+//        height: 15,
+//        cssclass: "inline-form",
+//        onblur: "ignore"
     });
 });

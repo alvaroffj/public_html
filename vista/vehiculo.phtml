@@ -58,9 +58,9 @@
                 <? $i=0; ?>
                 <? foreach($cp->getCSec()->getCSec()->device as $a) {?>
                 <tr>
-                    <td align="center"><span class="edit" id="<?=$a->deviceID;?>"><?= $a->displayName; ?></span></td>
+                    <td class="editable medium"><span class="edit" id="<?=$a->deviceID;?>"><?= $a->displayName; ?></span></td>
                     <td align="center"><?= $a->licensePlate; ?></td>
-                    <td align="center"><span class="driveEdit edit" id="dr_<?=$a->driverID?>" devID="<?=$a->deviceID;?>"><?= $cp->getCSec()->getCSec()->condSel[$a->driverID] ?></span></td>
+                    <td class="editable select"><span class="driveEdit edit" id="dr_<?=$a->driverID?>" devID="<?=$a->deviceID;?>"><?= $cp->getCSec()->getCSec()->condSel[$a->driverID] ?></span></td>
 <!--                    <td align="center"><?= $a->imeiNumber; ?></td>-->
                     <td class="posicion" id="pos_<?=$i?>"><?= $a->latitude.",".$a->longitude; ?></td>
                     <td align="center"><?= $a->fecha ?></td>
@@ -78,7 +78,7 @@
 </div>
 <script>
     $(".driveEdit").editable(function(value, settings){
-//        console.log(this);
+        console.log(this);
         dri = $(this);
         json = $.parseJSON(settings.data);
         if(dri.attr("id") != "dr_"+value) {
@@ -105,10 +105,11 @@
     {
         data   : '<?php print json_encode($cp->getCSec()->getCSec()->condSel); ?>',
         type: 'select',
-        submit: 'Asignar',
+        submit: 'Ok',
         indicator : 'Guardando...',
-        tooltip: 'Clic para editar',
+        tooltip: 'Click para editar',
         cssclass: "inline-form"
+//        onblur: 'ignore'
     }
     );
 </script>

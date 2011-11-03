@@ -247,9 +247,9 @@ h1 {
 
 h2 {
     color: #bf2e1a;
-    font-size: 16px;
+    font-size: 19px;
     margin-top: 10px;
-    margin-left: 20px;
+    margin-left: 5px;
     margin-bottom: 15px;
     width: 300px;
     font-weight: normal;
@@ -658,7 +658,7 @@ form.inline .button {
 form.inline label {
     color: #333;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 13px;
     width: auto;
     padding: 0;
     float:none;
@@ -829,8 +829,8 @@ div.rep-nav {
     color: #fff;
 }
 
-span.edit {
-/*    padding: 2px 5px;*/
+/*span.edit {
+    padding: 2px 5px;
     display: block;
     line-height: 20px;
     font-size: 12px;
@@ -838,6 +838,84 @@ span.edit {
 
 span.edit:hover {
     background: #ffff00;
+}*/
+
+span.edit form {
+    margin: 0;
+    margin-left: -9px;
+    margin-top: -10px;
+    font-family: "Arial";
+}
+
+span.edit form select {
+    font-family: "Arial";
+    margin: 0;
+    color: #666;
+    padding: 10px 5px 9px 5px;
+    border: none;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #ededed;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    height: auto;
+    line-height: auto;
+    margin-right: 5px;
+}
+
+span.edit form input {
+    font-family: "Arial";
+    margin: 0;
+    color: #666;
+    padding: 10px 1px 9px 8px;
+    border: none;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #ededed;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+td.editable {
+    padding: 0px;
+    
+/*    width: auto;*/
+    cursor: pointer;
+}
+
+td.editable.small {
+    width: 80px;
+}
+
+td.editable.medium {
+    width: 180px;
+}
+
+td.editable.select {
+    width: 190px;
+}
+
+td.editable:hover {
+    background-color: #ededed;
+}
+
+span.edit {
+    padding: 10px 0px 0px 9px;
+    display: block;
 }
 
 .inline-form input{
@@ -855,14 +933,14 @@ span.edit:hover {
 }
 
 .inline-form button {
-    border: 1px solid #ccc;
+/*    border: 1px solid #ccc;
     padding: 2px 5px;
     cursor: pointer;
     background: url(../js/fancybox/fancy_title_over.png);
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    color: #fff;
+    color: #fff;*/
 }
 
 div#logo {
