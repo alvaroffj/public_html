@@ -1,5 +1,6 @@
 .fecha {
     width: 70px !important;
+    cursor: pointer;
 }
 
 form.inline select {

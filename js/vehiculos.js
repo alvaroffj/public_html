@@ -17,6 +17,8 @@ function getDireccion(latlon, number) {
 var $posicion;
 var geocoder;
 $(document).ready(function(){
+    $("table#grupos").tablesorter({ sortList: [[1,0]] });
+    $("table#vehiculos").tablesorter({ sortList: [[1,0]] });
     $posicion = $(".posicion");
     geocoder = new google.maps.Geocoder();
     $posicion.each(function(){

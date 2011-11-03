@@ -22,16 +22,16 @@ if(isset($_GET["e"])) {
         $tipoMsg = "success";
     }
 } else {
-    if($cp->getCSec()->op == "add_grupo") {
-        $msg = "Complete los siguientes campos";
-        $tipoMsg = "information";
+    if($cp->getCSec()->getCSec()->op == "add") {
+        $msg = "<strong>Complete</strong> los siguientes campos";
+        $tipoMsg = "info";
     } else {
-        $msg = "Edite los campos que quiera modificar";
-        $tipoMsg = "information";
+        $msg = "<strong>Edite</strong> los campos que quiera modificar";
+        $tipoMsg = "info";
     }
 }
 ?>
-<link rel="stylesheet" type="text/css" href="css/form.css" />
+<!--<link rel="stylesheet" type="text/css" href="css/form.css" />-->
 <script src="js/usuario_form.js" type="text/javascript"></script>
 <div class="center_content">
     <div id="top-nav">
@@ -43,60 +43,75 @@ if(isset($_GET["e"])) {
     <div class="bloque">
     <h2><?=$cp->getCSec()->getCSec()->tilSec?></h2>
     <form action="?sec=configuracion&ssec=usuario&do=<?=$cp->getCSec()->getCSec()->op?>" method="post" name="formu" id="formu" style="width: 500px;">
-        <div class="notification <?=$tipoMsg;?> png_bg">
-            <div><?=$msg;?></div>
+        <div class="alert-message <?=$tipoMsg;?> png_bg">
+            <p><?=$msg;?></p>
         </div>
-        <p>
-            <label>Usuario:</label>
-            <input class="text-input medium-input required" type="text" name="user" value="<?=($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->userName:""?>" <?=($cp->getCSec()->getCSec()->obj!=null)?"DISABLED":""?>/>
+        <div class="clearfix">
+            <label for="user">Usuario:</label>
+            <div class="input">
+            <input id="user" class="text-input medium-input required" type="text" name="user" value="<?=($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->userName:""?>" <?=($cp->getCSec()->getCSec()->obj!=null)?"DISABLED":""?>/>
             <input type="hidden" name="id" value="<?=($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->userID:""?>" id="userID"/>
             <input type="hidden" name="accountID" value="<?=$cp->getSession()->get("accountID")?>"/>
-        </p>
-        <div class="clear"></div>
-        <p>
-            <label>Contrase&ntilde;a:<?if($cp->getCSec()->getCSec()->obj!=null) {?><span class="tooltip">Solo si desea cambiarla</span><? } ?></label>
-            <input class="text-input medium-input <?=($cp->getCSec()->getCSec()->obj!=null)?"":"required"?>" type="password" name="pass" value=""/>
-        </p>
-        <div class="clear"></div>
-        <p>
-            <label>Nombre Completo:</label>
-            <input class="text-input medium-input required" type="text" name="nom" value="<?=($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->contactName:""?>"/>
-        </p>
-        <div class="clear"></div>
-        <p>
-            <label>E-mail:</label>
-            <input class="text-input medium-input required" type="text" name="ema" value="<?=($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->contactEmail:""?>"/>
-        </p>
-        <div class="clear"></div>
-        <p>
-            <label>Tipo de usuario:</label>
+            </div>
+        </div>
+        <div class="clearfix">
+            <label for="pass">Contrase&ntilde;a:</label>
+            <div class="input">
+            <input class="text-input medium-input <?=($cp->getCSec()->getCSec()->obj!=null)?"":"required"?>" type="password" name="pass" value="" id="pass"/>
+            <?if($cp->getCSec()->getCSec()->obj!=null) {?><span class="help-inline">Solo si desea cambiarla</span><? } ?>
+            </div>
+        </div>
+        <div class="clearfix">
+            <label for="nom">Nombre Completo:</label>
+            <div class="input">
+            <input id="nom" class="text-input medium-input required" type="text" name="nom" value="<?=($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->contactName:""?>"/>
+            </div>
+        </div>
+        <div class="clearfix">
+            <label for="ema">E-mail:</label>
+            <div class="input">
+            <input id="ema" class="text-input medium-input required" type="text" name="ema" value="<?=($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->contactEmail:""?>"/>
+            </div>
+        </div>
+        <div class="clearfix">
+            <label for="rol">Tipo de usuario:</label>
+            <div class="input">
             <?=getSelect($cp->getCSec()->getCSec()->roles, "DisplayName", "roleID", "rol", ($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->roleID:"");?>
-        </p>
-        <div class="clear"></div>
-        <p>
-            <label>Estado:</label>
+            </div>
+        </div>
+        <div class="clearfix">
+            <label for="estado">Estado:</label>
+            <div class="input">
             <?=getSelect($cp->getCSec()->getCSec()->estados, "estado", "id", "estado", ($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->isActive:"");?>
-        </p>
-        <div class="clear"></div>
+                </div>
+        </div>
         <? if($cp->getCSec()->getCSec()->op == "mod" && $cp->getCSec()->getCSec()->obj->roleID == 2) { ?>
-        <p>
-            <label>Grupos de vehiculos:</label>
+        <div class="clearfix">
+            <label for="grupo">Grupos de vehiculos:</label>
+            <div class="input">
             <?=getSelect($cp->getCSec()->getCSec()->grupos, "displayName", "groupID", "grupo");?>
             <a onClick="addUserGrupo(); return false;" style="cursor:pointer;"><img src="img/add.png" border="0" title="Asignar grupo" alt="Asignar grupo"/></a>
-        </p>
-        <div class="elementos" id="grupos">
-            <? foreach($cp->getCSec()->getCSec()->userGr as $gr) { ?>
-            <div class="elemento medium-input" id="<?=$gr->groupListID?>">
-                <a href="?sec=configuracion&ssec=vehiculo&op=mod_grupo&id=<?=$gr->groupID?>"><?=$gr->displayName?></a><a onClick="delUserGrupo(<?=$gr->groupListID?>); return false;" style="cursor:pointer; position: absolute; right: 0;"><img src="img/delete.png" border="0" title="Quitar grupo" alt="Quitar grupo"/></a>
             </div>
-            <? } ?>
         </div>
-        <div class="clear"></div>
+        <div class="clearfix">
+            <div class="input">
+<!--                <div class="span4" id="<?=$gr->groupListID?>" style="position:relative; margin-left: 0;">-->
+                <ul class="span4 unstyled" id="grupos">
+                <? foreach($cp->getCSec()->getCSec()->userGr as $gr) { ?>
+                    <li id="<?=$gr->groupListID?>" style="position:relative; padding: 5px; border-left: 2px solid #ccc; margin-bottom: 4px;">
+                        <a href="?sec=configuracion&ssec=vehiculo&op=mod_grupo&id=<?=$gr->groupID?>"><?=$gr->displayName?></a><a onClick="delUserGrupo(<?=$gr->groupListID?>); return false;" style="cursor:pointer; position: absolute; right: 0;"><img src="img/delete.png" border="0" title="Quitar grupo" alt="Quitar grupo"/></a>
+                    </li>
+                <? } ?>
+                </ul>
+<!--                </div>-->
+            </div>
+        </div>
         <? } ?>
-        <p>
-            <input class="button" type="submit" value="Guardar" />
-        </p>
-        <div class="clear"></div>
+        <div class="clearfix">
+            <div class="input">
+            <input class="btn danger" type="submit" value="Guardar" />
+            </div>
+        </div>
     </form>
     </div>
 </div>

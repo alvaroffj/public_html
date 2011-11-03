@@ -5,18 +5,18 @@
 <script src="js/vehiculos.js" type="text/javascript"></script>
 <div class="center_content">
     <h1>Veh&iacute;culos y Grupos</h1>
-    <div id="local-nav"><a href="?sec=configuracion&ssec=vehiculo&op=add_grupo"><img src="img/add.png" border="0"/>Agregar Grupo</a></div>
+    <div id="local-nav"><a href="?sec=configuracion&ssec=vehiculo&op=add_grupo" class="btn"><img src="img/add.png" border="0"/>Agregar Grupo</a></div>
     <div class="bloque">
         <h2>Grupos</h2>
         <? if(count($cp->getCSec()->getCSec()->grupos)>0) { ?>
-        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="tablarojo">
+        <table class="zebra-striped" id="grupos">
             <thead>
                 <tr>
-                    <th align="center" width="100">Nombre</th>
-                    <th align="center">Descripci&oacute;n</th>
-                    <th align="center" width="80">N&deg; Vehiculos</th>
-                    <th align="center" width="40">Editar</th>
-                    <th align="center" width="40">Eliminar</th>
+                    <th class="red">Nombre</th>
+                    <th class="red">Descripci&oacute;n</th>
+                    <th class="red">N&deg; Veh&iacute;culos</th>
+                    <th class="actionCol {sorter: false}">Editar</th>
+                    <th class="actionCol {sorter: false}">Eliminar</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,11 +25,14 @@
                     <td align="center"><?= $a->displayName; ?></td>
                     <td><?= $a->description; ?></td>
                     <td align="center"><?= $cp->getCSec()->getCSec()->getNumDevice($a->groupID)->TOTAL; ?></td>
-                    <td align="center"><a href="?sec=configuracion&ssec=vehiculo&op=mod_grupo&id=<?=$a->groupID;?>"><img src="img/page_edit.png" border="0" /></a></td>
-                    <td align="center"><a href="?sec=configuracion&ssec=vehiculo&do=del_grupo&id=<?=$a->groupID;?>"><img src="img/delete.png" border="0" /></a></td>
+                    <td class="actionCol"><a href="?sec=configuracion&ssec=vehiculo&op=mod_grupo&id=<?=$a->groupID;?>"><img src="img/page_edit.png" border="0" /></a></td>
+                    <td class="actionCol"><a href="?sec=configuracion&ssec=vehiculo&do=del_grupo&id=<?=$a->groupID;?>"><img src="img/delete.png" border="0" /></a></td>
                 </tr>
                 <? } ?>
             <tbody>
+<!--                Miguel Angel Centeno-->
+<!--                3395427-->
+<!--                985274394-->
         </table>
         <? } else { ?>
             <p class="mensaje">No hay grupos</p>
@@ -38,15 +41,15 @@
     <div class="bloque">
         <h2>Veh&iacute;culos</h2>
         <? if(count($cp->getCSec()->getCSec()->device)>0) { ?>
-        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="tablarojo">
+        <table class="zebra-striped" id="vehiculos">
             <thead>
                 <tr>
-                    <th align="center" width="150">Nombre a mostrar</th>
-                    <th align="center" width="100">Patente</th>
-                    <th align="center" width="200">Conductor</th>
+                    <th class="red">Nombre a mostrar</th>
+                    <th class="red">Patente</th>
+                    <th class="red">Conductor</th>
 <!--                    <th align="center" width="100">IMEI</th>-->
-                    <th align="center">&Uacute;ltima posici&oacute;n</th>
-                    <th align="center" width="150">Fecha</th>
+                    <th class="red">&Uacute;ltima posici&oacute;n</th>
+                    <th class="red">Fecha</th>
 <!--                    <th align="center" width="40">Editar</th>
                     <th align="center" width="40">Eliminar</th>-->
                 </tr>

@@ -3,18 +3,18 @@
 <script src="js/usuario.js" type="text/javascript"></script>
 <div class="center_content">
     <h1>Usuarios</h1>
-    <div id="local-nav"><a href="?sec=configuracion&ssec=usuario&op=add"><img src="img/add.png" border="0"/>Agregar Usuario</a></div>
+    <div id="local-nav"><a href="?sec=configuracion&ssec=usuario&op=add" class="btn"><img src="img/add.png" border="0"/>Agregar Usuario</a></div>
     <div class="bloque">
 <!--        <h2>Todos</h2>-->
-        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="tablarojo">
+        <table class="zebra-striped" id="lista">
             <thead>
                 <tr>
-                    <th align="center">Usuario</th>
-                    <th align="center">Nombre completo</th>
-                    <th align="center">Tipo</th>
-                    <th align="center">E-mail</th>
-                    <th align="center" width="40">Editar</th>
-                    <th align="center" width="40">Eliminar</th>
+                    <th class="red">Usuario</th>
+                    <th class="red">Nombre completo</th>
+                    <th class="red">Tipo</th>
+                    <th class="red">E-mail</th>
+                    <th class="actionCol">Editar</th>
+                    <th class="actionCol">Eliminar</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,8 +24,8 @@
                     <td><?= $a->contactName; ?></td>
                     <td><?= $a->displayName; ?></td>
                     <td><?= $a->contactEmail; ?></td>
-                    <td align="center"><a href="?sec=configuracion&ssec=usuario&op=mod&id=<?=$a->userID;?>"><img src="img/page_edit.png" border="0" /></a></td>
-                    <td align="center"><a href="?sec=configuracion&ssec=usuario&do=del&id=<?=$a->userID;?>"><img src="img/delete.png" border="0" /></a></td>
+                    <td class="actionCol"><a href="?sec=configuracion&ssec=usuario&op=mod&id=<?=$a->userID;?>"><img src="img/page_edit.png" border="0" /></a></td>
+                    <td class="actionCol"><a href="?sec=configuracion&ssec=usuario&do=del&id=<?=$a->userID;?>"><img src="img/delete.png" border="0" /></a></td>
                 </tr>
                 <? } ?>
             <tbody>

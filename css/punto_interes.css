@@ -20,5 +20,13 @@ form p .button {
 }
 
 form input#dir {
-    width: 280px;
+/*    width: 280px;*/
+}
+
+form div.input {
+    margin-left: 90px;
+}
+
+form div img{
+    vertical-align: top;
 }

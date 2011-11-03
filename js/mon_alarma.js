@@ -1,4 +1,5 @@
 var $alarma;
+var act_dev;
 
 function playSound() {
     $("#alarmaSound").jPlayer("play");
@@ -76,7 +77,7 @@ function unsetGravedad(gravedad) {
             stopSound();
             break;
     }
-    act_dev.removeClass("nivel_"+gravedad);
+    if(act_dev) act_dev.removeClass("nivel_"+gravedad);
 }
 
 function setGravedad(gravedad, dev) {
@@ -87,7 +88,7 @@ function setGravedad(gravedad, dev) {
             setActive(dev.deviceID);
             break;
     }
-    act_dev.addClass("nivel_"+gravedad);
+    if(act_dev) act_dev.addClass("nivel_"+gravedad);
 }
 
 $(document).ready(function() {

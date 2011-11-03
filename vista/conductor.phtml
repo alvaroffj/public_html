@@ -3,17 +3,17 @@
 <script src="js/usuario.js" type="text/javascript"></script>
 <div class="center_content">
     <h1>Conductores</h1>
-    <div id="local-nav"><a href="?sec=configuracion&ssec=conductor&op=add"><img src="img/add.png" border="0"/>Agregar Conductor</a></div>
+    <div id="local-nav"><a href="?sec=configuracion&ssec=conductor&op=add" class="btn"><img src="img/add.png" border="0"/>Agregar Conductor</a></div>
     <div class="bloque">
         <? if(count($cp->getCSec()->getCSec()->usuarios)>0) { ?>
-        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="tablarojo">
+        <table class="zebra-striped" id="lista">
             <thead>
                 <tr>
-                    <th align="center">Nombre</th>
-                    <th align="center">Rut</th>
-                    <th align="center">Telefono</th>
-                    <th align="center" width="40">Editar</th>
-                    <th align="center" width="40">Eliminar</th>
+                    <th class="red">Nombre</th>
+                    <th class="red">Rut</th>
+                    <th class="red">Telefono</th>
+                    <th class="actionCol">Editar</th>
+                    <th class="actionCol">Eliminar</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,8 +22,8 @@
                     <td><?= $a->displayName; ?></td>
                     <td><?= $a->rut; ?></td>
                     <td><?= $a->contactPhone; ?></td>
-                    <td align="center"><a href="?sec=configuracion&ssec=conductor&op=mod&id=<?=$a->driverID;?>"><img src="img/page_edit.png" border="0" /></a></td>
-                    <td align="center"><a href="?sec=configuracion&ssec=conductor&do=del&id=<?=$a->driverID;?>"><img src="img/delete.png" border="0" /></a></td>
+                    <td class="actionCol"><a href="?sec=configuracion&ssec=conductor&op=mod&id=<?=$a->driverID;?>"><img src="img/page_edit.png" border="0" /></a></td>
+                    <td class="actionCol"><a href="?sec=configuracion&ssec=conductor&do=del&id=<?=$a->driverID;?>"><img src="img/delete.png" border="0" /></a></td>
                 </tr>
                 <? } ?>
             </tbody>

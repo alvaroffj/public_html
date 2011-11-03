@@ -198,4 +198,20 @@ function getDevices(sel, idDest) {
 
 $(document).ready(function() {
     valAnt = 1;
+    $("table#lista").tablesorter({ sortList: [[1,0]] });
+    $("table#reglas").tablesorter({ sortList: [[1,0]] });
+    $("table#vehiculos").tablesorter({ sortList: [[1,0]] });
+    $("table#acciones").tablesorter({ sortList: [[1,0]] });
+    var validator = $("#alerta").bind("invalid-form.validate",
+        function() {
+            $(".alert-message").html("<p>Debe completar todos lo campos requeridos</p>").attr("class", "alert-message error");
+        }).validate({
+        errorPlacement: function(error, element) {
+        },
+        submitHandler: function(form) {
+            form.submit();
+        },
+        success: function(label) {
+        }
+    });
 });

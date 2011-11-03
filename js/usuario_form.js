@@ -16,13 +16,13 @@ function addUserGrupo() {
             complete: function(data) {
                 var res = $.parseJSON(data.responseText);
                 if(res.error == 0) {
-                    var fila = "<div class=\"elemento medium-input\" id=\""+res.idUsGr+"\"><a href=\"?sec=vehiculo&op=mod_grupo&id="+res.groupID+"\">"+res.displayName+"</a><a onClick=\"delUserGrupo("+res.idUsGr+"); return false;\" style=\"cursor:pointer; position: absolute; right: 0;\"><img src=\"img/delete.png\" border=\"0\" title=\"Quitar grupo\" alt=\"Quitar grupo\"/></a></div>";
+                    var fila = "<li id=\""+res.idUsGr+"\" style=\"position:relative; padding: 5px; border-left: 2px solid #ccc; margin-bottom: 4px;\"><a href=\"?sec=vehiculo&op=mod_grupo&id="+res.groupID+"\">"+res.displayName+"</a><a onClick=\"delUserGrupo("+res.idUsGr+"); return false;\" style=\"cursor:pointer; position: absolute; right: 0;\"><img src=\"img/delete.png\" border=\"0\" title=\"Quitar grupo\" alt=\"Quitar grupo\"/></a></li>";
                     $(fila).hide().appendTo("#grupos").fadeIn();
-                    $(".notification").html("<div>El grupo fue agregado correctamente</div>");
-                    $(".notification").attr("class", "notification success png_bg");
+                    $(".alert-message").html("<p>El grupo fue agregado correctamente</p>")
+                        .attr("class", "alert-message success");
                 } else {
-                    $(".notification").html("<div>El grupo NO pudo ser agregado, intentelo de nuevo</div>");
-                    $(".notification").attr("class", "notification error png_bg");
+                    $(".alert-message").html("<p>El grupo NO pudo ser agregado, intentelo de nuevo</p>")
+                        .attr("class", "alert-message error");
                 }
             }
         });
@@ -45,8 +45,8 @@ function delUserGrupo(id) {
                 if(res.error == 0) {
                     $("#"+id, "#grupos").fadeOut();
                 } else {
-                    $(".notification").html("<div>El grupo NO pudo ser quitado, intentelo de nuevo</div>");
-                    $(".notification").attr("class", "notification error png_bg");
+                    $(".alert-message").html("<p>El grupo NO pudo ser quitado, intentelo de nuevo</p>")
+                        .attr("class", "alert-message error");
                 }
             }
         });
@@ -55,8 +55,7 @@ function delUserGrupo(id) {
 $(document).ready(function(){
     var validator = $("#formu").bind("invalid-form.validate",
         function() {
-            $(".notification").html("<div>Debe completar todos lo campos requeridos</div>");
-            $(".notification").attr("class", "notification error png_bg");
+            $(".alert-message").html("<p>Debe completar todos lo campos requeridos</p>").attr("class", "alert-message error");
         }).validate({
         errorPlacement: function(error, element) {
         },

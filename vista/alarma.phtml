@@ -5,24 +5,24 @@
     <h1>Alarmas</h1>
     <div class="bloque">
 <!--        <h2>Todas</h2>-->
-        <form name="alerta" method="post" id="formu" action="?sec=configuracion&ssec=alarma&do=add" class="inline">
-            <label>Nueva alarma: </label><input name="nom" value="" class="text-input required"/><input type="submit" value="Guardar" class="button"/>
+        <form id="alerta" name="alerta" method="post" id="formu" action="?sec=configuracion&ssec=alarma&do=add" class="inline">
+            <label for="nom">Nueva alarma: </label><input id="nom" name="nom" value="" class="span3 required" style="margin-right: 5px;"/><input type="submit" value="Guardar" class="btn danger"/>
         </form>
         <? if(count($cp->getCSec()->getCSec()->alertas)>0) { ?>
-        <table border="0" cellspacing="0" cellpadding="0" width="100%" class="tablarojo">
+        <table class="zebra-striped" id="lista">
             <thead>
                 <tr>
-                    <th align="center">Nombre</th>
-                    <th align="center" width="70">Editar</th>
-                    <th align="center" width="70">Eliminar</th>
+                    <th class="red">Nombre</th>
+                    <th class="actionCol">Editar</th>
+                    <th class="actionCol">Eliminar</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach($cp->getCSec()->getCSec()->alertas as $a) {?>
                 <tr <?=(!$a->ESTADO_ALERTA)?"class='deleted'":""?>>
                     <td><?= $a->NOM_ALERTA; ?></td>
-                    <td align="center"><a href="?sec=configuracion&ssec=alarma&op=mod&id=<?=$a->ID_ALERTA;?>"><img src="img/page_edit.png" border="0" /></a></td>
-                    <td align="center"><a href="?sec=configuracion&ssec=alarma&do=del&id=<?=$a->ID_ALERTA;?>"><img src="img/delete.png" border="0" /></a></td>
+                    <td class="actionCol"><a href="?sec=configuracion&ssec=alarma&op=mod&id=<?=$a->ID_ALERTA;?>"><img src="img/page_edit.png" border="0" /></a></td>
+                    <td class="actionCol"><a href="?sec=configuracion&ssec=alarma&do=del&id=<?=$a->ID_ALERTA;?>"><img src="img/delete.png" border="0" /></a></td>
                 </tr>
                 <? } ?>
             </tbody>

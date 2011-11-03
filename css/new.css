@@ -241,6 +241,8 @@ h1 {
     display: inline-block;
     margin-top: 10px;
     margin-bottom: 10px;
+    font-weight: normal;
+    line-height: normal;
 }
 
 h2 {
@@ -250,6 +252,8 @@ h2 {
     margin-left: 20px;
     margin-bottom: 15px;
     width: 300px;
+    font-weight: normal;
+    line-height: normal;
 }
 
 ul {
@@ -373,6 +377,10 @@ img {
     -moz-border-radius: 5px 0px 5px 5px;
     -webkit-border-radius: 5px 0px 5px 5px;
     border-radius: 5px 0px 5px 5px;
+}
+
+#header #user-info .dropdown ul {
+    margin: 0px;
 }
 
 #header #user-info .dropdown ul li a{
@@ -566,10 +574,9 @@ a.deleted {
 }
 
 #local-nav a {
-    text-decoration: none;
+/*    text-decoration: none;
     color: #BF2E1A;
     border: 1px solid #111 !important;
-    padding: 6px 20px 6px 30px !important;
     color: white !important;
     font-size: 13px !important;
     cursor: pointer;
@@ -577,16 +584,17 @@ a.deleted {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-/*    width: 200px;*/
-/*    height: 20px;*/
     display: inline-block;
+    margin-top: -5px;*/
+/*    width: 200px;
+    height: 20px;*/
     position: relative;
-    margin-top: -5px;
+    padding: 6px 20px 6px 30px !important;
 }
 
 #local-nav a:hover {
-    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
-    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+/*    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);*/
+/*    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);*/
 }
 
 #local-nav a img{
@@ -595,8 +603,8 @@ a.deleted {
 /*    margin: -2px 3px 0 0;*/
 /*    margin: 5px auto;*/
     position: absolute;
-    top: 5px;
-    left: 10px;
+    top: 7px;
+    left: 9px;
 }
 
 #map {
@@ -705,7 +713,7 @@ form.inline label {
 /*    border: 1px solid #dddddd;*/
 /*    padding: 5px;*/
 /*    background-color: #f7f7f7;*/
-    text-align: right;
+/*    text-align: right;*/
     position: relative;
 }
 form.inline .working {
@@ -813,11 +821,12 @@ div.rep-nav {
 }
 
 #active_dev ul{
-    margin-left: 0px;
+    margin: 0px;
 }
 
 #active_dev ul li {
     padding: 2px 5px;
+    color: #fff;
 }
 
 span.edit {
@@ -1121,4 +1130,10 @@ form.side label {
 .nivel_0 {
     background: url(../img/fondo_rojo.png);
     color: #000;
+}
+
+label.check {
+    display: inline-block;
+    margin-right: 5px;
+    width: 90px;
 }
