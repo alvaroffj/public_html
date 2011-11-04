@@ -1,27 +1,36 @@
 <?php
 include_once 'util/session.php';
 include_once 'util/paginacion.php';
+include_once 'modelo/CuentaMP.php';
 
 class CPrincipal {
     protected $_secName = "Monitoreo";
     protected $_CSec;
     protected $ss;
     protected $usuarioMP;
+    protected $cuentaMP;
     public $layout = "vista/layout.phtml";
     public $showLayout = true;
     public $thisLayout = true;
     public $loged = false;
+    public $cuenta;
     public $usuario;
 
     function __construct() {
         date_default_timezone_set("America/Santiago");
         $this->ss = new session();
-
-        if ($this->checkLogin()) {
-            $this->setSec();
+        $this->cuenta = explode(".", $_SERVER["SERVER_NAME"]);
+        $this->cuenta = $this->cuenta[0];
+        $this->cuentaMP = new CuentaMP();
+        if($this->cuentaMP->isActive($this->cuenta) || $this->cuenta == "dev") {
+            if ($this->checkLogin()) {
+                $this->setSec();
+            } else {
+                include_once 'CLog.php';
+                $this->_CSec = new CLog($this);
+            }
         } else {
-            include_once 'CLog.php';
-            $this->_CSec = new CLog($this);
+            $this->layout = "vista/desactivado.phtml";
         }
     }
 
