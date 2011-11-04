@@ -11,12 +11,14 @@ class CPrincipal {
     public $showLayout = true;
     public $thisLayout = true;
     public $loged = false;
+    public $cuenta;
     public $usuario;
 
     function __construct() {
         date_default_timezone_set("America/Santiago");
         $this->ss = new session();
-
+        $this->cuenta = explode(".", $_SERVER["SERVER_NAME"]);
+        $this->cuenta = $this->cuenta[0];
         if ($this->checkLogin()) {
             $this->setSec();
         } else {

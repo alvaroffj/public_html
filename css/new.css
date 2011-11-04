@@ -40,6 +40,7 @@ p {
 }
 #right-sidebar #bar ul#alarma li{
     padding: 3px 5px;
+    color: #000;
 /*    border-bottom: 1px dashed #ccc;*/
 }
 
@@ -53,7 +54,7 @@ p {
     display: block;
 }
 
-div#scroll {
+div.scroll {
     overflow: auto;
 }
 
@@ -100,6 +101,7 @@ div#scroll {
 /*    border: 1px solid #ccc;*/
     padding: 5px;
     display: block;
+    font-weight: bold;
 }
 
 #left-sidebar ul.device {
@@ -108,10 +110,11 @@ div#scroll {
 
 #left-sidebar ul.device li {
     display: block;
-    padding: 5px 0 5px 15px;
+    padding: 6px 0 6px 22px;
     border-bottom: 1px dashed #ccc;
     position: relative;
     display: block;
+    font-weight: normal;
 }
 
 #left-sidebar ul.device li:hover{
@@ -149,7 +152,7 @@ div#scroll {
     width: 16px;
     height: 14px;
     display: inline-block;
-    left: 0;
+    left: 4px;
     top: 5px;
     display: block;
 }
@@ -257,7 +260,7 @@ h2 {
 }
 
 ul {
-    margin-left: 25px;
+    margin-left: 12px;
 }
 
 img {
@@ -1214,4 +1217,26 @@ label.check {
     display: inline-block;
     margin-right: 5px;
     width: 90px;
+}
+
+form#devFiltro {
+    position: relative;
+    box-shadow: -1px 3px 5px rgba(0,0,0,0.1);
+    padding: 3px 10px;
+    margin-left: -9px;
+    margin-bottom: 10px;
+}
+
+form#devFiltro label {
+    position: absolute;
+    top: 3px;
+    left: 13px;
+    text-align: left;
+    padding: 4px 5px;
+    color: #ccc;
+}
+
+form#devFiltro input {
+    padding: 4px 6px;
+    width: 255px;
 }

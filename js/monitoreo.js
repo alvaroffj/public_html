@@ -654,7 +654,7 @@ function creaPinVehiculos(sensor) {
 $(window).resize(function() {
     $map_canvas.height($(window).height()-40);
     $logAlarma.height($(window).height()-95);
-    $listaDev.height($(window).height()-95);
+    $listaDev.height($(window).height()-150);
     if(reporteSel>=0 && reportes[reporteSel].showMapa) {
         $reporte.height($(window).height()-100-$filtros.height());
     }
@@ -667,6 +667,12 @@ function disableSeleccion() {
 }
 
 $(document).ready(function(){
+    var options = {
+        valueNames: ['nomDevice']
+    };
+
+    var deviceList = new List('devices', options);
+    $("label", $("#devFiltro")).inFieldLabels();
     $map_canvas = $("#map_canvas");
     $lateralLeft = $("#left-sidebar");
     $lateralRight = $("#right-sidebar");
@@ -678,8 +684,8 @@ $(document).ready(function(){
     $reporte = $("#reporte");
     $filtros = $("#filtros");
     
-    $logAlarma = $lateralRight.find("#scroll");
-    $listaDev = $lateralLeft.find("#scroll");
+    $logAlarma = $lateralRight.find(".scroll");
+    $listaDev = $lateralLeft.find(".scroll");
     $puntoForm = $("#puntoForm");
     $btn_pint = $("#btn_pint");
     $buscador = $("#buscaDireccion");
@@ -704,7 +710,7 @@ $(document).ready(function(){
     
     $map_canvas.height($(window).height()-40);
     $logAlarma.height($(window).height()-95);
-    $listaDev.height($(window).height()-95);
+    $listaDev.height($(window).height()-150);
     
     $toggleLeft.toggle(function() {hideLateral(0)}, function() {showLateral(0)});
     $toggleRight.toggle(function() {hideLateral(1)}, function() {showLateral(1)});
