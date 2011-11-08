@@ -15,7 +15,24 @@ class CuentaMP {
         $sql = "SELECT ESTADO_CUENTA FROM CUENTA WHERE NOM_CUENTA = '$nom'";
         $res = $this->_bd->sql($sql);
         $row = mysql_fetch_object($res);
+//        echo $sql."<br>";
         return ($row->ESTADO_CUENTA == 1);
+    }
+    
+    function findByNom($nom, $attr) {
+        $nom = $this->_bd->limpia($nom);
+        
+        if($attr == null) {
+            $sAttr = "*";
+        } else {
+            $sAttr = implode(",", $attr);
+        }
+        
+        $sql = "SELECT $sAttr FROM CUENTA WHERE NOM_CUENTA = '$nom'";
+        $res = $this->_bd->sql($sql);
+        $row = mysql_fetch_object($res);
+        
+        return $row;
     }
 }
 ?>
