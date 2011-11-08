@@ -6,8 +6,12 @@ class UsuarioMP {
     protected $_id = "userID";
     protected $_bd;
 
-    function __construct() {
-        $this->_bd = new Bd();
+    function __construct($cuentaData = null) {
+        if($cuentaData != null) {
+            $this->_bd = new Bd($cuentaData->NOM_BD, $cuentaData->PASS_BD, $cuentaData->SERVER_BD_FROM_APP, $cuentaData->NOM_BD);
+        } else {
+            $this->_bd = new Bd();
+        }
     }
 
     function fetchAll() {

@@ -7,6 +7,7 @@ class CPrincipal {
     protected $_CSec;
     protected $ss;
     protected $usuarioMP;
+    protected $cuentaMP;
     public $layout = "vista/layout.phtml";
     public $showLayout = true;
     public $thisLayout = true;
@@ -19,11 +20,18 @@ class CPrincipal {
         $this->ss = new session();
         $this->cuenta = explode(".", $_SERVER["SERVER_NAME"]);
         $this->cuenta = $this->cuenta[0];
-        if ($this->checkLogin()) {
-            $this->setSec();
+        $this->cuentaMP = new CuentaMP();
+        if($this->cuentaMP->isActive($this->cuenta) || $this->cuenta == "dev") {
+            $this->cuenta = ($this->cuenta == "dev")?"starclutch":$this->cuenta;
+            if ($this->checkLogin()) {
+                $this->setSec();
+            } else {
+                $this->cuentaData = $this->cuentaMP->findByNom($this->cuenta);
+                include_once 'CLog.php';
+                $this->_CSec = new CLog($this);
+            }
         } else {
-            include_once 'CLog.php';
-            $this->_CSec = new CLog($this);
+            $this->layout = "vista/desactivado.phtml";
         }
     }
 

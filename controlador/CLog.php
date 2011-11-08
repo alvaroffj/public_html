@@ -9,7 +9,7 @@ class CLog {
 
     function __construct($cp) {
         $this->cp = $cp;
-        $this->usuMP = new UsuarioMP();
+        $this->usuMP = new UsuarioMP($this->cp->cuentaData);
         $this->layout = "vista/login.phtml";
         $this->cp->thisLayout = false;
         $this->setDo();
@@ -60,7 +60,7 @@ class CLog {
     }
 
     function checkLogin() {
-        $this->login = $this->usuMP->validaCuenta($_POST["emp"], $_POST["user"], $_POST["pass"]);
+        $this->login = $this->usuMP->validaCuenta($this->cp->cuenta, $_POST["user"], $_POST["pass"]);
         if($this->login != null) {
             $this->cp->getSession()->set("account", $this->login->accountName);
             $this->cp->getSession()->set("accountID", $this->login->accountID);
@@ -69,6 +69,10 @@ class CLog {
             $this->cp->getSession()->set("userName", $this->login->userName);
             $this->cp->getSession()->set("userID", $this->login->userID);
             $this->cp->getSession()->set("roleID", $this->login->roleID);
+            $this->cp->getSession()->set("cueNom", $this->cp->cuentaData->NOM_BD);
+            $this->cp->getSession()->set("cueBD", $this->cp->cuentaData->NOM_BD);
+            $this->cp->getSession()->set("cuePass", $this->cp->cuentaData->PASS_BD);
+            $this->cp->getSession()->set("cueBDIP", $this->cp->cuentaData->SERVER_BD_FROM_APP);
             $this->cp->getSession()->salto("?sec=monitoreo");
         } else {
             $this->cp->getSession()->salto("?&e=1");
