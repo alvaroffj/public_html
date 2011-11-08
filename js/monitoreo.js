@@ -715,13 +715,18 @@ $(document).ready(function(){
     $toggleLeft.toggle(function() {hideLateral(0)}, function() {showLateral(0)});
     $toggleRight.toggle(function() {hideLateral(1)}, function() {showLateral(1)});
     $grupos.bind("click", function(e) {
-        var grupo = $(e.target).parent();
-        var hijoId;
+        var grupo, hijoId;
+        if ($(e.target).hasClass("imgEstado")) {
+            grupo = $(e.target).parent().parent().parent();
+        } else {
+            grupo = $(e.target).parent().parent();
+        }
         if(grupo.parent().hasClass("grupo")) {
             hijoId = 2;
-            var sen = $(grupo.children()[1]);
-            var hijo = $(grupo.children()[hijoId]);
-            var estado = $(grupo.children()[0]).children().children();
+            var sen = $(grupo.children()[1])
+                , hijo = $(grupo.children()[hijoId])
+                , estado = $(grupo.children()[0]).children().children();
+                
             if(hijo.hasClass("oculto")) {
                 grupo.addClass("active");
                 estado.attr("src", "img/collapse.png");
@@ -736,7 +741,9 @@ $(document).ready(function(){
                 sen.fadeOut();
             }
         }
+        e.preventDefault();
     });
+    
 
     buscadorValidator = $buscador.bind("invalid-form.validate",
         function() {

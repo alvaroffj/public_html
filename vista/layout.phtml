@@ -136,7 +136,7 @@
                             <div class="scroll">
                                 <ul class="grupo">
                                     <? foreach($cp->getCSec()->grupos as $g) { ?>
-                                        <li><a href="#" class="nomGrupo"><span id="estado"><img src="img/collapse.png" border="0" /> </span><span><?=$g->displayName?></span></a>
+                                        <li><a href="#" class="nomGrupo"><span id="estado"><img src="img/collapse.png" border="0" class="imgEstado"/> </span><span><?=$g->displayName?></span></a>
                                             <div id="info">
                                                 <? foreach($cp->getCSec()->sensor as $s) { ?>
                                                 <? if($s->IN_TABLA == 1) { ?>
@@ -168,8 +168,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <div id="active_dev" style="display:none;" class="nivel_10 unstyled">
-                            <ul>
+                        <div id="active_dev" style="display:none;" class="nivel_10">
+                            <ul class="unstyled">
                                 <li id="titulo"></li>
                                 <li id="conductor"></li>
                                 <li id="patente"></li>
