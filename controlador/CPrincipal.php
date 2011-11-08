@@ -1,6 +1,7 @@
 <?php
 include_once 'util/session.php';
 include_once 'util/paginacion.php';
+include_once 'modelo/CuentaMP.php';
 
 class CPrincipal {
     protected $_secName = "Monitoreo";
