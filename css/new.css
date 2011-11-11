@@ -794,6 +794,44 @@ div.rep-nav {
     padding: 0;
 }
 
+.tooltip-below p:before,
+.tooltip-below p:after {
+    content: "";
+    position: absolute;
+    z-index: 1000;
+    bottom: -7px;
+    left: 50%;
+    margin-left: -10px;
+    border-top: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 0;
+}
+
+.tooltip-under p:before,
+.tooltip-under p:after {
+    content: "";
+    position: absolute;
+    z-index: 1000;
+    top: -7px;
+    left: 50%;
+    margin-left: -10px;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 0;
+}
+
+.tooltip-below p:before {
+    border-top-color: rgba(0,0,0,0.6);
+    bottom: -8px;
+}
+
+.tooltip-under p:before {
+    border-bottom-color: rgba(0,0,0,0.6);
+    top: -8px;
+}
+
 #active_dev {
     padding: 10px;
     position: absolute;

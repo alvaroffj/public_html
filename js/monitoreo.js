@@ -183,16 +183,25 @@ function showPInteres(cb) {
 }
 
 function showToolTip(e) {
-//    tooltip.stop();
 //    console.log(e);
+    var x,y,punto, pos;
     tooltip.html("<p>"+e.tooltip+"</p>");
-    var x = mouse.pageX;
-    var y = mouse.pageY;
+    punto = (e.position)?getPixel(e.getPosition()):getPixel(e.getCenter());
+    x = punto.x - tooltip.width()/2 - 7;
+    if(punto.y - tooltip.height() - 50 < 0) {
+        y = punto.y + 30;
+        pos = "under";
+    } else {
+        y = punto.y - tooltip.height() - 50;
+        pos = "below";
+    }
+    
     tooltip.css({
        top: y+"px",
        left: x+"px"
-    });
+    }).attr("class", "tooltip-"+pos);
     tooltip.stop().fadeTo(500,1);
+    console.log(tooltip);
 }
 
 function hideToolTip() {
@@ -450,6 +459,7 @@ function setActive(index) {
 //    console.log("preActive: "+preActive);
     if(index != preActive) {
         map.panTo(device[i].getPosition());
+        console.log(getPixel(device[i].getPosition()));
         updateActive(infoDevice[i]);
         activeIndex = index;
         $(".dev_"+index).each(function(i, elem){
@@ -618,12 +628,36 @@ function hideBuscador(e) {
     }
     e.preventDefault();
 }
+var off_x = 0, off_y = 0;
+
+function getPixel(punto) {
+    var scale = Math.pow(2, map.getZoom());
+    var nw = new google.maps.LatLng(
+        map.getBounds().getNorthEast().lat(),
+        map.getBounds().getSouthWest().lng()
+    );
+    var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
+    var worldCoordinate = map.getProjection().fromLatLngToPoint(punto);
+    var pixelOffset = new google.maps.Point(
+        Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale + off_x),
+        Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale + off_y)
+    );
+    return pixelOffset;
+}
 
 function getPinVehiculo(pin, gr, encendido) {
     var g;
     g = Math.round(gr/10)*10;
     var estado = (encendido=="1")?"run":"stop";
     return new google.maps.MarkerImage('img/device/'+pin+'_'+g+'_'+estado+'.png',
+        new google.maps.Size(32, 32),
+        new google.maps.Point(0,0),
+        new google.maps.Point(16,16)
+    );
+}
+
+function getPinVehiculoGrande(img) {
+    return new google.maps.MarkerImage('img/device/pin_auto_0_run.png',
         new google.maps.Size(32, 32),
         new google.maps.Point(0,0),
         new google.maps.Point(16,16)

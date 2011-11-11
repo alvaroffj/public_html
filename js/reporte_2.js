@@ -102,7 +102,7 @@ function showReporteJSON(reporte) {
     reporteMk = [];
     for(var i=0; i<n; i++) {
         dev = reporte[i];
-        if(i==0) console.log(dev);
+//        if(i==0) console.log(dev);
         dev.i = i;
         var myLatLng = new google.maps.LatLng(dev.latitude, dev.longitude);
         ptos.push(myLatLng);
@@ -156,7 +156,6 @@ function showReporteJSON(reporte) {
         google.maps.event.addListener(marker, 'click', function(){
             map.panTo(marker.position);
 //            setActive(indexDevice[marker.m_id]);
-//            console.log(marker);
         });
         google.maps.event.addListener(marker, 'mouseover', function(){
             showToolTip(marker);
@@ -168,8 +167,13 @@ function showReporteJSON(reporte) {
     $("tr").bind("click mouseover mouseout", function(e){
         switch(e.type) {
             case "click":
-                console.log($(this)[0].id);
+//                console.log(reporteMk[$(this)[0].id]);
+//                console.log(reporteMk[$(this)[0].id].icon.url);
+//                reporteMk[$(this)[0].id].setIcon(getPinVehiculoGrande(reporteMk[$(this)[0].id].icon.url));
+//                getPixel(reporteMk[$(this)[0].id].position);
                 map.panTo(reporteMk[$(this)[0].id].position);
+                showToolTip(reporteMk[$(this)[0].id]);
+//                console.log(reporteMk[$(this)[0].id]);
                 break;
             case "mouseover":
                 $(this).toggleClass("over");
@@ -217,8 +221,8 @@ $(document).ready(function() {
     $btn_pint = $("#btn_pint");
     if(reportes[reporteSel].showMapa)
         $reporte.height($(window).height()-100-$filtros.height());
-    console.log($filtros.height());
-    console.log($reporte.height());
+//    console.log($filtros.height());
+//    console.log($reporte.height());
     fecha = new Date();
     $form = $("#formu");
     $("#btn_down").click(function(e) {downReporte(e)});
@@ -269,7 +273,7 @@ $(document).ready(function() {
                         reset();
                         if(reportes[reporteSel].isJSON) {
                             $reporte.height($(window).height()-100-$filtros.height());
-                            console.log(data.responseText);
+//                            console.log(data.responseText);
                             var reporte = $.parseJSON(data.responseText);
                             showReporteJSON(reporte);
                         } else {
