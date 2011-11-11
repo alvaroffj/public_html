@@ -96,9 +96,10 @@ function showReporteJSON(reporte) {
             break;
     }
     $reporte.html($dataReporte);
-    var n = reporte.length;
-    var dev;
-    var ptos = [];
+    var n = reporte.length,
+        dev,
+        ptos = [];
+    
     reporteMk = [];
     for(var i=0; i<n; i++) {
         dev = reporte[i];

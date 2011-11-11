@@ -1,24 +1,23 @@
-var geocoder;
-var map;
-var device = [];
-var infoDevice = [];
-var indexDevice = [];
-var activeIndex = -1;
-var preActive = -1;
-var act_dev;
-var punto = [];
-var monitoreo;
-var markerBuscador;
-
-var puntoMarker;
-var puntoNew;
-var $puntoForm;
-var $btn_pint;
-var puntoFormValidator;
-
-var $reporte;
-
-var pin_dev = [];
+var geocoder,
+    map,
+    device = [],
+    infoDevice = [],
+    indexDevice = [],
+    activeIndex = -1,
+    preActive = -1,
+    act_dev,
+    punto = [],
+    monitoreo,
+    markerBuscador,
+    puntoMarker,
+    puntoMarkers = [],
+    puntoNew,
+    $puntoForm,
+    $btn_pint,
+    puntoFormValidator,
+    $reporte,
+    pin_dev = [],
+    pInteresCluster;
 
 //var pInMarker = new google.maps.MarkerImage('img/marker.png',
 //    new google.maps.Size(16, 26),
@@ -123,6 +122,7 @@ function centrarPInteres(id) {
 function showPInteres(cb) {
     var i;
     if($btn_pint.hasClass("active")) {
+        pInteresCluster.clearMarkers();
         for(i=0; i<punto.length; i++) {
             punto[i].setMap(null);
         }
@@ -136,6 +136,8 @@ function showPInteres(cb) {
             for(i=0; i<punto.length; i++) {
                 punto[i].setMap(map);
             }
+            var mcOptions = {gridSize: 40, maxZoom: 15};
+            pInteresCluster = new MarkerClusterer(map, puntoMarkers, mcOptions);
         } else {
 //            console.log("carga desde la BD");
             $.ajax({
@@ -153,6 +155,11 @@ function showPInteres(cb) {
                         pto = new google.maps.LatLng(res[i].latitude, res[i].longitude);
 //                        console.log(res[i]);
 //                        console.log(res[i].latitude+", "+res[i].longitude);
+                        puntoMarkers[i] = new google.maps.Marker({
+                            position: pto,
+                            tooltip: res[i].name,
+                            icon: getPinPInteres()
+                        });
                         punto[i] = new google.maps.Circle({
                             center: pto,
                             radius: res[i].radio*1,
@@ -172,7 +179,15 @@ function showPInteres(cb) {
                         google.maps.event.addListener(punto[i], 'mouseout', function(e) {
                             hideToolTip();
                         });
+                        google.maps.event.addListener(puntoMarkers[i], 'mouseover', function(e) {
+                            showToolTip(this);
+                        });
+                        google.maps.event.addListener(puntoMarkers[i], 'mouseout', function(e) {
+                            hideToolTip();
+                        });
                     }
+                    var mcOptions = {gridSize: 40, maxZoom: 15};
+                    pInteresCluster = new MarkerClusterer(map, puntoMarkers, mcOptions);
                     if(cb) {
                         cb();
                     }
@@ -661,6 +676,14 @@ function getPinVehiculoGrande(img) {
         new google.maps.Size(32, 32),
         new google.maps.Point(0,0),
         new google.maps.Point(16,16)
+    );
+}
+
+function getPinPInteres() {
+    return new google.maps.MarkerImage('img/marker.png',
+        new google.maps.Size(16, 26),
+        new google.maps.Point(0,0),
+        new google.maps.Point(8,26)
     );
 }
 
