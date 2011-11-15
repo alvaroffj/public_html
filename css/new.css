@@ -1036,6 +1036,8 @@ form#buscaDireccion label {
     font-weight: normal;
     margin: 1px 0;
     padding: 0;
+    text-align: left;
+    line-height: normal;
 }
 
 form#buscaDireccion .text-input {
@@ -1047,6 +1049,14 @@ form#buscaDireccion .text-input {
     font-weight: normal;
     margin: 0;
     padding: 0;
+    height: auto;
+    line-height: normal;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -moz-border-radius: none;
+    -webkit-border-radius: none;
+    border-radius: none;
 }
 
 form#puntoForm {
