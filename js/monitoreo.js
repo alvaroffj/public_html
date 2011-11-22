@@ -455,6 +455,11 @@ function actualizaFila(res) {
                             $sen.html(res[senAux[i].COLUMNA_SENSOR]);
                             $sen.attr("title", res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")");
                             break;
+                        case "4":
+                            $sen = dev.find("#S"+senAux[i].ID_SENSOR);
+                            $sen.html(res[senAux[i].COLUMNA_SENSOR]);
+                            $sen.attr("title", res[senAux[i].COLUMNA_SENSOR]+" ("+senAux[i].UNIDAD_SENSOR+")");
+                            break;
                     }
                 }
             }
@@ -539,6 +544,9 @@ function updateActive(res) {
                                 act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" <span class='uni_med'>("+senAux[i].UNIDAD_SENSOR+")</span>").show();
                                 break;
                             case "3":
+                                act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" <span class='uni_med'>("+senAux[i].UNIDAD_SENSOR+")</span>").show();
+                                break;
+                            case "4":
                                 act_dev.find("#S"+senAux[i].ID_SENSOR).html("<b>"+senAux[i].NOM_SENSOR+": </b>"+res[senAux[i].COLUMNA_SENSOR]+" <span class='uni_med'>("+senAux[i].UNIDAD_SENSOR+")</span>").show();
                                 break;
                         }
