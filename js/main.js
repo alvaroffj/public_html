@@ -5,19 +5,21 @@
 //repJson[2] = 0;
 //repJson[3] = 1;
 //repJson[4] = 0;
-var reporte = function(c, json, mapa) {
+var reporte = function(c, json, mapa, multiple) {
     this.controlador = c;
     this.isJSON = json;
     this.showMapa = mapa;
+    this.isMultiple = multiple;
     this.getControlador = function() {return this.controlador}
 }
 
 var reportes = [];
-reportes[0] = new reporte("auditoria", 1, 1);
-reportes[1] = new reporte("alarma", 1, 1);
-reportes[2] = new reporte("recorrido", 0, 0);
-reportes[3] = new reporte("velocidad", 1, 1);
-reportes[4] = new reporte("consumo", 0, 0);
+reportes[0] = new reporte("auditoria", 1, 1, 0);
+reportes[1] = new reporte("alarma", 1, 1, 1);
+reportes[2] = new reporte("recorrido", 0, 0, 1);
+reportes[3] = new reporte("velocidad", 1, 1, 1);
+reportes[4] = new reporte("consumo", 0, 0, 1);
+reportes[5] = new reporte("sensor", 0, 0, 0);
 
 var reporteSel = -1;
 var $resize;

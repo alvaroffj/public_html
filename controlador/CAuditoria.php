@@ -111,6 +111,7 @@ class CAuditoria {
                     }
                     break;
                 case 'reporte':
+//                    echo json_encode($_POST);
                     $ini = strtotime($_POST["fecha_ini"]." ".$_POST["hrs_ini"].":".$_POST["min_ini"].":00");
                     $fin = strtotime($_POST["fecha_fin"]." ".$_POST["hrs_fin"].":".$_POST["min_fin"].":00");
                     $rep = null;

@@ -1,6 +1,6 @@
 <?php
-function getSelect($arr, $til, $nom, $id, $onChange=null) {
-    $sel = "<SELECT name='$til' id='$til' onChange=\"$onChange\" class='txt'>";
+function getSelect($arr, $til, $name, $nom, $id, $onChange=null) {
+    $sel = "<SELECT name='$name' id='$name' onChange=\"$onChange\" class='txt'>";
     $sel .= "<OPTION disabled value=0 selected>$til</OPTION>";
     foreach ($arr as $a) {
         $sel .= "<OPTION value='" . $a->$id . "'>" . $a->$nom . "</OPTION>";
@@ -56,21 +56,26 @@ function getTime($arr, $nom) {
     </div>
     <div id="filtros">
         <form name="alerta" method="post" id="formu" action="?sec=reporte&ssec=<?=$cp->getCSec()->sec?>&get=reporte" class="<?=(isset($_GET["ajax"]))?"side":"inline"?>">
+            <? if($cp->getCSec()->sec == "sensor") { ?>
+            <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Sensor: </label>
+                <?= getSelect($cp->getCSec()->getCSec()->sensores, "Sensor", "id_sensor", "NOM_SENSOR", "ID_SENSOR"); ?>
+            </div>
+            <? } ?>
             <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Inicio: </label>
-                <input type="text" name="ini" value="" class="text-input required fecha" id="fecha_ini" readonly/>@
+                <input type="text" name="fecha_ini" value="" class="text-input required fecha" id="fecha_ini" readonly/>@
                 <?=getTime($cp->getCSec()->getCSec()->hrs, "hrs_ini");?>:
                 <?=getTime($cp->getCSec()->getCSec()->min, "min_ini");?>
             </div>
             <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Fin: </label>
-                <input type="text" name="fin" value="" class="text-input required fecha" id="fecha_fin" readonly/>@
+                <input type="text" name="fecha_fin" value="" class="text-input required fecha" id="fecha_fin" readonly/>@
                 <?=getTime($cp->getCSec()->getCSec()->hrs, "hrs_fin");?>:
                 <?=getTime($cp->getCSec()->getCSec()->min, "min_fin");?>
             </div>
-            <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Grupo: </label><?= getSelect($cp->getCSec()->getCSec()->grupos, "Grupo", "displayName", "groupID", "getDevices(this, 'Vehiculo');"); ?></div>
-            <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Vehiculo: </label><?= getSelect($cp->getCSec()->getCSec()->devices, "Vehiculo", "licensePlate", "deviceID"); ?></div>
+            <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Grupo: </label><?= getSelect($cp->getCSec()->getCSec()->grupos, "Grupo", "id_grupo", "displayName", "groupID", "getDevices(this, 'id_device');"); ?></div>
+            <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Vehiculo: </label><?= getSelect($cp->getCSec()->getCSec()->devices, "Veh&iacute;culo","id_device", "licensePlate", "deviceID"); ?></div>
             <? if($cp->getCSec()->sec == "velocidad") { ?>
                 <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>">
-                    <label>Velocidad: </label><?=getSelect($cp->getCSec()->getCSec()->ope, "Operador", "nom", "id");?>:
+                    <label>Velocidad: </label><?=getSelect($cp->getCSec()->getCSec()->ope, "operador", "nom", "id");?>:
                     <input type="text" name="vel" value="" class="text-input small required" id="vel"/>
                 </div>
             <? } ?>

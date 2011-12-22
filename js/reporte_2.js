@@ -60,10 +60,10 @@ function getDevices(sel, idDest) {
         beforeSend: function() {
         },
         complete: function(data) {
-            var res = $.parseJSON(data.responseText);
-            var nRes = res.length;
-            var i;
-            if(reporteSel!=0)
+            var res = $.parseJSON(data.responseText),
+                nRes = res.length,
+                i;
+            if(reportes[reporteSel].isMultiple)
                 var op = "<OPTION VALUE='0'>Todos</OPTION>";
             for(i=0; i<nRes; i++) {
                 op += "<OPTION VALUE='"+res[i].deviceID+"'>" + res[i].displayName + "</OPTION>";
@@ -243,23 +243,26 @@ $(document).ready(function() {
         errorPlacement: function(error, element) {
         },
         submitHandler: function(form) {
+//            console.log(form.action);
+//            console.log($(form).serializeArray());
             if(!$("#submit").hasClass("working") && $("#Grupo option:selected", $form).val()!='0') {
                 $.ajax({
                     url: form.action,
                     type: 'post',
                     context: form,
-                    data: {
-                        id_grupo: $("#Grupo option:selected", $form).val()
-                        , id_device: $("#Vehiculo option:selected", $form).val()
-                        , fecha_ini: $("#fecha_ini", $form).val()
-                        , hrs_ini: $("#hrs_ini", $form).val()
-                        , min_ini: $("#min_ini", $form).val()
-                        , fecha_fin: $("#fecha_fin", $form).val()
-                        , hrs_fin: $("#hrs_fin", $form).val()
-                        , min_fin: $("#min_fin", $form).val()
-                        , vel: $("#vel", $form).val()
-                        , operador: $("#Operador", $form).val()
-                    },
+                    data: $(form).serializeArray(),
+//                    data: {
+//                        id_grupo: $("#Grupo option:selected", $form).val()
+//                        , id_device: $("#Vehiculo option:selected", $form).val()
+//                        , fecha_ini: $("#fecha_ini", $form).val()
+//                        , hrs_ini: $("#hrs_ini", $form).val()
+//                        , min_ini: $("#min_ini", $form).val()
+//                        , fecha_fin: $("#fecha_fin", $form).val()
+//                        , hrs_fin: $("#hrs_fin", $form).val()
+//                        , min_fin: $("#min_fin", $form).val()
+//                        , vel: $("#vel", $form).val()
+//                        , operador: $("#Operador", $form).val()
+//                    },
                     beforeSend: function() {
                         $("#submit").addClass("working");
                         if(reportes[reporteSel].showMapa) {
@@ -274,10 +277,10 @@ $(document).ready(function() {
                         reset();
                         if(reportes[reporteSel].isJSON) {
                             $reporte.height($(window).height()-100-$filtros.height());
-//                            console.log(data.responseText);
                             var reporte = $.parseJSON(data.responseText);
                             showReporteJSON(reporte);
                         } else {
+//                            console.log(data.responseText);
                             showReporteTXT(data.responseText);
                         }
                     }

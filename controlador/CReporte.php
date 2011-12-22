@@ -94,9 +94,9 @@ class CReporte {
                 $this->_CSec = new CRDistancia($this);
                 break;
             case 'sensor':
-                include_once 'controlador/CPInteres.php';
+                include_once 'controlador/CRSensor.php';
                 $this->tilSec = "Sensores";
-                $this->_CSec = new CPInteres($this);
+                $this->_CSec = new CRSensor($this);
                 break;
             case 'velocidad':
                 include_once 'controlador/CRVelocidad.php';

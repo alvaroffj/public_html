@@ -2,6 +2,7 @@
 include_once 'util/session.php';
 include_once 'util/paginacion.php';
 include_once 'modelo/CuentaMP.php';
+require_once 'modelo/SensorDeviceMP.php';
 
 class CPrincipal {
     protected $_secName = "Monitoreo";
@@ -23,8 +24,10 @@ class CPrincipal {
         $this->cuenta = $this->cuenta[0];
         $this->cuentaMP = new CuentaMP();
         if($this->cuentaMP->isActive($this->cuenta) || $this->cuenta == "dev") {
-            $this->cuenta = ($this->cuenta == "dev")?"tbarriga":$this->cuenta;
+            $this->cuenta = ($this->cuenta == "dev")?"tbd":$this->cuenta;
             if ($this->checkLogin()) {
+                $this->sdMP = new SensorDeviceMP();
+                $this->sensores = $this->sdMP->fetchToReporte($this->getSession()->get("accountID"));
                 $this->setSec();
             } else {
                 $this->cuentaData = $this->cuentaMP->findByNom($this->cuenta);

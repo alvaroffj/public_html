@@ -28,6 +28,7 @@
         <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
         <script type="text/javascript" src="js/jquery.infieldlabel.min.js"></script>
         <script type="text/javascript" src="js/highcharts.js"></script>
+        <script type="text/javascript" src="js/highstock.js"></script>
         <script type="text/javascript" src="/js/jquery.jplayer.min.js"></script>
         <script src="js/mon_alarma.js" type="text/javascript"></script>
         <script src="js/main.js" type="text/javascript"></script>
@@ -73,6 +74,9 @@
                                     <li><a href="/#/reporte/recorrido" onClick="setReporte(2);">Km. Recorridos</a></li>
                                     <li><a href="/#/reporte/velocidad" onClick="setReporte(3);">Velocidad</a></li>
                                     <li><a href="/#/reporte/consumo" onClick="setReporte(4);">Consumo</a></li>
+                                    <? if(isset($cp->sensores) && count($cp->sensores)>0) { ?>
+                                    <li><a href="/#/reporte/sensor" onClick="setReporte(5);">Sensores</a></li>
+                                    <? } ?>
                                 </ul>
                             </li>
                             <? if($cp->isAdmin() || $cp->isSuperAdmin()) { ?>

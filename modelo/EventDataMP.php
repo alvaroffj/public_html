@@ -153,5 +153,26 @@ class EventDataMP {
         }
         return $arr;
     }
+    
+    function fetchByDevice($ini, $fin, $device, $attr) {
+        $device = $this->_bd->limpia($device);
+        $fini = date("Y-m-d H:m:s", $ini);
+        $ffin = date("Y-m-d H:m:s", $fin);
+        
+        if($attr == null) {
+            $sAttr = "*";
+        } else {
+            $sAttr = implode(",", $attr);
+        }
+        
+        $sql = "SELECT $sAttr, from_unixtime(timestamp, '%d.%m.%Y %H:%i:%s') as fecha, timestamp, CEIL(TIMESTAMPDIFF(HOUR, '$fini', '$ffin')/24) AS DIAS, DATEDIFF(from_unixtime(timestamp, '%Y-%m-%d'), '$fini') AS INDICE  FROM $this->_dbTable WHERE timestamp BETWEEN ".$ini." AND ".$fin." AND deviceID = $device ORDER BY timestamp ASC";
+//        echo $sql."<br>";
+        $res = $this->_bd->sql($sql);
+        $arr = array();
+        while($row = mysql_fetch_object($res)) {
+            $arr[] = $row;
+        }
+        return $arr;
+    }
 }
 ?>
