@@ -18,6 +18,7 @@ class CReporte {
         $this->cp = $cp;
         $this->dgMP = new DeviceGroupMP();
         $this->deMP = new DeviceMP();
+        $this->setDo();
         $this->setGet();
         $this->setSec();
     }
@@ -35,7 +36,7 @@ class CReporte {
     }
 
     function checkAccess() {
-        return ($this->ss->get("roleID") == 1);
+        return ($this->ss->get("roleID") == 1 || $this->ss->get("roleID") == 0 || $this->ss->get("roleID") == 2);
     }
 
     function error($e) {
@@ -60,6 +61,21 @@ class CReporte {
                             echo json_encode($this->deMP->fetchByGrupo($_GET["id_grupo"]));
                         }
                     }
+                    break;
+            }
+        }
+    }
+    
+    function setDo() {
+        if(isset($_GET["do"])) {
+            $this->cp->showLayout = false;
+            $attr = array("accountID");
+            switch($_GET["do"]) {
+                case 'checkAccess':
+                    $res = new stdClass();
+                    $res->allow = $this->checkAccess();
+                    
+                    echo json_encode($res);
                     break;
             }
         }

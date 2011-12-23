@@ -78,7 +78,7 @@ if(isset($_GET["e"])) {
             <?=getSelect($cp->getCSec()->getCSec()->estados, "estado", "id", "estado", ($cp->getCSec()->getCSec()->obj!=null)?$cp->getCSec()->getCSec()->obj->isActive:"");?>
         </p>
         <div class="clear"></div>
-        <? if($cp->getCSec()->getCSec()->op == "mod" && $cp->getCSec()->getCSec()->obj->roleID == 2) { ?>
+        <? if($cp->getCSec()->getCSec()->op == "mod" && ($cp->getCSec()->getCSec()->obj->roleID == 2 || $cp->getCSec()->getCSec()->obj->roleID == 3)) { ?>
         <p>
             <label>Grupos de vehiculos:</label>
             <?=getSelect($cp->getCSec()->getCSec()->grupos, "displayName", "groupID", "grupo");?>

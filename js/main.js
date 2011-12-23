@@ -51,17 +51,29 @@ function setSec() {
     $sec = $url.fsegment(1);
     switch($sec) {
         case "reporte":
-            $ssec = $url.fsegment(2);
-            for(var i=0; i<reportes.length; i++) {
-                if(reportes[i].controlador==$ssec) {
-                    break;
+            $.ajax({
+                url: "?sec=reporte&do=checkAccess",
+                type: 'get',
+                dataType: 'json',
+                success: function(data) {
+                    if(data.allow) {
+                        $ssec = $url.fsegment(2);
+                        for(var i=0; i<reportes.length; i++) {
+                            if(reportes[i].controlador==$ssec) {
+                                break;
+                            }
+                        }
+                        creaPinVehiculos(false);
+                        setReporte(i);
+                        $mainNav[1].addClass("active");
+                        $mainNav[0].removeClass("active");
+                        $mainNav[2].removeClass("active");
+                    } else {
+                        window.location.href = "/";
+                    }
                 }
-            }
-            creaPinVehiculos(false);
-            setReporte(i);
-            $mainNav[1].addClass("active");
-            $mainNav[0].removeClass("active");
-            $mainNav[2].removeClass("active");
+            });
+            
             break;
         default:
             creaPinVehiculos(true);

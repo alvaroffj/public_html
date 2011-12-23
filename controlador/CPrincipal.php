@@ -24,7 +24,7 @@ class CPrincipal {
         $this->cuenta = $this->cuenta[0];
         $this->cuentaMP = new CuentaMP();
         if($this->cuentaMP->isActive($this->cuenta) || $this->cuenta == "dev") {
-            $this->cuenta = ($this->cuenta == "dev")?"tbd":$this->cuenta;
+            $this->cuenta = ($this->cuenta == "dev")?"mobilia":$this->cuenta;
             if ($this->checkLogin()) {
                 $this->sdMP = new SensorDeviceMP();
                 $this->sensores = $this->sdMP->fetchToReporte($this->getSession()->get("accountID"));
@@ -68,6 +68,10 @@ class CPrincipal {
 
     function isAdmin() {
         return ($this->ss->get("roleID") == 1);
+    }
+    
+    function isMonitor() {
+        return ($this->ss->get("roleID") == 2);
     }
 
     function isSuperAdmin() {

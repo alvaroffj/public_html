@@ -216,7 +216,7 @@ function showToolTip(e) {
        left: x+"px"
     }).attr("class", "tooltip-"+pos);
     tooltip.stop().fadeTo(500,1);
-    console.log(tooltip);
+//    console.log(tooltip);
 }
 
 function hideToolTip() {
@@ -363,8 +363,8 @@ function showDevices() {
         beforeSend: function() {
 
         },
-        complete: function(data) {
-            res = $.parseJSON(data.responseText);
+        success: function(data) {
+            res = data;
             var nRes = res.length;
             var i;
             for(i=0; i<device.length; i++) {
@@ -479,7 +479,7 @@ function setActive(index) {
 //    console.log("preActive: "+preActive);
     if(index != preActive) {
         map.panTo(device[i].getPosition());
-        console.log(getPixel(device[i].getPosition()));
+//        console.log(getPixel(device[i].getPosition()));
         updateActive(infoDevice[i]);
         activeIndex = index;
         $(".dev_"+index).each(function(i, elem){
@@ -512,11 +512,12 @@ function updateActive(res) {
     $.ajax({
         url: "?sec=monitoreo&get=direccion&lat="+res.latitude+"&lon="+res.longitude,
         type: 'get',
+        dataType: 'json',
         beforeSend: function() {
 
         },
-        complete: function(data) {
-            r = $.parseJSON(data.responseText);
+        success: function(data) {
+            r = data;
             act_dev.find("#titulo").html("<b>Vehiculo: </b>"+res.displayName);
             if(res.driverID != "0" && res.contactPhone != "") {
                 act_dev.find("#conductor").html("<b>Conductor: </b>"+res.driverName+" ("+res.contactPhone+")");
