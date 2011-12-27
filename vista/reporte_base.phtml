@@ -75,7 +75,7 @@ function getTime($arr, $nom) {
             <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Vehiculo: </label><?= getSelect($cp->getCSec()->getCSec()->devices, "Veh&iacute;culo","id_device", "licensePlate", "deviceID"); ?></div>
             <? if($cp->getCSec()->sec == "velocidad") { ?>
                 <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>">
-                    <label>Velocidad: </label><?=getSelect($cp->getCSec()->getCSec()->ope, "operador", "nom", "id");?>:
+                    <label>Velocidad: </label><?=getSelect($cp->getCSec()->getCSec()->ope, "Operador", "operador", "nom", "id");?>:
                     <input type="text" name="vel" value="" class="text-input small required" id="vel"/>
                 </div>
             <? } ?>
