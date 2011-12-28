@@ -95,18 +95,16 @@ $(document).ready(function() {
     $mainNav[0] = $($("#main-nav").children()[0]);
     $mainNav[1] = $($("#main-nav").children()[1]);
     $mainNav[2] = $($("#main-nav").children()[2]);
-//    $resize.draggable({
-//        axis: 'x',
-//        stop: function(event, ui) {
-//            console.log(event);
-//            $lateralLeft.width(event.pageX-12);
-//            console.log(event.pageX-12);
-//            if($reporte && reporteSel>=0 && !reportes[reporteSel].showMapa) {
-//                $reporte.css({
-//                    "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
-//                    "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
-//                });
-//            }
-//        }
-//    });
+    $resize.draggable({
+        axis: 'x',
+        stop: function(event, ui) {
+            $lateralLeft.width(ui.position.left-12);
+            if($reporte && reporteSel>=0 && !reportes[reporteSel].showMapa) {
+                $reporte.css({
+                    "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
+                    "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
+                });
+            }
+        }
+    });
 });

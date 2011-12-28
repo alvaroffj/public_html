@@ -1122,13 +1122,11 @@ form.side label {
     width: 4px;
     height: 100%;
     background: #999;
-/*    cursor: e-resize;*/
-/*    opacity: 0.3;*/
-    display: none;
-    visibility: hidden;
+    cursor: e-resize;
+    opacity: 0.3;
 }
 #resize:hover {
-/*    opacity: 1;*/
+    opacity: 1;
 }
 
 #grafico_res {
