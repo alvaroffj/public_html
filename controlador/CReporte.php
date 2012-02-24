@@ -100,9 +100,9 @@ class CReporte {
                 $this->_CSec = new CRAlarma($this);
                 break;
             case 'detencion':
-                include_once 'controlador/CAlarma.php';
+                include_once 'controlador/CRDetencion.php';
                 $this->tilSec = "Detenciones";
-                $this->_CSec = new CAlarma($this);
+                $this->_CSec = new CRDetencion($this);
                 break;
             case 'recorrido':
                 include_once 'controlador/CRDistancia.php';

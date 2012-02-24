@@ -94,6 +94,9 @@ function showReporteJSON(reporte) {
         case 3:
             $dataReporte = $("<table id='dataReporte' border='0' cellspacing='0' cellpadding='0' width='100%' class='tablarojo'><thead><tr><th>Fecha</th><th>Veh&iacute;culo</th><th>Patente</th><th>Velocidad</th></tr></thead></table>");
             break;
+        case 6:
+            $dataReporte = $("<table id='dataReporte' border='0' cellspacing='0' cellpadding='0' width='100%' class='tablarojo'><thead><tr><th>Fecha</th><th>Veh&iacute;culo</th><th>Patente</th><th>Detenci&oacute;n</th></tr></thead></table>");
+            break;
     }
     $reporte.html($dataReporte);
     var n = reporte.length,
@@ -119,6 +122,9 @@ function showReporteJSON(reporte) {
                 break;
             case 3:
                 tp = "<b>Veh&iacute;culo: </b>"+dev.displayName+"<br /><b>Patente: </b>"+dev.licensePlate+"<br /><b>Fecha: </b>"+dev.fecha+"<br /><b>Velocidad: </b>"+dev.velocidad+" (km/h)";
+                break;
+            case 6:
+                tp = "<b>Veh&iacute;culo: </b>"+dev.displayName+"<br /><b>Patente: </b>"+dev.licensePlate+"<br /><b>Fecha: </b>"+dev.fecha+"<br /><b>Detenci&oacute;n: </b>"+dev.detencion;
                 break;
         }
         var marker = new google.maps.Marker({
@@ -200,8 +206,8 @@ function downReporte(e) {
         if(!$("#submit").hasClass("working") && $("#Grupo option:selected", $form).val()!='0') {
             e.preventDefault();
             var url = "?sec=reporte&ssec="+reportes[reporteSel].controlador+"&get=descargar";
-            url += "&id_grupo="+$("#Grupo option:selected", $form).val();
-            url += "&id_device="+$("#Vehiculo option:selected", $form).val();
+            url += "&id_grupo="+$("#id_grupo option:selected", $form).val();
+            url += "&id_device="+$("#id_device option:selected", $form).val();
             url += "&fecha_ini="+$("#fecha_ini", $form).val();
             url += "&hrs_ini="+$("#hrs_ini", $form).val();
             url += "&min_ini="+$("#min_ini", $form).val();
@@ -209,7 +215,8 @@ function downReporte(e) {
             url += "&hrs_fin="+$("#hrs_fin", $form).val();
             url += "&min_fin="+$("#min_fin", $form).val();
             url += "&vel="+$("#vel", $form).val();
-            url += "&operador="+$("#Operador", $form).val();
+            url += "&min="+$("#min", $form).val();
+            url += "&operador="+$("#operador", $form).val();
             window.location.href = url;
         }
     }
@@ -251,18 +258,6 @@ $(document).ready(function() {
                     type: 'post',
                     context: form,
                     data: $(form).serializeArray(),
-//                    data: {
-//                        id_grupo: $("#Grupo option:selected", $form).val()
-//                        , id_device: $("#Vehiculo option:selected", $form).val()
-//                        , fecha_ini: $("#fecha_ini", $form).val()
-//                        , hrs_ini: $("#hrs_ini", $form).val()
-//                        , min_ini: $("#min_ini", $form).val()
-//                        , fecha_fin: $("#fecha_fin", $form).val()
-//                        , hrs_fin: $("#hrs_fin", $form).val()
-//                        , min_fin: $("#min_fin", $form).val()
-//                        , vel: $("#vel", $form).val()
-//                        , operador: $("#Operador", $form).val()
-//                    },
                     beforeSend: function() {
                         $("#submit").addClass("working");
                         if(reportes[reporteSel].showMapa) {
@@ -273,6 +268,7 @@ $(document).ready(function() {
                         }
                     },
                     complete: function(data) {
+//                        console.log(data);
                         $("#submit").removeClass("working");
                         reset();
                         if(reportes[reporteSel].isJSON) {

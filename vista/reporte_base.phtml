@@ -45,6 +45,9 @@ function getTime($arr, $nom) {
 <script id="fila_3" type="text/html">
     <tr id="${i}"><td align="center">${fecha}</td><td>${displayName}</td><td>${licensePlate}</td><td>${velocidad}</td></tr>
 </script>
+<script id="fila_6" type="text/html">
+    <tr id="${i}"><td align="center">${fecha}</td><td>${displayName}</td><td>${licensePlate}</td><td>${detencion}</td></tr>
+</script>
 <? if(!isset($_GET["ajax"])) { ?>
 <div class="center_content">
 <? } ?>
@@ -77,6 +80,12 @@ function getTime($arr, $nom) {
                 <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>">
                     <label>Velocidad: </label><?=getSelect($cp->getCSec()->getCSec()->ope, "Operador", "operador", "nom", "id");?>:
                     <input type="text" name="vel" value="" class="text-input small required" id="vel"/>
+                </div>
+            <? } ?>
+            <? if($cp->getCSec()->sec == "detencion") { ?>
+                <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>">
+                    <label>Tiempo (Min): </label><?=getSelect($cp->getCSec()->getCSec()->ope, "Operador", "operador", "nom", "id");?>:
+                    <input type="text" name="min" value="" class="text-input small required" id="min"/>
                 </div>
             <? } ?>
             <input type="submit" value="Generar" class="button" id="submit"/>

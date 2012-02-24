@@ -278,6 +278,13 @@ class CRSensor {
         $nRep = count($rep);
         $col = $sen->COLUMNA_SENSOR;
         
+        $data2 = array();
+        $data2[0] = new stdClass();
+        $data2[0]->nombre = "Estanque";
+        $data2[0]->tipo = "line";
+        $data2[0]->eje = 0;
+        $data2[0]->tTotal = 1; //suma
+        $data2[0]->total = 0;
         
         for($i=0; $i<$rep[0]->DIAS; $i++) {
             $data[0]->data[$i]->value = 0;
@@ -285,21 +292,47 @@ class CRSensor {
             $data[2]->data[$i]->value = 0;
             $data[3]->data[$i]->value = 0;
         }
+        
+//        for($i=0; $i<$nRep; $i++) {
+//            $data2[0]->data[$i]->value = 0;
+//        }
 
+        $difAcum = 0;
         for($i=0; $i<$nRep; $i++) {
             $r = $rep[$i];
             if($i==0) {
-                $ant = $r->$col;
+                $ant = new stdClass();
+                $ant->value = $r->$col;
             }
-            $act = $r->$col;
-            if($ant > $act) { //gasto
-                $data[0]->data[$r->INDICE]->value += $ant - $act;
-            } elseif($ant < $r->$col) { //cargo
-                $data[1]->data[$r->INDICE]->value += $act - $ant;
+            $obj = new stdClass();
+            $obj->value = $r->$col;
+            $obj->ts = $r->timestamp;
+//            echo $ant->value." | ".$obj->value."<br>";
+            if($ant->value > $obj->value) { //gasto
+                $data[0]->data[$r->INDICE]->value += $ant->value - $obj->value;
+            } elseif($ant->value < $obj->value) { //cargo
+                $data[1]->data[$r->INDICE]->value += $obj->value - $ant->value;
             } else {
 //                                $data[2]->data[$i] = $act;
             }
-            $ant = $act;
+//            echo "nData: ".count($data2[0]->data)."<br>";
+            if($i>0) {
+                $dif = $obj->ts - $ant->ts;
+                $dif = round($dif/60)-1;
+                $difAcum += $dif;
+                if($dif>0) {
+//                    echo $i.": ".$dif."<br>";
+                    for($j=0; $j<$dif; $j++) {
+//                        echo "--------".$j."<br>";
+                        $aux = new stdClass();
+                        $aux->ts = $ant->ts + ($j+1)*60;
+                        $aux->value = $ant->value;
+                        $data2[0]->data[] = $aux;
+                    }
+                }
+            }
+            $ant = $obj;
+            $data2[0]->data[] = $obj;
         }
 
         for($i=0; $i<$rep[0]->DIAS; $i++) {
@@ -312,7 +345,7 @@ class CRSensor {
         }
 
         $grafico = new stdClass();
-        $grafico->titulo = "Sensor: ".$sen->NOM_SENSOR;
+        $grafico->titulo = "Sensor: ".$sen->NOM_SENSOR." (Resumen)";
         $grafico->inicio = $rep[0]->timestamp*1000;
         $grafico->periodos = $rep[0]->DIAS;
         $grafico->intervalo = 24*60*60*1000;
@@ -321,7 +354,25 @@ class CRSensor {
         $grafico->titulo_y[1] = "Kilometros";
         $grafico->colores = array("'#AA4643'","'#89A54E'","'#ff9900'", "'#527daa'");
         $grafico->series = $data;
-
+        
+        $grafico2 = new stdClass();
+        $grafico2->titulo = "Sensor: ".$sen->NOM_SENSOR." (Detalle)";
+        $grafico2->inicio = $rep[0]->timestamp*1000;
+        $grafico2->periodos = $rep[0]->DIAS;
+        $grafico2->intervalo = 60*1000;
+        $grafico2->titulo_x = "Fecha";
+        $grafico2->titulo_y[0] = "Litros";
+        $grafico2->colores = array("'#AA4643'","'#89A54E'","'#ff9900'", "'#527daa'");
+        $grafico2->series = $data2;
+        
+//        echo "<pre>";
+//        print_r($grafico);
+//        echo "</pre>";
+        
+//        echo "<pre>";
+//        print_r($grafico2);
+//        echo "</pre>";
+        
         $nSeries = count($grafico->series);
         for($i=0; $i<$nSeries; $i++) {
             $senHead .= "<th align='center' width='100'>".$grafico->series[$i]->nombre."</th>";
@@ -338,8 +389,9 @@ class CRSensor {
         }
 
         if($rep!=null) {
-            $txt = "<h2>Reporte</h2>";
-            $txt .= $this->getGrafico($grafico);
+            $txt = "<h2>Reporte $difAcum</h2>";
+            $txt .= $this->getGrafico($grafico2, false, 2, "graf_detalle");
+            $txt .= $this->getGrafico($grafico, true, 1, "graf_resumen");
             $txt .= "<table border='0' cellspacing='0' cellpadding='0' width='100%' class='tablarojo' id='reporte'>
                 <thead>
                     <tr>
@@ -379,7 +431,7 @@ class CRSensor {
         }
     }
     
-    function getGrafico($grafico, $regular = true, $tipo=1) {
+    function getGrafico($grafico, $regular = true, $tipo=1, $id_grafico = "grafico_res") {
         $nSeries = count($grafico->series);
         
         $r = "[";
@@ -427,11 +479,11 @@ class CRSensor {
 //        echo $r;
         $tgrafico = ($tipo == 1)?"Chart":"StockChart";
         
-        $txt = "<div class='grafico' id='grafico_res'></div>";
+        $txt = "<div class='grafico' id='$id_grafico'></div>";
         $graf = " 
             chartRes = new Highcharts.$tgrafico({
                     chart: {
-                        renderTo: 'grafico_res',
+                        renderTo: '$id_grafico',
                         zoomType: 'x',
                         spacingRight: 20
                     },

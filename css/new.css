@@ -1112,7 +1112,8 @@ form.side label {
     width: 60px;
     display: inline-block;
     padding: 0;
-    float:none;
+    float: left;
+    margin-top: 3px;
 }
 
 #resize {

@@ -145,6 +145,8 @@ class EventDataMP {
 
     function velocidadByDevice($ini, $fin, $device, $mayor, $valor) {
         $device = implode(",", $device);
+        $valor = $this->_bd->limpia($valor);
+        $mayor = $this->_bd->limpia($mayor);
         if($mayor*1 == 0) {
             $vel = " AND speedKPH > $valor";
         } else $vel = " AND speedKPH < $valor";
@@ -157,6 +159,25 @@ class EventDataMP {
             $arr[] = $row;
         }
         return $arr;
+    }
+    
+    function detencionByDevice($ini, $fin, $device, $mayor, $valor) {
+        $device = implode(",", $device);
+        $valor = $this->_bd->limpia($valor)*60;
+        $mayor = $this->_bd->limpia($mayor);
+        if($mayor*1 == 0) {
+            $det = " AND detencion > $valor";
+        } else $det = " AND detencion < $valor";
+        
+        $sql = "SELECT *, TIMEDIFF( FROM_UNIXTIME( timestamp - detencion + MAX( DETENCION ) ) , FROM_UNIXTIME( TIMESTAMP - detencion ) ) AS detencionMAX, from_unixtime(timestamp, '%d.%m.%Y %H:%i:%s') as fecha FROM $this->_dbTable WHERE timestamp BETWEEN ".$ini." AND ".$fin." AND deviceID IN (".$device.") $det GROUP BY latitude, longitude ORDER BY detencionMAX DESC";
+//        echo $sql."<br>";
+        $res = $this->_bd->sql($sql);
+        $arr = array();
+        while($row = mysql_fetch_object($res)) {
+            $arr[] = $row;
+        }
+        return $arr;
+//        return $sql;
     }
     
     function fetchByDevice($ini, $fin, $device, $attr) {
