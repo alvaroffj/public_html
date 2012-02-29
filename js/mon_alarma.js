@@ -1,4 +1,5 @@
 var $alarma;
+var $mensaje = true;
 
 function playSound() {
     $("#alarmaSound").jPlayer("play");
@@ -10,6 +11,21 @@ function stopSound() {
 
 function getAlarma(flag, hrs) {
     var urlAl;
+    if($mensaje) {
+        $.jGrowl("<span id='txt' style='display:block;'><b>Problema de transmisi&oacuten</b></span><span id='txt'>Estimado cliente, nuestro proveedor del servicio de Internet Movil esta teniendo problemas con la red de datos, por lo que los dispositivos estan teniendo dificultades para reportar su posici&oacute;n, apenas esto sea solucionado, los equipos enviaran todos los datos pendientes.<br />Agradecemos su comprensi&oacute;n.</span>", {
+            
+            life: 3000,
+            sticky: true,
+            close:  function(e,m) {
+                var msg = $("<li>"+m+"</li>");
+                if($alarma.length > 0) {
+                    msg.prependTo($alarma).hide().slideDown().fadeIn();
+                }
+                unsetGravedad(gravedad);
+            }
+        });
+        $mensaje = false;
+    }
     if(hrs == 0) {
         urlAl = "?sec=monitoreo&get=alarma";
     } else {
