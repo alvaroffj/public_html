@@ -64,6 +64,11 @@ function getTime($arr, $nom) {
                 <?= getSelect($cp->getCSec()->getCSec()->sensores, "Sensor", "id_sensor", "NOM_SENSOR", "ID_SENSOR"); ?>
             </div>
             <? } ?>
+            <? if($cp->getCSec()->sec == "uso") { ?>
+            <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Sensor: </label>
+                <?= getSelect($cp->getCSec()->getCSec()->sensores, "Sensor", "id_sensor", "NOM_SENSOR", "ID_SENSOR"); ?>
+            </div>
+            <? } ?>
             <div style="<?=(isset($_GET["ajax"]))?"margin-bottom: 5px;":"display:inline-block; margin-bottom: 5px;"?>"><label>Inicio: </label>
                 <input type="text" name="fecha_ini" value="" class="text-input required fecha" id="fecha_ini" readonly/>@
                 <?=getTime($cp->getCSec()->getCSec()->hrs, "hrs_ini");?>:

@@ -21,6 +21,7 @@ reportes[3] = new reporte("velocidad", 1, 1, 1);
 reportes[4] = new reporte("consumo", 0, 0, 1);
 reportes[5] = new reporte("sensor", 0, 0, 0);
 reportes[6] = new reporte("detencion", 1, 1, 1);
+reportes[7] = new reporte("uso", 0, 0, 0);
 
 var reporteSel = -1;
 var $resize;

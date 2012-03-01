@@ -129,6 +129,11 @@ class CReporte {
                 $this->tilSec = "Consumo";
                 $this->_CSec = new CRConsumo($this);
                 break;
+            case 'uso':
+                include_once 'controlador/CRUso.php';
+                $this->tilSec = "Uso";
+                $this->_CSec = new CRUso($this);
+                break;
             default:
                 $this->sec = "auditoria";
                 include_once 'controlador/CAuditoria.php';

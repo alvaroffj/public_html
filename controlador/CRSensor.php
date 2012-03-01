@@ -144,7 +144,7 @@ class CRSensor {
         $data[0]->nombre = "Temperatura";
         $data[0]->tipo = "spline";
         $data[0]->eje = 0;
-        $data[0]->tTotal = 2; //suma
+        $data[0]->tTotal = 2; //promedio
         $data[0]->total = 0;
         $nRep = count($rep);
         $col = $sen->COLUMNA_SENSOR;

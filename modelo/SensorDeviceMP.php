@@ -75,6 +75,28 @@ class SensorDeviceMP {
         return $arr;
     }
     
+    function fetchByTipo($idCuenta, $tipo) {
+        $tipo = $this->_bd->limpia($tipo);
+        $idCuenta = $this->_bd->limpia($idCuenta);
+        
+        $sql = "SELECT SA.*, S.NOM_SENSOR, S.TIPO_SENSOR, S.ABR_SENSOR, S.IN_TABLA, S.IN_DETALLE, S.TIPO_REPORTE
+                FROM SENSOR_ACCOUNT AS SA
+                    INNER JOIN SENSOR AS S 
+                ON 
+                    SA.ACCOUNTID = $idCuenta 
+                    AND SA.ID_SENSOR = S.ID_SENSOR
+                    AND SA.ESTADO_SENSOR_ACCOUNT = 1
+                    AND S.TIPO_PROCESO_SENSOR = $tipo";
+        
+//        echo $sql."<br>";
+        $res = $this->_bd->sql($sql);
+        $arr = array();
+        while($row = mysql_fetch_object($res)) {
+            $arr[] = $row;
+        }
+        return $arr;
+    }
+    
     function fetchToReporte($idCuenta) {
         $idCuenta = $this->_bd->limpia($idCuenta);
         
