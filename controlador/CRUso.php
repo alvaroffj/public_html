@@ -124,17 +124,14 @@ class CRUso {
     }
     
     function getReporte($ini, $fin, $sen, $dev) {
-        $license[$dev->licensePlate] = $dev->licensePlate;
-        $nombre[$dev->displayName] = $dev->displayName;
-        $vehicle[$dev->vehicleID] = $dev->vehicleID;
+//        echo $ini."<br>";
+//        echo $fin."<br>";
+//        $license[$dev->licensePlate] = $dev->licensePlate;
+//        $nombre[$dev->displayName] = $dev->displayName;
+//        $vehicle[$dev->vehicleID] = $dev->vehicleID;
         if($dev->accountID == $this->cp->getSession()->get("accountID")) {
             $rep = $this->edMP->fetchByDevice($ini, $fin, $dev->deviceID, array("deviceID", $sen->COLUMNA_SENSOR));
         }
-        
-//        echo "<pre>";
-//        print_r($rep);
-//        echo "</pre>";
-        
         $data = array();
         $data[0] = new stdClass();
         $data[0]->nombre = "Tiempo de Uso";
@@ -150,6 +147,7 @@ class CRUso {
         $tiempoUso = 0;
         $tiempoTotal = 0;
         $ant = new stdClass();
+        $relleno = 0;
         for($i=0; $i<$nRep; $i++) {
             $r = $rep[$i];
             $obj = new stdClass();
@@ -158,22 +156,19 @@ class CRUso {
             
             if($i>0) {
                 $dif = $obj->ts - $ant->ts;
+                $nDif = round($dif/60)-1;
                 $tiempoTotal += $dif;
                 if($obj->value == 1 && $ant->value == 1) {
                     $tiempoUso += $dif;
                 }
-                $nDif = round($dif/60)-1;
                 if($nDif>0) {
                     for($j=0; $j<$nDif; $j++) {
                         $aux = new stdClass();
                         $aux->ts = $ant->ts + ($j+1)*60;
                         $aux->value = $ant->value;
                         $aux->relleno = true;
+                        $relleno++;
                         $data[0]->data[] = $aux;
-                        $tiempoTotal += ($j+1)*60;
-                        if($obj->value == 1 && $aux->value == 1) {
-                            $tiempoUso += ($j+1)*60;
-                        }
                     }
                 }
             }
@@ -193,8 +188,11 @@ class CRUso {
         $grafico->colores = array("'#AA4643'","'#89A54E'","'#ff9900'", "'#527daa'");
         $grafico->series = $data;
         $nSeries = count($grafico->series);
-        echo count($grafico->series[0]->data);
-
+//        $n = count($grafico->series[0]->data);
+//        echo $n."<br>";
+//        echo $relleno."<br>";
+//        echo $grafico->series[0]->data[0]->ts."<br>";
+//        echo $grafico->series[0]->data[$n-1]->ts."<br>";
         for($i=0; $i<$nSeries; $i++) {
             $senHead .= "<th align='center' width='100'>".$grafico->series[$i]->nombre."</th>";
         }
@@ -217,8 +215,8 @@ class CRUso {
                 $txt .= "<tr>";
                 $txt .= "<td align='center'>".$grafico->series[$j]->displayName."</td>";
                 $txt .= "<td align='center'>".$grafico->series[$j]->licensePlate."</td>";
-                $txt .= "<td align='center'>".$grafico->series[$j]->tiempoTotal." ".$this->getTiempo($grafico->series[$j]->tiempoTotal)."</th>";
-                $txt .= "<td align='center'>".$grafico->series[$j]->tiempoUso." ".$this->getTiempo($grafico->series[$j]->tiempoUso)."</th>";
+                $txt .= "<td align='center'>".$this->getTiempo($grafico->series[$j]->tiempoTotal)."</th>";
+                $txt .= "<td align='center'>".$this->getTiempo($grafico->series[$j]->tiempoUso)."</th>";
                 $txt .= "</tr>";
             }
 
@@ -324,11 +322,23 @@ class CRUso {
                             },
                             startOnTick: false,
                             showFirstLabel: false,
-                            plotLines: [{
-                                value: 0,
-                                width: 2,
-                                color: 'green'
-                            }]
+                            plotLines : [{
+                                value : 1,
+                                color : 'green',
+                                dashStyle : 'shortdash',
+                                width : 2,
+                                label : {
+                                        text : 'Encendido'
+                                }
+                            }, {
+                                value : 0,
+                                color : 'red',
+                                dashStyle : 'shortdash',
+                                width : 2,
+                                label : {
+                                        text : 'Apagado'
+                                }
+                            }],
                         }";
             if(isset($grafico->titulo_y[1])) {
                 $graf .= ", {title: {text: '".$grafico->titulo_y[1]."'}, opposite: true}";

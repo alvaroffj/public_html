@@ -107,7 +107,7 @@ function centrarPInteres(id) {
         var i = 0;
         var encon = false;
         while(i<n && !encon) {
-            console.log(id+" | "+punto[i].id);
+            // console.log(id+" | "+punto[i].id);
             if(punto[i].id == id) encon = true;
             else i++;
         }
@@ -498,7 +498,7 @@ function setActive(index) {
 
 function desactivaTodos() {
     if(preActive != -2) {
-        console.log("desactiva todos");
+        // console.log("desactiva todos");
         activeIndex = -2;
         act_dev.fadeOut();
         $(".dev_"+preActive).each(function(i, elem){
@@ -567,7 +567,7 @@ function hideLateral(n) {
         w = $lateralLeft.width()+10;
         $lateralLeft.animate({'left':'-'+w+'px'}, 500, function() {
             if($reporte && reporteSel>-1  && !reportes[reporteSel].showMapa) {
-                console.log("izq");
+                // console.log("izq");
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
                     "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
@@ -580,7 +580,7 @@ function hideLateral(n) {
         w = $lateralRight.width()+10;
         $lateralRight.animate({'right':'-'+w+'px'}, 500, function() {
             if($reporte && reporteSel>-1 && !reportes[reporteSel].showMapa) {
-                console.log("der");
+                // console.log("der");
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
                     "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
@@ -597,24 +597,26 @@ function showLateral(n) {
     if(n == 0) {
         $lateralLeft.animate({'left':'0px'}, 500, function() {
             if($reporte && reporteSel>=0 && !reportes[reporteSel].showMapa) {
-                console.log("modRep");
+                // console.log("modRep");
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
                     "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
                 });
-            } else console.log("NO modRep");
+            } else 
+            // console.log("NO modRep");
         });
         $toggleLeft.html("&lt;<br>&lt;");
         $resize.show();
     } else {
         $lateralRight.animate({'right':'0px'}, 500, function() {
             if($reporte && reporteSel>=0 && !reportes[reporteSel].showMapa) {
-                console.log("modRep");
+                // console.log("modRep");
                 $reporte.css({
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
                     "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
                 });
-            } else console.log("NO modRep");
+            } else 
+            // console.log("NO modRep");
         });
         $toggleRight.html("&gt;<br>&gt;");
     }
@@ -839,7 +841,7 @@ $(document).ready(function(){
         },
         submitHandler: function(form) {
             if(puntoNew!=null) {
-                console.log("ok");
+                // console.log("ok");
                 if(!$("#submit", $puntoForm).hasClass("working")) {
                     savePunto(form);
                 }

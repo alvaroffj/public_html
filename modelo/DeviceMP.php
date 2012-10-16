@@ -11,7 +11,7 @@ class DeviceMP {
     }
 
     function fetchAll() {
-        $sql = "SELECT * FROM $this->_dbTable";
+        $sql = "SELECT * FROM $this->_dbTable ORDER BY $this->_id ASC";
         $res = $this->_bd->sql($sql);
         $arr = array();
         while($row = mysql_fetch_object($res)) {
@@ -37,14 +37,14 @@ class DeviceMP {
         }
         
         if($idAlerta != null)
-            $sql = "SELECT $sAttr FROM $this->_dbTable WHERE accountID = $idCuenta AND deviceID NOT IN (SELECT deviceID AS deviceID FROM ALERTA_DEVICE WHERE ID_ALERTA = $idAlerta)";
+            $sql = "SELECT $sAttr FROM $this->_dbTable WHERE accountID = $idCuenta AND deviceID NOT IN (SELECT deviceID AS deviceID FROM ALERTA_DEVICE WHERE ID_ALERTA = $idAlerta) ORDER BY $this->_id ASC";
         else
             if($lastPos)
                 $sql = "SELECT D.deviceID, D.vehicleID, D.licensePlate, D.simPhoneNumber, D.imeiNumber, D.displayName, D.driverID, L.latitude, L.longitude, from_unixtime(L.timestamp, '%d.%m.%Y %H:%i:%s') as fecha
                         FROM $this->_dbTable AS D INNER JOIN LASTEVENTDATA AS L
-                        ON D.accountID = $idCuenta AND D.deviceID = L.deviceID AND D.isActive = 1";
+                        ON D.accountID = $idCuenta AND D.deviceID = L.deviceID AND D.isActive = 1 ORDER BY D.$this->_id ASC";
             else
-                $sql = "SELECT $sAttr FROM $this->_dbTable WHERE accountID = $idCuenta AND isActive = 1";
+                $sql = "SELECT $sAttr FROM $this->_dbTable WHERE accountID = $idCuenta AND isActive = 1 ORDER BY $this->_id ASC";
 //        echo $sql;
         $res = $this->_bd->sql($sql);
         $arr = array();
@@ -102,7 +102,8 @@ class DeviceMP {
                 ON 
                     DL.groupID = $idGr 
                     AND DL.deviceID = D.deviceID
-                    AND D.isActive = 1";
+                    AND D.isActive = 1
+                ORDER BY D.deviceID ASC";
 //        echo $sql."<br>";
         $res = $this->_bd->sql($sql);
         $arr = array();
@@ -122,7 +123,8 @@ class DeviceMP {
                 ON GL.userID = $idUs
                     AND GL.groupID = DL.groupID 
                     AND DL.deviceID = D.deviceID
-                    AND D.isActive = 1";
+                    AND D.isActive = 1
+                 ORDER BY D.deviceID ASC";
 
         $res = $this->_bd->sql($sql);
 

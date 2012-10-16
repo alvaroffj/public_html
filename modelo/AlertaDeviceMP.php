@@ -26,7 +26,7 @@ class AlertaDeviceMP {
 
     public function fetchByAlerta($idAlarma) {
         $idAlarma = $this->_bd->limpia($idAlarma);
-        $sql = "SELECT AD.*, D.licensePlate, D.displayName FROM $this->_dbTable AS AD INNER JOIN Device AS D ON AD.ID_ALERTA = $idAlarma AND AD.deviceID = D.deviceID AND AD.ESTADO_ALERTA_DEVICE = 1";
+        $sql = "SELECT AD.*, D.licensePlate, D.displayName FROM $this->_dbTable AS AD INNER JOIN Device AS D ON AD.ID_ALERTA = $idAlarma AND AD.deviceID = D.deviceID AND AD.ESTADO_ALERTA_DEVICE = 1 AND D.isActive = 1";
         $res = $this->_bd->sql($sql);
         $arr = array();
         while($row = mysql_fetch_object($res)) {

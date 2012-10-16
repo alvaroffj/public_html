@@ -88,7 +88,7 @@ function getAlarma(flag, hrs) {
 function unsetGravedad(gravedad) {
     switch(gravedad) {
         case "0":
-            console.log("Fin Panico!");
+            // console.log("Fin Panico!");
             stopSound();
             break;
     }
@@ -98,7 +98,7 @@ function unsetGravedad(gravedad) {
 function setGravedad(gravedad, dev) {
     switch(gravedad) {
         case "0":
-            console.log("Panico!");
+            // console.log("Panico!");
             playSound();
             setActive(dev.deviceID);
             break;

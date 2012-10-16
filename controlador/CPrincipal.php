@@ -18,13 +18,13 @@ class CPrincipal {
     public $usuario;
 
     function __construct() {
-        date_default_timezone_set("America/Santiago");
+//        date_default_timezone_set("America/Santiago");
         $this->ss = new session();
         $this->cuenta = explode(".", $_SERVER["SERVER_NAME"]);
         $this->cuenta = $this->cuenta[0];
         $this->cuentaMP = new CuentaMP();
         if($this->cuentaMP->isActive($this->cuenta) || $this->cuenta == "dev") {
-            $this->cuenta = ($this->cuenta == "dev")?"tbarriga":$this->cuenta;
+            $this->cuenta = ($this->cuenta == "dev")?"chilefrio":$this->cuenta;
             if ($this->checkLogin()) {
                 $this->sdMP = new SensorDeviceMP();
                 $this->sensores = $this->sdMP->fetchToReporte($this->getSession()->get("accountID"));
