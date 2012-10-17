@@ -602,8 +602,8 @@ function showLateral(n) {
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
                     "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
                 });
-            } else 
-            // console.log("NO modRep");
+            } 
+            // else console.log("NO modRep");
         });
         $toggleLeft.html("&lt;<br>&lt;");
         $resize.show();
@@ -615,8 +615,8 @@ function showLateral(n) {
                     "margin-left":($lateralLeft.width()+20+$lateralLeft.position().left)+"px",
                     "margin-right":(5-($lateralRight.position().left-$(window).width()))+"px"
                 });
-            } else 
-            // console.log("NO modRep");
+            } 
+            // else console.log("NO modRep");
         });
         $toggleRight.html("&gt;<br>&gt;");
     }
