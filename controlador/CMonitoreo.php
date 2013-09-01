@@ -185,7 +185,8 @@ class CMonitoreo {
     }
 
     function setOp() {
-        $this->op = mysql_escape_string($_GET["op"]);
+        $this->op = (isset($_GET["op"]))?mysql_escape_string($_GET["op"]):"";
+        // $this->op = mysql_escape_string($_GET["op"]);
         switch ($this->op) {
             default:
                 $this->layout = "vista/monitoreo.phtml";

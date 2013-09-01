@@ -18,11 +18,12 @@ function hextostr($x) {
 } 
 
 $handle = fopen('php://stdin','r');  
-$input = fread($handle, 4000);  
-fclose($handle);  
+$contenido = stream_get_contents($handle);
+$input = fread($handle, 4000);
+fclose($handle);
 $inputAscii = hexToAscii($input);
 $fp = fopen("/home/mobilia/public_html/test/test.log", 'a');
-fwrite($fp, "HEX: ".$input."\n");
+fwrite($fp, "HEX: ".$contenido."\n");
 fwrite($fp, "ASCII: ".$inputAscii."\n");
 fwrite($fp, "----------------------------------------\n");
 fclose($fp);

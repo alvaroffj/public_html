@@ -30,6 +30,8 @@ class AlertaLogMP {
     }
 
     function reporte($ini, $fin=null, $device=null) {
+        // error_log(count($device));
+        // error_log($device[0]);
         $device = implode(",", $device);
         if($fin != null) {
             $sql = "SELECT AL.*, R.*, ED.*, A.NOM_ALERTA, from_unixtime(ED.timestamp, '%d.%m.%Y %H:%i:%s') as fecha FROM $this->_dbTable AS AL INNER JOIN EventData AS ED INNER JOIN REGLA AS R INNER JOIN ALERTA AS A
@@ -43,6 +45,7 @@ class AlertaLogMP {
                     AND A.ID_ALERTA = R.ID_ALERTA ORDER BY ED.timestamp DESC";
         }
 //        echo $sql."<br>";
+        // error_log($sql);
         $res = $this->_bd->sql($sql);
         $arr = array();
         while($row = mysql_fetch_object($res)) {
